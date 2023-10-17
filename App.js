@@ -3,6 +3,8 @@ import { StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { NavigationContainer } from '@react-navigation/native';
+import { Provider as PaperProvider, DefaultTheme } from 'react-native-paper';
+import theme from './theme';
 
 import Home from './screens/Home';
 import About from './screens/About';
@@ -11,7 +13,7 @@ export default function App() {
   const Stack = createNativeStackNavigator();
 
   return (
-    <SafeAreaView style={{flex: 1}}>
+    <SafeAreaView style={{flex: 1}} >
       <NavigationContainer>
         <Stack.Navigator initialRouteName='Home'>
           <Stack.Screen 
@@ -20,7 +22,7 @@ export default function App() {
             options={{
               title: 'Welcome!',
               headerStyle: {
-                backgroundColor: '#f4511e',
+                backgroundColor: theme.colors.olivine,
               },
               headerTintColor: '#fff',
               headerTitleStyle: {
