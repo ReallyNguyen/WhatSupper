@@ -1,7 +1,16 @@
 ## run app
 npx expo start
 
-# Safe Area
+## Theme: Colors
+> import { colors } from './theme';
+> example - backgroundColor: colors.olivine;
+
+## Installations
+
+## Fonts
+- npx expo install expo-font
+- npx expo install expo-font @expo-google-fonts/manrope
+- npx expo install expo-splash-screen
 
 ## Safe Areas
 [Installing dependencies into an Expo managed project](https://reactnavigation.org/docs/5.x/getting-started/)

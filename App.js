@@ -3,17 +3,39 @@ import { StyleSheet, Text, View } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { NavigationContainer } from '@react-navigation/native';
-import { Provider as PaperProvider, DefaultTheme } from 'react-native-paper';
-import theme from './theme';
+import { colors } from './theme';
+import { useCallback } from 'react';
+import { useFonts, Manrope_400Regular, Manrope_500Medium, Manrope_600SemiBold, Manrope_700Bold, Manrope_800ExtraBold } from "@expo-google-fonts/manrope";
+import * as SplashScreen from 'expo-splash-screen';
 
 import Home from './screens/Home';
 import About from './screens/About';
 
+SplashScreen.preventAutoHideAsync();
+
 export default function App() {
   const Stack = createNativeStackNavigator();
 
+  const [fontsLoaded, fontError] = useFonts ({
+    "Manrope-Regular": Manrope_400Regular,
+    "Manrope-Medium": Manrope_500Medium,
+    "Manrope-SemiBold": Manrope_600SemiBold,
+    "Manrope-Bold": Manrope_700Bold,
+    "Manrope-ExtraBold": Manrope_800ExtraBold,
+  });
+
+  const onLayoutRootView = useCallback(async () => {
+    if (fontsLoaded || fontError) {
+      await SplashScreen.hideAsync();
+    }
+  }, [fontsLoaded, fontError]);
+
+  if (!fontsLoaded && !fontError) {
+    return null;
+  }
+
   return (
-    <SafeAreaView style={{flex: 1}} >
+    <SafeAreaView style={{flex: 1}} onLayout={onLayoutRootView}>
       <NavigationContainer>
         <Stack.Navigator initialRouteName='Home'>
           <Stack.Screen 
@@ -22,11 +44,11 @@ export default function App() {
             options={{
               title: 'Welcome!',
               headerStyle: {
-                backgroundColor: theme.colors.olivine,
+                backgroundColor: colors.olivine,
               },
               headerTintColor: '#fff',
               headerTitleStyle: {
-                fontWeight: 'bold',
+                fontFamily: 'Manrope-Bold',
               },
             }}
           />
