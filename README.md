@@ -21,13 +21,19 @@ npx expo start
 - **npx expo install expo-image-manipulator**
 - **npm install expo-image-crop**
 
-## Fonts
+### Gluestack
+
+- **npm i @gluestack-ui/themed @gluestack-style/react react-native-svg@13.4.0**
+- **npm i @gluestack-ui/config@latest**
+- **npx gluestack-ui-scripts eject-theme**
+
+### Fonts
 
 - **npx expo install expo-font**
 - **npx expo install expo-font @expo-google-fonts/manrope**
 - **npx expo install expo-splash-screen**
 
-## Safe Areas
+### Safe Areas
 
 [Installing dependencies into an Expo managed project](https://reactnavigation.org/docs/5.x/getting-started/)
 npm install @react-native-masked-view/masked-view @react-navigation/stack react-native-gesture-handler react-native-safe-area-context react-native-screens
