@@ -4,7 +4,8 @@ import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import Camera from '../../screens/Camera';
 import Home from '../../screens/Home';
 import Saved from '../../screens/Saved';
-import Recipe from '../recipe/Recipe';
+import Recipe from '../../screens/Recipe';
+import RecipeInfo from '../../screens/RecipeInfo';
 import { FontAwesome5 } from '@expo/vector-icons';
 
 const Tab = createBottomTabNavigator();
@@ -19,10 +20,10 @@ export default function BottomTabNavigator() {
                     position: 'absolute',
                     right: 100,
                     left: 100,
-                    bottom: 15,
+                    bottom: 25,
                     borderRadius: 40,
                     height: 60,
-                    flexDirection: 'row-reverse',
+                    width: 200
                 },
                 tabBarActiveTintColor: 'green',
                 tabBarInactiveTintColor: 'gray',
@@ -34,9 +35,10 @@ export default function BottomTabNavigator() {
                 component={Camera}
                 options={{
                     tabBarIcon: ({ color, size }) => (
-                        <FontAwesome5 name={'camera'} size={size} color={color} />
+                        <FontAwesome5 name={'camera'} size={size} color={color} style={{ position: 'relative', top: 15 }} />
                     ),
-                    tabBarStyle: { display: "none" }
+                    tabBarStyle: { display: "none" },
+                    headerShown: false
                 }}
             />
             <Tab.Screen
@@ -44,8 +46,9 @@ export default function BottomTabNavigator() {
                 component={MainStack}
                 options={{
                     tabBarIcon: ({ color, size }) => (
-                        <FontAwesome5 name={'home'} size={size} color={color} />
-                    )
+                        <FontAwesome5 name={'home'} size={size} color={color} style={{ position: 'relative', top: 15 }} />
+                    ),
+                    headerShown: false
                 }}
             />
             <Tab.Screen
@@ -53,8 +56,9 @@ export default function BottomTabNavigator() {
                 component={Saved}
                 options={{
                     tabBarIcon: ({ color, size }) => (
-                        <FontAwesome5 name={'bookmark'} solid size={size} color={color} />
-                    )
+                        <FontAwesome5 name={'bookmark'} solid size={size} color={color} style={{ position: 'relative', top: 15 }} />
+                    ),
+                    headerShown: false
                 }}
             />
         </Tab.Navigator>
@@ -65,8 +69,8 @@ function MainStack() {
     return (
         <Stack.Navigator>
             <Stack.Screen name="Home" component={Home} options={{ headerShown: false }} />
-            <Stack.Screen name="Saved" component={Saved} options={{ headerShown: false }} />
             <Stack.Screen name="Recipe" component={Recipe} options={{ headerShown: false }} />
+            <Stack.Screen name="RecipeInfo" component={RecipeInfo} options={{ headerShown: false }} />
         </Stack.Navigator>
     );
 }

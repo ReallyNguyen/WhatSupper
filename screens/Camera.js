@@ -1,5 +1,6 @@
 import React, { useState, useRef } from 'react';
 import { View, Text, Button, Image, Pressable } from 'react-native';
+import { createStackNavigator } from '@react-navigation/stack';
 import { Camera } from 'expo-camera';
 import { ImageManipulator } from 'expo-image-crop';
 
@@ -14,6 +15,7 @@ export default function CameraAndCrop({ navigation }) {
             const photo = await cameraRef.current.takePictureAsync();
             setURI(photo.uri);
             setIsVisible(true);
+            navigation.navigate('Picture', { imageUri: photo.uri, width, height });
         }
     };
 
@@ -43,25 +45,47 @@ export default function CameraAndCrop({ navigation }) {
                     type={Camera.Constants.Type.back}
                     ref={cameraRef}
                 >
+                    <View style={{ display: 'flex', flexDirection: 'row', flex: 1, justifyContent: 'center', alignItems: 'center', marginTop: -90 }}>
+                        <Text style={{ color: 'white', fontSize: 20 }}>Scan a filter</Text>
+                    </View>
                     <View
                         style={{
                             flex: 1,
                             flexDirection: 'row',
                             justifyContent: 'center',
                             alignItems: 'flex-end',
-                            marginBottom: 20,
+                            marginBottom: 70,
                         }}
                     >
                         <Button title="Capture" onPress={takePicture} />
                     </View>
                 </Camera>
             )}
-
-            {pre && <Image source={{ uri: pre }} style={{ width: 200, height: 200, resizeMode: "contain" }}
-            />}
-            {imageCropped && (
-                <Button title="Next" onPress={() => navigation.navigate('Recipe')} />
-            )}
+            <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
+                {pre && (
+                    <Image
+                        source={{ uri: pre }}
+                        style={{
+                            width: 200,
+                            height: 200,
+                            resizeMode: 'contain',
+                            marginRight: 20
+                        }}
+                    />
+                )}
+                {imageCropped && (
+                    <Button
+                        title="Next"
+                        onPress={() => navigation.navigate('Recipe')}
+                        style={{
+                            backgroundColor: 'green',
+                            color: 'white',
+                            padding: 10,
+                            borderRadius: 5,
+                        }}
+                    />
+                )}
+            </View>
         </View>
     );
 }

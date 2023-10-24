@@ -95,7 +95,7 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: 'center',
         justifyContent: 'flex-start',
-        marginTop: 50
+        marginTop: 70
     },
     tabList: {
         flexDirection: 'row',
