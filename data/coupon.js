@@ -34,7 +34,7 @@ export const coupon = [
     {
         "id": 4,
         "background": "#003DA5",
-        "brand": require("../assets/brands/amazonLogo.png"),
+        "brand": require("../assets/brands/walmartLogo.png"),
         "discount": "10% off",
         "product": "*All baby food & care items",
         "expiration": "Exp. 2/10/23"
@@ -50,7 +50,7 @@ export const coupon = [
     {
         "id": 6,
         "background": "#E50024",
-        "brand": require("../assets/brands/amazonLogo.png"),
+        "brand": require("../assets/brands/targetLogo.png"),
         "discount": "25% off",
         "product": "*On deli & butcher meats",
         "expiration": "Exp. 8/10/23"
