@@ -1,5 +1,7 @@
 import React, { useState, useRef } from 'react';
-import { StyleSheet, Text, View, TouchableOpacity, Animated } from 'react-native';
+import { StyleSheet, Text, View, ScrollView, TouchableOpacity, Animated } from 'react-native';
+import CouponCard from '../coupon/CouponCard';
+import { coupon } from '../../data/coupon';
 
 export default function TopTab({ navigation }) {
     const [activeTab, setActiveTab] = useState('tab1');
@@ -82,9 +84,54 @@ export default function TopTab({ navigation }) {
                 </TouchableOpacity>
             </View>
             <View style={styles.tabPanels}>
-                {activeTab === 'tab1' && <Text>Latest Coupons</Text>}
-                {activeTab === 'tab2' && <Text>Trending Coupons</Text>}
-                {activeTab === 'tab3' && <Text>Popular Coupons</Text>}
+                {   
+                    activeTab === 'tab1' && 
+                    <ScrollView contentContainerStyle={styles.contentContainer}>
+                        {coupon.map((item) => (
+                            <CouponCard
+                                style={styles.latest}
+                                key={item.id}
+                                brand={item.brand}
+                                background={item.background}
+                                discount={item.discount}
+                                product={item.product}
+                                expiration={item.expiration}
+                            />
+                        ))}
+                    </ScrollView>
+                }
+                {
+                    activeTab === 'tab2' && 
+                    <ScrollView contentContainerStyle={styles.contentContainer}>
+                        {coupon.map((item) => (
+                            <CouponCard
+                                style={styles.latest}
+                                key={item.id}
+                                brand={item.brand}
+                                background={item.background}
+                                discount={item.discount}
+                                product={item.product}
+                                expiration={item.expiration}
+                            />
+                        ))}
+                    </ScrollView>
+                }
+                {
+                    activeTab === 'tab3' && 
+                    <ScrollView contentContainerStyle={styles.contentContainer}>
+                        {coupon.map((item) => (
+                            <CouponCard
+                                style={styles.latest}
+                                key={item.id}
+                                brand={item.brand}
+                                background={item.background}
+                                discount={item.discount}
+                                product={item.product}
+                                expiration={item.expiration}
+                            />
+                        ))}
+                    </ScrollView>
+                }
             </View>
         </View>
     );
@@ -95,7 +142,7 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: 'center',
         justifyContent: 'flex-start',
-        marginTop: 70
+        marginTop: 50
     },
     tabList: {
         flexDirection: 'row',
@@ -135,4 +182,12 @@ const styles = StyleSheet.create({
         borderRadius: 15,
         height: '100%'
     },
+    contentContainer: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        gap: -20,
+        paddingBottom: 50,
+    }
 });

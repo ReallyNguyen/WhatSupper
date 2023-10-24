@@ -14,7 +14,7 @@ export default function Home({ navigation }) {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: colors.offWhite,
+        backgroundColor: 'white',
         alignItems: 'center',
         justifyContent: 'center',
     },
