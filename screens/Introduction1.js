@@ -9,7 +9,8 @@ export default function Introduction1({ navigation }) {
         <View style={styles.container}>
             <Text>Hi</Text>
             <Logo />
-            <Next />
+            <Next navigation={navigation} destination="Home" />
+
         </View>
     );
 }

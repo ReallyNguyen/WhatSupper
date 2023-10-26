@@ -2,17 +2,16 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, Pressable } from 'react-native';
 import React from 'react';
 
-export default function Next({ navigation }) {
+export default function Next({ navigation, destination }) {
     return (
         <View style={styles.container}>
             <StatusBar style="auto" />
             <View style={styles.content}>
-                {/* Your content goes here */}
             </View>
             <Pressable
                 style={styles.button}
                 title="Next"
-                onPress={() => navigation.navigate('Home')}
+                onPress={() => navigation.navigate(destination)}
             >
                 <Text style={styles.text}>Next</Text>
             </Pressable>
