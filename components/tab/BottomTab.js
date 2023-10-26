@@ -15,11 +15,6 @@ const Stack = createNativeStackNavigator();
 
 function BottomTabNavigator() {
     const hiddenRoute = ["Camera", "Recipe"]
-    // const tabref = useNavigationContainerRef();
-    // console.log(tabref.getCurrentRoute());
-    // useEffect(() => {
-
-    // }, [tabref])
     const [currentScreen, setCurrentScreen] = useState("Home")
     const nav = useNavigation();
     React.useEffect(() => {
@@ -77,67 +72,6 @@ function BottomTabNavigator() {
 
         </View>
     )
-    return (
-        <Tab.Navigator
-            initialRouteName="Home"
-            screenOptions={{
-                tabBarStyle: {
-                    position: 'absolute',
-                    right: 100,
-                    left: 100,
-                    bottom: 25,
-                    borderRadius: 40,
-                    height: 60,
-                    width: 200,
-                    paddingBottom: 0,
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    // flex: 1
-                },
-                tabBarActiveTintColor: 'green',
-                tabBarInactiveTintColor: 'gray',
-                tabBarShowLabel: false,
-            }}
-        >
-            <Tab.Screen
-                name="Camera"
-                component={Camera}
-                options={{
-                    tabBarIcon: ({ color, size }) => (
-                        <FontAwesome5 name={'camera'} size={size} color={color}
-                        // style={{ position: 'relative', top: 15 }} 
-                        />
-                    ),
-                    tabBarStyle: { display: "none" },
-                    headerShown: false
-                }}
-            />
-            <Tab.Screen
-                name="Home"
-                component={Home}
-                options={{
-                    tabBarIcon: ({ color, size }) => (
-                        <FontAwesome5 name={'home'} size={size} color={color}
-                        // style={{ position: 'relative', top: 15 }} 
-                        />
-                    ),
-                    headerShown: false
-                }}
-            />
-            <Tab.Screen
-                name="Saved"
-                component={Saved}
-                options={{
-                    tabBarIcon: ({ color, size }) => (
-                        <FontAwesome5 name={'bookmark'} solid size={size} color={color}
-                        // style={{ position: 'relative', top: 15 }} 
-                        />
-                    ),
-                    headerShown: false
-                }}
-            />
-        </Tab.Navigator>
-    );
 }
 
 export default function MainStack() {
