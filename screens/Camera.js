@@ -1,8 +1,9 @@
 import React, { useState, useRef } from 'react';
-import { View, Text, Button, Image, Pressable } from 'react-native';
+import { View, Text, Button, Image, Pressable, Modal, StyleSheet } from 'react-native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { Camera } from 'expo-camera';
 import { ImageManipulator } from 'expo-image-crop';
+import Recipe from '../screens/Recipe'
 
 export default function CameraAndCrop({ navigation }) {
     const [isVisible, setIsVisible] = useState(false);
@@ -21,6 +22,7 @@ export default function CameraAndCrop({ navigation }) {
 
     // Define a state variable to track whether the image is cropped
     const [imageCropped, setImageCropped] = useState(false);
+    const [modalVisible, setModalVisible] = useState(false);
 
     return (
         <View style={{ flex: 1 }}>
@@ -36,6 +38,7 @@ export default function CameraAndCrop({ navigation }) {
                         // Set imageCropped to true when the image is cropped
                         setImageCropped(true);
                         // Do something with the base64 variable
+                        setModalVisible(true);
                     }}
                     onToggleModal={() => setIsVisible(!isVisible)}
                 />
@@ -46,7 +49,10 @@ export default function CameraAndCrop({ navigation }) {
                     ref={cameraRef}
                 >
                     <View style={{ display: 'flex', flexDirection: 'row', flex: 1, justifyContent: 'center', alignItems: 'center', marginTop: -90 }}>
-                        <Text style={{ color: 'white', fontSize: 20 }}>Scan a filter</Text>
+                        <Text style={{ color: 'white', fontSize: 20, fontFamily: 'Manrope-Bold' }}>Scan a Flier</Text>
+                        <Pressable onPress={() => navigation.goBack()}>
+                            <Text style={{ color: 'white'}}>X</Text>
+                        </Pressable>
                     </View>
                     <View
                         style={{
@@ -61,31 +67,32 @@ export default function CameraAndCrop({ navigation }) {
                     </View>
                 </Camera>
             )}
-            <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
-                {pre && (
-                    <Image
-                        source={{ uri: pre }}
-                        style={{
-                            width: 200,
-                            height: 200,
-                            resizeMode: 'contain',
-                            marginRight: 20
-                        }}
-                    />
-                )}
-                {imageCropped && (
-                    <Button
-                        title="Next"
-                        onPress={() => navigation.navigate('Recipe')}
-                        style={{
-                            backgroundColor: 'green',
-                            color: 'white',
-                            padding: 10,
-                            borderRadius: 5,
-                        }}
-                    />
-                )}
-            </View>
+            <Modal
+                animationType="slide"
+                transparent={true}
+                visible={modalVisible}
+                onRequestClose={() => {
+                    setModalVisible(false);
+                }}
+            >
+                <View style={styles.modalContainer}>
+                    <Pressable onPress={() => setModalVisible(false)}>
+                        <Text>Close</Text>
+                    </Pressable>
+                    <Recipe />
+                </View>
+            </Modal>
         </View>
     );
 }
+
+const styles = StyleSheet.create({
+    modalContainer: {
+        position: 'absolute',
+        bottom: 0,
+        right: 0,
+        left: 0,
+        height: 500,
+        backgroundColor: 'white',
+    },
+});
