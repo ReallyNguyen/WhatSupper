@@ -23,34 +23,18 @@ function BottomTabNavigator() {
     const [currentScreen, setCurrentScreen] = useState("Home")
     const nav = useNavigation();
     React.useEffect(() => {
-        const unsubscribe = nav.addListener('state', (e) => {
-            // do something
+        const findScreen = nav.addListener('state', (e) => {
             const route = nav.getCurrentRoute()
             setCurrentScreen(route.name)
-            console.log("state changed", nav)
         });
 
-        return unsubscribe;
+        return findScreen;
     }, [nav]);
 
     if (hiddenRoute.includes(currentScreen)) {
         return null;
     }
-    // if (!nav) {
-    //     return null;
-    // }
 
-    // if (route && hiddenRoute.includes(route.name)) {
-    //     return null;
-    // }
-
-    // useFocusEffect(
-    //     React.useCallback(() => {
-    //         console.log(nav.getCurrentRoute())
-    //         const route = nav.getCurrentRoute()
-    //         console.log("focus", route)
-    //     }, [])
-    // );
 
     return (
         <View style={{
@@ -67,22 +51,27 @@ function BottomTabNavigator() {
             justifyContent: 'space-evenly',
             zIndex: 1,
             flexDirection: 'row'
-            // flex: 1
         }}>
             <TouchableOpacity onPress={() => nav.navigate('Camera')}>
-
-                <FontAwesome5 name={'camera'} size={35} color={'#CCC'}
-                // style={{ position: 'relative', top: 15 }} 
+                <FontAwesome5
+                    name={'camera'}
+                    size={35}
+                    color={currentScreen === 'Camera' ? 'green' : 'gray'}
                 />
             </TouchableOpacity>
             <TouchableOpacity onPress={() => nav.navigate('Home')}>
-                <FontAwesome5 name={'home'} size={35} color={'#CCC'}
-                // style={{ position: 'relative', top: 15 }} 
+                <FontAwesome5
+                    name={'home'}
+                    size={35}
+                    color={currentScreen === 'Home' ? 'green' : 'gray'}
                 />
             </TouchableOpacity>
             <TouchableOpacity onPress={() => nav.navigate('Saved')}>
-                <FontAwesome5 name={'bookmark'} solid size={35} color={'#CCC'}
-                // style={{ position: 'relative', top: 15 }} 
+                <FontAwesome5
+                    name="bookmark"
+                    solid
+                    size={35}
+                    color={currentScreen === 'Saved' ? 'green' : 'gray'}
                 />
             </TouchableOpacity>
 

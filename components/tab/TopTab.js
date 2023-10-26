@@ -84,8 +84,8 @@ export default function TopTab({ navigation }) {
                 </TouchableOpacity>
             </View>
             <View style={styles.tabPanels}>
-                {   
-                    activeTab === 'tab1' && 
+                {
+                    activeTab === 'tab1' &&
                     <ScrollView contentContainerStyle={styles.contentContainer}>
                         {coupon.map((item) => (
                             <CouponCard
@@ -101,7 +101,7 @@ export default function TopTab({ navigation }) {
                     </ScrollView>
                 }
                 {
-                    activeTab === 'tab2' && 
+                    activeTab === 'tab2' &&
                     <ScrollView contentContainerStyle={styles.contentContainer}>
                         {coupon.map((item) => (
                             <CouponCard
@@ -117,7 +117,7 @@ export default function TopTab({ navigation }) {
                     </ScrollView>
                 }
                 {
-                    activeTab === 'tab3' && 
+                    activeTab === 'tab3' &&
                     <ScrollView contentContainerStyle={styles.contentContainer}>
                         {coupon.map((item) => (
                             <CouponCard
