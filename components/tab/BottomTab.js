@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { useRoute, useNavigationContainerRef, useFocusEffect, useNavigation } from '@react-navigation/native'
+import { useRoute, useNavigationContainerRef, useFocusEffect, useNavigation } from '@react-navigation/native';
+import Introduction1 from '../../screens/Introduction1';
 import Camera from '../../screens/Camera';
 import Home from '../../screens/Home';
 import Saved from '../../screens/Saved';
@@ -14,7 +15,7 @@ const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 
 function BottomTabNavigator() {
-    const hiddenRoute = ["Camera", "Recipe"]
+    const hiddenRoute = ["Introduction1", "Camera", "Recipe"]
     const [currentScreen, setCurrentScreen] = useState("Home")
     const nav = useNavigation();
     React.useEffect(() => {
@@ -79,6 +80,7 @@ export default function MainStack() {
         <>
             <BottomTabNavigator />
             <Stack.Navigator>
+                <Stack.Screen name="Introduction1" component={Introduction1} options={{ headerShown: false }} />
                 <Stack.Screen name="Home" component={Home} options={{ headerShown: false }} />
                 <Stack.Screen name="Saved" component={Saved} options={{ headerShown: false }} />
                 <Stack.Screen name="Recipe" component={Recipe} options={{ headerShown: false }} />

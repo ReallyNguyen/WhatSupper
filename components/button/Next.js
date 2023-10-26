@@ -3,10 +3,12 @@ import { StyleSheet, Text, View, Pressable } from 'react-native';
 import React from 'react';
 
 export default function Next({ navigation }) {
-
     return (
         <View style={styles.container}>
             <StatusBar style="auto" />
+            <View style={styles.content}>
+                {/* Your content goes here */}
+            </View>
             <Pressable
                 style={styles.button}
                 title="Next"
@@ -24,10 +26,13 @@ const styles = StyleSheet.create({
         backgroundColor: '#fff',
         alignItems: 'center',
         justifyContent: 'center',
+        marginBottom: 50
+    },
+    content: {
+        flex: 1,
+        justifyContent: 'center',
     },
     button: {
-        alignItems: 'center',
-        justifyContent: 'center',
         paddingVertical: 15,
         paddingHorizontal: 65,
         borderRadius: 20,
