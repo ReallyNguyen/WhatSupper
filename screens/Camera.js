@@ -4,6 +4,8 @@ import { createStackNavigator } from '@react-navigation/stack';
 import { Camera } from 'expo-camera';
 import { ImageManipulator } from 'expo-image-crop';
 import Recipe from '../screens/Recipe'
+import { FontAwesome5 } from '@expo/vector-icons';
+import { colors } from '../theme';
 
 export default function CameraAndCrop({ navigation }) {
     const [isVisible, setIsVisible] = useState(false);
@@ -48,10 +50,14 @@ export default function CameraAndCrop({ navigation }) {
                     type={Camera.Constants.Type.back}
                     ref={cameraRef}
                 >
-                    <View style={{ display: 'flex', flexDirection: 'row', flex: 1, justifyContent: 'center', alignItems: 'center', marginTop: -90 }}>
+                    <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center', marginTop: -120 }}>
                         <Text style={{ color: 'white', fontSize: 20, fontFamily: 'Manrope-Bold' }}>Scan a Flier</Text>
-                        <Pressable onPress={() => navigation.goBack()}>
-                            <Text style={{ color: 'white' }}>X</Text>
+                        <Pressable onPress={() => navigation.goBack()} style={styles.exit}>
+                            <FontAwesome5
+                                name={'times'}
+                                size={20}
+                                color={colors.offBlack}
+                            />
                         </Pressable>
                     </View>
                     <View
@@ -63,7 +69,13 @@ export default function CameraAndCrop({ navigation }) {
                             marginBottom: 70,
                         }}
                     >
-                        <Button title="Capture" onPress={takePicture} />
+                        <Pressable onPress={takePicture} style={styles.capture}>
+                            <FontAwesome5
+                                name={'magic'}
+                                size={25}
+                                color={colors.offBlack}
+                            />
+                        </Pressable>
                     </View>
                 </Camera>
             )}
@@ -102,4 +114,21 @@ const styles = StyleSheet.create({
         height: 500,
         backgroundColor: 'white',
     },
+    capture: {
+        backgroundColor: colors.offWhite,
+        borderColor: colors.lightGrey,
+        borderWidth: 5,
+        borderRadius: 50,
+        padding: 15,
+    },
+    exit: {
+        backgroundColor: colors.offWhite,
+        borderColor: colors.offBlack,
+        borderWidth: 2,
+        borderRadius: 50,
+        paddingVertical: 7,
+        paddingHorizontal: 10,
+        position: 'absolute',
+        right: 30,
+    }
 });
