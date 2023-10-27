@@ -1,5 +1,5 @@
 import React, { useState, useRef } from 'react';
-import { View, Text, Button, Image, Pressable, Modal, StyleSheet } from 'react-native';
+import { View, Text, Button, Image, Pressable, Modal, StyleSheet, TouchableOpacity } from 'react-native';
 import { createStackNavigator } from '@react-navigation/stack';
 import { Camera } from 'expo-camera';
 import { ImageManipulator } from 'expo-image-crop';
@@ -51,7 +51,7 @@ export default function CameraAndCrop({ navigation }) {
                     <View style={{ display: 'flex', flexDirection: 'row', flex: 1, justifyContent: 'center', alignItems: 'center', marginTop: -90 }}>
                         <Text style={{ color: 'white', fontSize: 20, fontFamily: 'Manrope-Bold' }}>Scan a Flier</Text>
                         <Pressable onPress={() => navigation.goBack()}>
-                            <Text style={{ color: 'white'}}>X</Text>
+                            <Text style={{ color: 'white' }}>X</Text>
                         </Pressable>
                     </View>
                     <View
@@ -79,7 +79,14 @@ export default function CameraAndCrop({ navigation }) {
                     <Pressable onPress={() => setModalVisible(false)}>
                         <Text>Close</Text>
                     </Pressable>
-                    <Recipe />
+                    <TouchableOpacity
+                        onPress={() => navigation.navigate('RecipeInfo')}
+                        style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}
+                    >
+                        <Recipe />
+                    </TouchableOpacity>
+
+
                 </View>
             </Modal>
         </View>

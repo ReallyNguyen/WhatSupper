@@ -1,7 +1,8 @@
 import React from 'react';
-import { StyleSheet, ScrollView, View, Text, Image } from 'react-native';
+import { StyleSheet, ScrollView, View, Text, Image, Dimensions } from 'react-native';
 import { FontAwesome5 } from '@expo/vector-icons';
 import { colors } from '../theme';
+const screenWidth = Dimensions.get("window").width;
 
 const RecipeInfo = () => (
     <View>
@@ -32,8 +33,8 @@ const RecipeInfo = () => (
                 </View>
                 <Text style={styles.heading}>Description</Text>
                 <Text style={styles.description}>
-                    A thorough how-to guide to Chinese hot pot covering all aspects of 
-                    preparing this iconic meal at home. It will help you to throw a 
+                    A thorough how-to guide to Chinese hot pot covering all aspects of
+                    preparing this iconic meal at home. It will help you to throw a
                     stress-free hot pot party.
                 </Text>
                 <Text style={styles.heading}>Ingredients</Text>
@@ -46,15 +47,15 @@ const RecipeInfo = () => (
                 <Text style={styles.heading}>Instructions</Text>
                 <View style={styles.steps}>
                     <Text style={styles.step}>
-                        1.Place the heat source and the pot/wok in the middle of the table. 
+                        1.Place the heat source and the pot/wok in the middle of the table.
                         Pour in the broth. Place various food items around the pot.
                     </Text>
                     <Text style={styles.step}>
-                        2. Have the dipping sauces mixed and distributed in individual bowls. 
+                        2. Have the dipping sauces mixed and distributed in individual bowls.
                         Keep some extra in case you need an adjustment or top-up during the meal.
                     </Text>
                     <Text style={styles.step}>
-                        3. Turn on the heat. Once the broth comes to a boil, you may start putting 
+                        3. Turn on the heat. Once the broth comes to a boil, you may start putting
                         food items into the broth to cook. Fish out the cooked items and enjoy with the dipping sauce.
                     </Text>
                     <Text style={styles.step}>
@@ -75,7 +76,7 @@ const styles = StyleSheet.create({
         position: 'relative',
         top: 200,
         backgroundColor: 'white',
-        width: 400,
+        width: { screenWidth },
         height: 1200,
         border: 'solid',
         borderTopRightRadius: 250,
@@ -102,7 +103,7 @@ const styles = StyleSheet.create({
         paddingBottom: 3,
         borderRadius: 5,
     },
-    infoWrapper:{
+    infoWrapper: {
         flexDirection: 'row',
         flexWrap: 'wrap',
         columnGap: 15,

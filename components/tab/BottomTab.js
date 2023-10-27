@@ -83,9 +83,9 @@ export default function MainStack() {
                 <Stack.Screen name="Introduction1" component={Introduction1} options={{ headerShown: false }} />
                 <Stack.Screen name="Home" component={Home} options={{ headerShown: false }} />
                 <Stack.Screen name="Saved" component={Saved} options={{ headerShown: false }} />
+                <Stack.Screen name="Camera" component={Camera} options={{ headerShown: false }} />
                 <Stack.Screen name="Recipe" component={Recipe} options={{ headerShown: false }} />
                 <Stack.Screen name="RecipeInfo" component={RecipeInfo} options={{ headerShown: false }} />
-                <Stack.Screen name="Camera" component={Camera} options={{ headerShown: false }} />
             </Stack.Navigator>
         </>
     );
