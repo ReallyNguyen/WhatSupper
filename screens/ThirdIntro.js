@@ -2,14 +2,19 @@ import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, Button, Image } from 'react-native';
 import Next from '../components/button/Next';
 import { colors } from '../theme';
-import Logo from '../assets/logo/logo'
 
 export default function SecondIntro({ navigation }) {
     return (
         <View style={styles.container}>
             <Image style={styles.background} source={require('../assets/background/background3.png')} />
-            <Text>Hi</Text>
-            <Logo />
+            <View style={styles.introduction}>
+                <View style={styles.intro}>
+                    <Text style={{ color: colors.offWhite, fontSize: 40, fontFamily: "Manrope-ExtraBold" }}>Create Meals at an</Text>
+                    <Text style={{ color: colors.asparagus, fontSize: 40, fontFamily: "Manrope-ExtraBold" }}>Affordable Cost</Text>
+
+
+                </View>
+            </View>
             <Next navigation={navigation} destination="Home" />
         </View>
     );
@@ -29,8 +34,13 @@ const styles = StyleSheet.create({
         height: '100%',
         zIndex: -1,
     },
-    logo: {
-        width: '100%',
-        height: '100%'
-    }
+    introduction: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center'
+    },
+    intro: {
+        justifyContent: 'flex-start'
+    },
+
 });
