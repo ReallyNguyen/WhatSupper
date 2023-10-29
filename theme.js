@@ -9,4 +9,5 @@ export const colors = {
     jadeGreen: '#9FB9A0',
     olivine: '#96AF65',
     lightGreen: '#B4C492',
+    lightGrey: '#D3D3D3'
 };
