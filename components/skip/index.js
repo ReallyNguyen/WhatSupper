@@ -7,7 +7,7 @@ function SkipButton() {
     const navigation = useNavigation();
 
     const handleButtonPress = () => {
-        navigation.navigate('Home'); // Replace 'Home' with the name of your target screen
+        navigation.navigate('Home'); 
     };
 
     return (
@@ -35,7 +35,7 @@ const styles = StyleSheet.create({
         fontSize: 13,
         lineHeight: 15,
         letterSpacing: 0.25,
-        color: '#629560', // Change to the previous button color
+        color: '#629560', 
     },
 });
 
