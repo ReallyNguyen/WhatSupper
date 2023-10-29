@@ -1,7 +1,9 @@
 import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View, Button, Image } from 'react-native';
+import { StyleSheet, Text, View, Button, Image, TouchableOpacity } from 'react-native';
 import Next from '../components/button/Next';
 import { colors } from '../theme';
+import Skip from '../components/skip';
+
 
 export default function SecondIntro({ navigation }) {
     return (
@@ -11,9 +13,12 @@ export default function SecondIntro({ navigation }) {
                 <View style={styles.intro}>
                     <Text style={{ color: colors.offWhite, fontSize: 40, fontFamily: "Manrope-ExtraBold" }}>Create Meals at an</Text>
                     <Text style={{ color: colors.asparagus, fontSize: 40, fontFamily: "Manrope-ExtraBold" }}>Affordable Cost</Text>
-
-
                 </View>
+                <View style={styles.skipButtonContainer}>
+                <TouchableOpacity onPress={() => navigation.navigate('Home')}>
+                    <Skip />
+                </TouchableOpacity>
+            </View>
             </View>
             <Next navigation={navigation} destination="Home" />
         </View>
@@ -41,6 +46,11 @@ const styles = StyleSheet.create({
     },
     intro: {
         justifyContent: 'flex-start'
+    },
+    skipButtonContainer: {
+        position: 'absolute',
+        top: 50,
+        right: 20,
     },
 
 });
