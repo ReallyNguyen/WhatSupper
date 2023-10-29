@@ -64,7 +64,7 @@ export const coupon = [
     {
         "id": 7,
         "background": "#059033",
-        "brand": <AmazonLogo />,
+        "brand": <TTLogo />,
         "discount": "25% off",
         "product": "*On miso paste",
         "expiration": "Exp. 8/10/23"

@@ -9,7 +9,7 @@ const SvgComponent = (props) => (
         height="100%"
         preserveAspectRatio="xMinYMin slice"
         width="100%"
-        viewBox="-20 -30 120 120"
+        viewBox="-55 5 170 120"
     >
         <Path fill="url(#a)" d="M0 0h73.7v67H0z" />
         <Defs>
