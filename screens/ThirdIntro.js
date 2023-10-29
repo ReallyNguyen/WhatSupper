@@ -49,7 +49,7 @@ const styles = StyleSheet.create({
     },
     skipButtonContainer: {
         position: 'absolute',
-        top: 20,
+        top: 50,
         right: 20,
     },
 
