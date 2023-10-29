@@ -6,6 +6,10 @@ const AmazonLogo = (props) => (
         xmlnsXlink="http://www.w3.org/1999/xlink"
         fill="none"
         {...props}
+        height="100%"
+        preserveAspectRatio="xMinYMin slice"
+        width="100%"
+        viewBox="0 -30 130 130"
     >
         <Path fill="url(#a)" d="M0 0h123v25.945H0z" />
         <Defs>
@@ -24,6 +28,6 @@ const AmazonLogo = (props) => (
                 height={540}
             />
         </Defs>
-    </Svg>
+    </Svg >
 )
 export default AmazonLogo

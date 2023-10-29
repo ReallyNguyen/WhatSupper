@@ -1,11 +1,15 @@
 import * as React from "react"
 import Svg, { Path, Defs, Pattern, Use, Image } from "react-native-svg"
-const TargetLogo = (props) => (
+const SvgComponent = (props) => (
     <Svg
         xmlns="http://www.w3.org/2000/svg"
         xmlnsXlink="http://www.w3.org/1999/xlink"
         fill="none"
         {...props}
+        height="100%"
+        preserveAspectRatio="xMinYMin slice"
+        width="100%"
+        viewBox="-20 -30 120 120"
     >
         <Path fill="url(#a)" d="M0 0h73.7v67H0z" />
         <Defs>
@@ -26,4 +30,4 @@ const TargetLogo = (props) => (
         </Defs>
     </Svg>
 )
-export default TargetLogo
+export default SvgComponent
