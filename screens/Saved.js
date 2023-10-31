@@ -2,8 +2,9 @@ import React, { useState } from 'react';
 import { StyleSheet, View, ScrollView, Text, Image, TouchableOpacity } from 'react-native';
 import CouponCard from '../components/coupon/CouponCard';
 import { coupon } from '../data/coupon';
+import Bento from '../components/recipe/Bento';
 
-export default function Saved() {
+export default function Saved({navigation}) {
     const [activeTab, setActiveTab] = useState('tab1');
 
     const handleTabPress = (tab) => {
@@ -45,11 +46,24 @@ export default function Saved() {
                 {
                     activeTab === 'tab1' &&
                     <ScrollView contentContainerStyle={styles.contentContainer}>
+                        {coupon.map((item) => (
+                            <TouchableOpacity onPress={() => navigation.navigate('CouponInfo')} key={item.id}>
+                                <CouponCard
+                                    style={styles.latest}
+                                    brand={item.brand}
+                                    background={item.background}
+                                    discount={item.discount}
+                                    product={item.product}
+                                    expiration={item.expiration}
+                                />
+                            </TouchableOpacity>
+                        ))}
                     </ScrollView>
                 }
                 {
                     activeTab === 'tab2' &&
                     <ScrollView contentContainerStyle={styles.contentContainer}>
+                        <Bento />
                     </ScrollView>
                 }
             </View>
@@ -100,5 +114,6 @@ const styles = StyleSheet.create({
         flexWrap: 'wrap',
         gap: -20,
         paddingBottom: 50,
+        height: 1000,
     }
 });
