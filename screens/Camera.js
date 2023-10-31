@@ -92,7 +92,10 @@ export default function CameraAndCrop({ navigation }) {
                         <Text>Close</Text>
                     </Pressable>
                     <TouchableOpacity
-                        onPress={() => navigation.navigate('RecipeInfo')}
+                        onPress={() => {
+                            setModalVisible(false);
+                            navigation.navigate('RecipeInfo');
+                        }}
                         style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}
                     >
                         <Recipe />

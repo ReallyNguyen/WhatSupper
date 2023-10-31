@@ -77,6 +77,14 @@ const styles = StyleSheet.create({
         position: 'absolute',
         width: 420,
     },
+    back: {
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        zIndex: 1,
+        marginLeft: 20,
+        marginTop: 20
+    },
     recipe: {
         position: 'relative',
         top: 200,

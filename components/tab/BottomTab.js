@@ -19,7 +19,7 @@ const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 
 function BottomTabNavigator() {
-    const hiddenRoute = ["First", "Second", "Third", "CouponInfo", "Camera", "Recipe"]
+    const hiddenRoute = ["First", "Second", "Third", "CouponInfo", "Camera", "Recipe", "RecipeInfo"]
     const [currentScreen, setCurrentScreen] = useState("Home")
     const nav = useNavigation();
     React.useEffect(() => {
