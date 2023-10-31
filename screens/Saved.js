@@ -4,18 +4,18 @@ import CouponCard from '../components/coupon/CouponCard';
 import { coupon } from '../data/coupon';
 import Bento from '../components/recipe/Bento';
 
-export default function Saved({navigation}) {
+export default function Saved({ navigation }) {
     const [activeTab, setActiveTab] = useState('tab1');
 
     const handleTabPress = (tab) => {
         setActiveTab(tab);
     };
 
-    return(
+    return (
         <View style={styles.container}>
             <Image style={styles.img} source={require('../assets/profile.png')} />
             <Text style={styles.name}>Henry Leung</Text>
-            
+
             <View style={styles.tabList}>
                 <TouchableOpacity
                     style={[
@@ -63,7 +63,12 @@ export default function Saved({navigation}) {
                 {
                     activeTab === 'tab2' &&
                     <ScrollView contentContainerStyle={styles.contentContainer}>
-                        <Bento />
+                        <Bento
+                            navigation={navigation}
+                            destination1="RecipeCategory"
+                            destination2="RecipeCategory"
+                            destination3="RecipeCategory"
+                        />
                     </ScrollView>
                 }
             </View>

@@ -1,32 +1,38 @@
-import { StyleSheet, Text, View } from 'react-native';
+import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { Box, Image } from "@gluestack-ui/themed";
 import { colors } from "../../theme";
 
-export default function Bento() {
-    return(
+export default function Bento({ navigation, destination1, destination2, destination3 }) {
+    return (
         <View>
             <View style={styles.text}>
                 <Text style={styles.category}>Asian</Text>
                 <Text style={styles.see}>See all</Text>
             </View>
             <View style={styles.container}>
-                <Image style={styles.large} source={require('../../assets/recipes/kfchicken.jpeg')} alt="image"/>
+                <Pressable onPress={() => navigation.navigate(destination1)}>
+                    <Image style={styles.large} source={require('../../assets/recipes/kfchicken.jpeg')} alt="image" />
+                </Pressable>
                 <View style={styles.column}>
-                    <Image style={styles.small} source={require('../../assets/recipes/friedrice.jpeg')} alt="image"/>
-                    <Box style={{ position: 'relative' }}>
-                        <Image
-                            style={styles.small}
-                            source={require('../../assets/recipes/hotpot.jpg')}
-                            resizeMode="cover"
-                            alt="image"
-                        />
-                        <View style={styles.box}>
-                            <Text style={styles.more}>15+ recipes</Text>
-                        </View>
-                    </Box>
+                    <Pressable onPress={() => navigation.navigate(destination2)}>
+                        <Image style={styles.small} source={require('../../assets/recipes/friedrice.jpeg')} alt="image" />
+                    </Pressable>
+                    <Pressable onPress={() => navigation.navigate(destination3)}>
+                        <Box style={{ position: 'relative' }}>
+                            <Image
+                                style={styles.small}
+                                source={require('../../assets/recipes/hotpot.jpg')}
+                                resizeMode="cover"
+                                alt="image"
+                            />
+                            <View style={styles.box}>
+                                <Text style={styles.more}>15+ recipes</Text>
+                            </View>
+                        </Box>
+                    </Pressable>
                 </View>
             </View>
-            
+
         </View>
     )
 }
@@ -45,7 +51,7 @@ const styles = StyleSheet.create({
         fontFamily: "Manrope-Bold",
         fontSize: 18,
     },
-    see:{
+    see: {
         color: colors.asparagus,
         fontFamily: "Manrope-Bold",
     },
@@ -62,20 +68,20 @@ const styles = StyleSheet.create({
         height: 80,
         borderRadius: 15,
     },
-    box:{
-        position: 'absolute', 
-        bottom: 0, 
-        left: 0, 
+    box: {
+        position: 'absolute',
+        bottom: 0,
+        left: 0,
         width: '100%',
-        height: '100%', 
-        backgroundColor: 'rgba(0,0,0,0.5)', 
+        height: '100%',
+        backgroundColor: 'rgba(0,0,0,0.5)',
         justifyContent: 'center',
         borderRadius: 15,
     },
     more: {
-        color: colors.offWhite, 
-        marginLeft: 15, 
-        fontSize: 18, 
+        color: colors.offWhite,
+        marginLeft: 15,
+        fontSize: 18,
         fontFamily: "Manrope-Bold"
     }
 });
