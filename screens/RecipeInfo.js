@@ -12,7 +12,7 @@ const RecipeInfo = ({ navigation }) => (
         </View>
         <ScrollView>
             <View style={styles.back}>
-                <Back navigation={navigation} destination="Camera" color="black" />
+                <Back navigation={navigation} destination="Recipe" color="black" />
             </View>
 
             <View style={styles.recipe}>
