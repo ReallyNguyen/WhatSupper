@@ -12,8 +12,10 @@ export default function FirstIntro({ navigation }) {
             <View style={styles.introduction}>
                 <View style={styles.intro}>
                     <Text style={{ color: colors.offWhite, fontSize: 40, fontFamily: "Manrope-ExtraBold" }}>Welcome to</Text>
-                    <Text style={{ color: colors.offWhite, fontSize: 40, fontFamily: "Manrope-ExtraBold" }}>WhatSupper</Text>
-                    <Image source={require('../assets/whatsupperlogo.png')} />
+                    <View style={styles.flexRow}>
+                        <Text style={{ color: colors.offWhite, fontSize: 40, fontFamily: "Manrope-ExtraBold" }}>WhatSupper</Text>
+                        <Logo style={styles.logo} />
+                    </View>
                 </View>
             </View>
             <View style={styles.skipButtonContainer}>
@@ -41,19 +43,20 @@ const styles = StyleSheet.create({
         zIndex: -1,
     },
     logo: {
-        width: '150%',
-        height: '150%',
-        postion: 'absolute',
+        width: '15%',
+        aspectRatio: 2.6 / 2.3,
+        marginLeft: 10,
     },
     introduction: {
         flex: 1,
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
+        marginTop: '15%'
     },
     intro: {
         justifyContent: 'flex-start'
     },
-    title: {
+    flexRow: {
         flexDirection: 'row',
         alignItems: 'center',
     },

@@ -2,14 +2,19 @@ import React from 'react';
 import { StyleSheet, ScrollView, View, Text, Image, Dimensions } from 'react-native';
 import { FontAwesome5 } from '@expo/vector-icons';
 import { colors } from '../theme';
+import Back from '../components/button/Back';
 const screenWidth = Dimensions.get("window").width;
 
-const RecipeInfo = () => (
+const RecipeInfo = ({ navigation }) => (
     <View>
         <View>
             <Image style={styles.img} source={require('../assets/recipes/hotpot.jpg')} />
         </View>
         <ScrollView>
+            <View style={styles.back}>
+                <Back navigation={navigation} destination="Camera" color="black" />
+            </View>
+
             <View style={styles.recipe}>
                 <View style={styles.icons}>
                     <FontAwesome5 name={'share-alt'} size={25} color={colors.asparagus} solid />

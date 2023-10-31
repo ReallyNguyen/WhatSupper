@@ -1,9 +1,13 @@
-import { StyleSheet, Text, View, TouchableOpacity, Image } from 'react-native';
+import { StyleSheet, Text, View, TouchableOpacity, Image, Pressable } from 'react-native';
+import Back from '../components/button/Back';
 import { colors } from '../theme';
 
 export default function CouponInfo({ navigation }) {
-    return(
+    return (
         <View style={styles.container}>
+            <View style={styles.header}>
+                <Back navigation={navigation} destination="Home" />
+            </View>
             <Image style={styles.logo} source={require('../assets/coupon/walmartlight.png')} />
             <Text style={styles.discount}>30% off</Text>
             <View style={styles.infoContainer}>
@@ -25,12 +29,20 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: 'center',
     },
+    header: {
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        zIndex: 1,
+        marginLeft: 25,
+        marginTop: 20
+    },
     logo: {
         width: 300,
         height: 100,
         marginTop: 80,
     },
-    discount:{
+    discount: {
         fontSize: 30,
         fontFamily: 'Manrope-Bold',
         color: colors.discount,
@@ -53,7 +65,7 @@ const styles = StyleSheet.create({
     },
     qr: {
         width: 75,
-        height: 75
+        height: 75,
     },
     code: {
         color: colors.offWhite,
@@ -66,6 +78,7 @@ const styles = StyleSheet.create({
     },
     bar: {
         width: 300,
-        height: 75
+        height: 75,
+        marginTop: 45
     }
-})
+});
