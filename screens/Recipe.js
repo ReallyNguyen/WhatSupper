@@ -7,7 +7,7 @@ export default function Recipe({ navigation }) {
         <View style={styles.container}>
             <Text style={styles.heading}>Here are some recipes based on what you scanned 🪄</Text>
             <Box
-                maxWidth="$64"
+                maxWidth="$72"
                 borderColor="$borderLight200"
                 borderRadius="$lg"
                 borderWidth="$1"
@@ -29,17 +29,15 @@ export default function Recipe({ navigation }) {
                 <Box style={{ position: 'relative' }}>
                     <Image
                         h={120}
-                        w={333}
-                        source={{
-                            uri: "https://images.unsplash.com/photo-1549888834-3ec93abae044?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2940&q=80",
-                        }}
+                        w={310}
+                        source={require('../assets/recipes/hotpot.jpg')}
                         resizeMode="cover"
                         alt="image"
                     />
-                    <View style={{ position: 'absolute', bottom: 0, left: 0, width: '100%', height: 57, backgroundColor: 'rgba(0,0,0,0.5)' }}>
+                    <View style={{ position: 'absolute', bottom: 0, left: 0, width: '100%', height: '60%', backgroundColor: 'rgba(0,0,0,0.5)' }}>
                         <View style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
                             <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingHorizontal: 10 }}>
-                                <Text style={{ color: 'white', fontSize: 16, fontWeight: "bold" }}>Recipe Name</Text>
+                                <Text style={{ color: 'white', fontSize: 16, fontWeight: "bold" }}>Hot Pot</Text>
                                 <View style={{ display: 'flex', flexDirection: 'row' }}>
                                     <View style={{ backgroundColor: 'rgba(0,0,0,0.5)', padding: 5, borderRadius: 5, marginRight: 5 }}>
                                         <Text style={{ color: 'white', fontSize: 10 }}>40 mins</Text>
@@ -49,7 +47,7 @@ export default function Recipe({ navigation }) {
                                     </View>
                                 </View>
                             </View>
-                            <Text style={{ color: 'white', fontSize: 10, paddingHorizontal: 10 }}>
+                            <Text style={{ color: 'white', fontSize: 10, paddingHorizontal: 10, marginTop: 10 }}>
                                 A thorough how-to guide to Chinese hot pot covering all aspects of preparing this iconic
                                 meal at home....
                             </Text>

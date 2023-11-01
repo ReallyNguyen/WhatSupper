@@ -34,13 +34,13 @@ const styles = StyleSheet.create({
         top: 0,
         left: 0,
         zIndex: 1,
-        marginLeft: 20,
-        marginTop: 20
+        marginLeft: '10%',
+        marginTop: '15%'
     },
     logo: {
         width: 300,
         height: 100,
-        marginTop: 80,
+        marginTop: '40%',
     },
     discount: {
         fontSize: 30,
@@ -74,11 +74,13 @@ const styles = StyleSheet.create({
         paddingVertical: 10,
         paddingHorizontal: 80,
         marginBottom: 20,
-        borderRadius: 50,
+        borderRadius: 20,
+        elevation: 2,
+        overflow: 'hidden'
     },
     bar: {
         width: 300,
         height: 75,
-        marginTop: 45
+        marginTop: "20%"
     }
 });

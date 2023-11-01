@@ -12,7 +12,7 @@ const RecipeInfo = ({ navigation }) => (
         </View>
         <ScrollView>
             <View style={styles.back}>
-                <Back navigation={navigation} destination="Recipe" color="black" />
+                <Back navigation={navigation} color="black" />
             </View>
 
             <View style={styles.recipe}>
@@ -83,7 +83,7 @@ const styles = StyleSheet.create({
         left: 0,
         zIndex: 1,
         marginLeft: 20,
-        marginTop: 20
+        marginTop: 40
     },
     recipe: {
         position: 'relative',

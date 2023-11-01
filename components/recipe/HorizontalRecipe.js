@@ -37,7 +37,7 @@ export default function HorizontalRecipe({ navigation }) {
                     <View style={{ position: 'absolute', bottom: 0, left: 0, width: '100%', height: 57, backgroundColor: 'rgba(0,0,0,0.5)' }}>
                         <View style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
                             <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingHorizontal: 10 }}>
-                                <Text style={{ color: 'white', fontSize: 16, fontWeight: "bold" }}>Recipe Name</Text>
+                                <Text style={{ color: 'white', fontSize: 16, fontWeight: "bold" }}>Hot Pot</Text>
                                 <View style={{ display: 'flex', flexDirection: 'row' }}>
                                     <View style={{ backgroundColor: 'rgba(0,0,0,0.5)', padding: 5, borderRadius: 5, marginRight: 5 }}>
                                         <Text style={{ color: 'white', fontSize: 10 }}>40 mins</Text>

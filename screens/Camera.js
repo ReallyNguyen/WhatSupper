@@ -88,9 +88,6 @@ export default function CameraAndCrop({ navigation }) {
                 }}
             >
                 <View style={styles.modalContainer}>
-                    <Pressable onPress={() => setModalVisible(false)}>
-                        <Text>Close</Text>
-                    </Pressable>
                     <TouchableOpacity
                         onPress={() => {
                             setModalVisible(false);
@@ -116,6 +113,9 @@ const styles = StyleSheet.create({
         left: 0,
         height: 500,
         backgroundColor: 'white',
+        borderTopLeftRadius: '40%',
+        borderTopRightRadius: '40%',
+        overflow: 'hidden'
     },
     capture: {
         backgroundColor: colors.offWhite,
