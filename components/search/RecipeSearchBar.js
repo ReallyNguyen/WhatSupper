@@ -2,7 +2,7 @@ import { StyleSheet, TextInput, View } from 'react-native';
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
 import { colors } from '../../theme';
 
-export default function SearchBar({setSearchQuery}) {
+export default function RecipeSearchBar({setRecipeSearch}) {
     return(
         <View style={styles.search}>
             <FontAwesomeIcon
@@ -13,8 +13,8 @@ export default function SearchBar({setSearchQuery}) {
             />
             <TextInput
                 style={styles.input}
-                placeholder="Find a Coupon.."
-                onChangeText={setSearchQuery}
+                placeholder="Find a Recipe.."
+                onChangeText={setRecipeSearch}
             />
             <FontAwesomeIcon
                 name={'sliders'}
@@ -31,6 +31,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         gap: 10,
+        marginBottom: 20,
     },
     input: {
         height: 35,
@@ -39,7 +40,7 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderRadius: 10,
         padding: 10,
-        paddingLeft: 50, // to ensure the text does not overlap with the icon
+        paddingLeft: 50,
     },
     searchIcon: {
         position: 'absolute',
