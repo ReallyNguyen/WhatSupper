@@ -68,13 +68,19 @@ export default function TutorialFirst({ navigation }) {
                 </View>
             ) : (
                 <View style={styles.second}>
-                    <TouchableOpacity onPress={resetAnimation} style={styles.header}>
-                        <FontAwesome5
-                            name={'angle-left'}
-                            size={35}
-                            color={colors.offBlack}
-                        />
-                    </TouchableOpacity>
+                    {isAnimationTriggered.current ? (
+                        <TouchableOpacity onPress={resetAnimation} style={styles.header}>
+                            <FontAwesome5
+                                name={'angle-left'}
+                                size={35}
+                                color={colors.offBlack}
+                            />
+                        </TouchableOpacity>
+                    ) : (
+                        <TouchableOpacity style={styles.header}>
+                            <Back navigation={navigation} />
+                        </TouchableOpacity>
+                    )}
                     <Text style={{ fontFamily: "Manrope-SemiBold", fontSize: 26, marginTop: '10%' }}>
                         {text1}
                     </Text>
