@@ -95,6 +95,7 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         marginTop: 50,
         marginBottom: 16,
+        width: '80%'
     },
     back: {
         position: 'absolute',
