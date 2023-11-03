@@ -3,9 +3,11 @@ import { StyleSheet, View, ScrollView, Text, Image, TouchableOpacity } from 'rea
 import CouponCard from '../components/coupon/CouponCard';
 import { coupon } from '../data/coupon';
 import Bento from '../components/recipe/Bento';
+import SearchBar from '../components/search/SearchBar';
 
 export default function Saved({ navigation }) {
     const [activeTab, setActiveTab] = useState('tab1');
+    const [searchQuery, setSearchQuery] = useState('');
 
     const handleTabPress = (tab) => {
         setActiveTab(tab);
@@ -42,21 +44,29 @@ export default function Saved({ navigation }) {
                     ]}>Recipes</Text>
                 </TouchableOpacity>
             </View>
+
+            <View style={styles.search}>
+                <SearchBar setSearchQuery={setSearchQuery}/>
+            </View>
+
             <View style={styles.tabPanels}>
                 {
                     activeTab === 'tab1' &&
                     <ScrollView contentContainerStyle={styles.contentContainer}>
-                        {coupon.map((item) => (
-                            <TouchableOpacity onPress={() => navigation.navigate('CouponInfo')} key={item.id}>
-                                <CouponCard
-                                    style={styles.latest}
-                                    brand={item.brand}
-                                    background={item.background}
-                                    discount={item.discount}
-                                    product={item.product}
-                                    expiration={item.expiration}
-                                />
-                            </TouchableOpacity>
+                        {coupon
+                            .filter(item => item.name.toLowerCase().includes(searchQuery.toLowerCase()))
+                            .map((item) => (
+                                <TouchableOpacity onPress={() => navigation.navigate('CouponInfo')} key={item.id}>
+                                    <CouponCard
+                                        style={styles.latest}
+                                        name={item.name}
+                                        brand={item.brand}
+                                        background={item.background}
+                                        discount={item.discount}
+                                        product={item.product}
+                                        expiration={item.expiration}
+                                    />
+                                </TouchableOpacity>
                         ))}
                     </ScrollView>
                 }
@@ -120,5 +130,10 @@ const styles = StyleSheet.create({
         gap: -20,
         paddingBottom: 50,
         height: 1000,
+    },
+    search: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        paddingVertical: 20,
     }
 });

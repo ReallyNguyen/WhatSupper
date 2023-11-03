@@ -3,7 +3,7 @@ import { Image, View, TouchableOpacity } from 'react-native';
 import { Text, Box, VStack, Heading } from '@gluestack-ui/themed';
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
 
-function CouponCard({ brand, background, discount, product, expiration }) {
+function CouponCard({ brand, name, background, discount, product, expiration }) {
   const [isFavourite, setFavourite] = useState(false);
 
   const handleFavouritePress = () => {

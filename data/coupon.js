@@ -7,6 +7,7 @@ import TargetLogo from "../assets/brands/targetLogo"
 export const coupon = [
     {
         "id": 0,
+        "name": "Superstore",
         "brand": <SuperStoreLogo />,
         "background": "#003DA5",
         "discount": "15% off",
@@ -16,6 +17,7 @@ export const coupon = [
     {
         "id": 1,
         "background": "#E50024",
+        "name": "Target",
         "brand": <TargetLogo />,
         "discount": "30% off",
         "product": "*Frosted Flake Family Size",
@@ -24,6 +26,7 @@ export const coupon = [
     {
         "id": 2,
         "background": "#FF9900",
+        "name": "Amazon",
         "brand": <AmazonLogo />,
         "discount": "BOGO 50% off",
         "product": "*Roger's Sugar",
@@ -32,6 +35,7 @@ export const coupon = [
     {
         "id": 3,
         "background": "#059033",
+        "name": "T&T",
         "brand": <TTLogo />,
         "discount": "25% off",
         "product": "*Bean Sprouts",
@@ -40,6 +44,7 @@ export const coupon = [
     {
         "id": 4,
         "background": "#003DA5",
+        "name": "Walmart",
         "brand": <WalmartLogo />,
         "discount": "10% off",
         "product": "*All baby food & care items",
@@ -48,6 +53,7 @@ export const coupon = [
     {
         "id": 5,
         "background": "#FF9900",
+        "name": "Amazon",
         "brand": <AmazonLogo />,
         "discount": "BOGO Free",
         "product": "*On canned food items",
@@ -56,6 +62,7 @@ export const coupon = [
     {
         "id": 6,
         "background": "#E50024",
+        "name": "Target",
         "brand": <TargetLogo />,
         "discount": "25% off",
         "product": "*On deli & butcher meats",
@@ -64,6 +71,7 @@ export const coupon = [
     {
         "id": 7,
         "background": "#059033",
+        "name": "T&T",
         "brand": <TTLogo />,
         "discount": "25% off",
         "product": "*On miso paste",
