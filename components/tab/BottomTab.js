@@ -7,6 +7,8 @@ import Second from '../../screens/SecondIntro';
 import Third from '../../screens/ThirdIntro';
 import Camera from '../../screens/Camera';
 import Home from '../../screens/Home';
+import TutorialFirst from '../../screens/TutorialFirst';
+import TutorialSecond from '../../screens/TutorialSecond';
 import Saved from '../../screens/Saved';
 import Recipe from '../../screens/Recipe';
 import RecipeInfo from '../../screens/RecipeInfo';
@@ -19,7 +21,7 @@ const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 
 function BottomTabNavigator() {
-    const hiddenRoute = ["First", "Second", "Third", "CouponInfo", "Camera", "Recipe"]
+    const hiddenRoute = ["First", "Second", "Third", "TutorialFirst", "TutorialSecond", "CouponInfo", "Camera", "Recipe"]
     const [currentScreen, setCurrentScreen] = useState("Home")
     const nav = useNavigation();
     React.useEffect(() => {
@@ -87,6 +89,8 @@ export default function MainStack() {
                 <Stack.Screen name="Second" component={Second} options={{ headerShown: false }} />
                 <Stack.Screen name="Third" component={Third} options={{ headerShown: false }} />
                 <Stack.Screen name="Home" component={Home} options={{ headerShown: false }} />
+                <Stack.Screen name="TutorialFirst" component={TutorialFirst} options={{ headerShown: false }} />
+                <Stack.Screen name="TutorialSecond" component={TutorialSecond} options={{ headerShown: false }} />
                 <Stack.Screen name="Saved" component={Saved} options={{ headerShown: false }} />
                 <Stack.Screen name="Camera" component={Camera} options={{ headerShown: false }} />
                 <Stack.Screen name="Recipe" component={Recipe} options={{ headerShown: false }} />

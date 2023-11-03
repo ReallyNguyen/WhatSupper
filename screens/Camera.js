@@ -113,8 +113,6 @@ const styles = StyleSheet.create({
         left: 0,
         height: 500,
         backgroundColor: 'white',
-        borderTopLeftRadius: '40%',
-        borderTopRightRadius: '40%',
         overflow: 'hidden'
     },
     capture: {
