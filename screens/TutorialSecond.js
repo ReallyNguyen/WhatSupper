@@ -10,7 +10,7 @@ export default function TutorialSecond({ navigation }) {
             </View>
             <View style={styles.centeredText}>
                 <Text style={{ fontFamily: "Manrope-SemiBold", fontSize: 26, textAlign: 'center' }}>and leave it to us to</Text>
-                <Text style={{ fontFamily: "Manrope-SemiBold", fontSize: 26, textAlign: 'center' }}>generate your recipes. 🧑‍</Text>
+                <Text style={{ fontFamily: "Manrope-SemiBold", fontSize: 26, textAlign: 'center' }}>generate your recipes. 🧑‍🍳</Text>
             </View>
             <Image
                 style={{ height: 405, width: 184, marginVertical: '5%' }}

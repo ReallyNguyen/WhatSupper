@@ -83,7 +83,7 @@ export default function TutorialFirst({ navigation }) {
                     </Text>
                     <View style={styles.centeredContainer}>
                         <Image
-                            style={{ width: 328, height: 380, position: 'relative', zIndex: 0 }}
+                            style={{ width: 328, height: 380, position: 'relative', zIndex: 0, borderRadius: 15 }}
                             source={require('../assets/tutorial.png')}
                         />
                         <TouchableOpacity
