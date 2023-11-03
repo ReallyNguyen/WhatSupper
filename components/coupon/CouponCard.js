@@ -3,7 +3,7 @@ import { Image, View, TouchableOpacity } from 'react-native';
 import { Text, Box, VStack, Heading } from '@gluestack-ui/themed';
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
 
-function CouponCard({ brand, background, discount, product, expiration }) {
+function CouponCard({ brand, name, background, discount, product, expiration }) {
   const [isFavourite, setFavourite] = useState(false);
 
   const handleFavouritePress = () => {
@@ -58,11 +58,11 @@ function CouponCard({ brand, background, discount, product, expiration }) {
           <Text style={{ color: 'red' }} fontSize="$sm">
             {discount}
           </Text>
-          <Heading _dark={{ color: '$textLight200' }} size="xs" my="$1">
+          <Heading _dark={{ color: '$textLight200' }} size="xs" my="$1" style={{ fontWeight: 'normal' }}>
             {product}
           </Heading>
-          <View style={{ backgroundColor: '#E5E4E2', padding: 0.5, borderRadius: 6, width: '60%' }}>
-            <Text _dark={{ color: '$textLight200' }} fontSize="$xs">
+          <View style={{ backgroundColor: '#E5E4E2', padding: 0.5, borderRadius: 6, width: '70%' }}>
+            <Text _dark={{ color: '$textLight200' }} fontSize="$xs" style={{ textAlign: 'left', paddingLeft: 2, marginLeft: 2 }}>
               {expiration}
             </Text>
           </View>

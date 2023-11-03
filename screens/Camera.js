@@ -40,7 +40,7 @@ export default function CameraAndCrop({ navigation }) {
                         // Set imageCropped to true when the image is cropped
                         setImageCropped(true);
                         // Do something with the base64 variable
-                        setModalVisible(true);
+                        navigation.navigate('Recipe', { base64: base64 });
                     }}
                     onToggleModal={() => setIsVisible(!isVisible)}
                 />
@@ -79,28 +79,6 @@ export default function CameraAndCrop({ navigation }) {
                     </View>
                 </Camera>
             )}
-            <Modal
-                animationType="slide"
-                transparent={true}
-                visible={modalVisible}
-                onRequestClose={() => {
-                    setModalVisible(false);
-                }}
-            >
-                <View style={styles.modalContainer}>
-                    <TouchableOpacity
-                        onPress={() => {
-                            setModalVisible(false);
-                            navigation.navigate('RecipeInfo');
-                        }}
-                        style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}
-                    >
-                        <Recipe />
-                    </TouchableOpacity>
-
-
-                </View>
-            </Modal>
         </View>
     );
 }

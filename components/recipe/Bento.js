@@ -2,26 +2,26 @@ import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { Box, Image } from "@gluestack-ui/themed";
 import { colors } from "../../theme";
 
-export default function Bento({ navigation, destination1, destination2, destination3 }) {
+export default function Bento({ navigation, destination1, destination2, destination3, cuisine, img1, img2, img3 }) {
     return (
         <View>
             <View style={styles.text}>
-                <Text style={styles.category}>Asian</Text>
+                <Text style={styles.category}>{cuisine}</Text>
                 <Text style={styles.see}>See all</Text>
             </View>
             <View style={styles.container}>
                 <Pressable onPress={() => navigation.navigate(destination1)}>
-                    <Image style={styles.large} source={require('../../assets/recipes/kfchicken.jpeg')} alt="image" />
+                    <Image style={styles.large} source={img1} alt="image" />
                 </Pressable>
                 <View style={styles.column}>
                     <Pressable onPress={() => navigation.navigate(destination2)}>
-                        <Image style={styles.small} source={require('../../assets/recipes/friedrice.jpeg')} alt="image" />
+                        <Image style={styles.small} source={img2} alt="image" />
                     </Pressable>
                     <Pressable onPress={() => navigation.navigate(destination3)}>
                         <Box style={{ position: 'relative' }}>
                             <Image
                                 style={styles.small}
-                                source={require('../../assets/recipes/hotpot.jpg')}
+                                source={img3}
                                 resizeMode="cover"
                                 alt="image"
                             />
@@ -41,6 +41,7 @@ const styles = StyleSheet.create({
     container: {
         flexDirection: 'row',
         gap: 10,
+        marginBottom: 50,
     },
     text: {
         flexDirection: 'row',

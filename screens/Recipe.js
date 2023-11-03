@@ -1,10 +1,29 @@
-import React from 'react';
-import { StyleSheet, Text, View, Button, TouchableOpacity } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { StyleSheet, Text, View, Button, TouchableOpacity, ActivityIndicator } from 'react-native';
 import { Box, VStack, Link, Heading, Image } from "@gluestack-ui/themed";
+import Back from '../components/button/Back';
 
 export default function Recipe({ navigation }) {
+    const [isLoading, setIsLoading] = useState(true);
+
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            setIsLoading(false);
+        }, 2000);
+        return () => clearTimeout(timer);
+    }, []);
+
+    if (isLoading) {
+        return <View style={styles.loading}>
+                    <Text style={styles.loadingText}>Hold on, we are working our AI recipe magic! ✨</Text>
+                </View>
+    }
+
     return (
         <View style={styles.container}>
+            <View style={styles.back}>
+                <Back navigation={navigation} />
+            </View>
             <Text style={styles.heading}>Here are some recipes based on what you scanned 🪄</Text>
             <Box
                 maxWidth="$72"
@@ -68,9 +87,27 @@ const styles = StyleSheet.create({
         padding: 16,
     },
     heading: {
-        fontSize: 15,
+        fontSize: 20,
+        fontFamily: 'Manrope-Bold',
         fontWeight: 'bold',
+        marginTop: 50,
         marginBottom: 16,
-        width: 300
     },
+    back: {
+        position: 'absolute',
+        top: 10,
+        left: 30,
+        zIndex: 1,
+    },
+    loading: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    loadingText: {
+        fontFamily: 'Manrope-Bold',
+        fontSize: 28,
+        textAlign: 'center',
+        paddingHorizontal: 20,
+    }
 });

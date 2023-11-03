@@ -2,10 +2,15 @@ import React, { useState } from 'react';
 import { StyleSheet, View, ScrollView, Text, Image, TouchableOpacity } from 'react-native';
 import CouponCard from '../components/coupon/CouponCard';
 import { coupon } from '../data/coupon';
+import { category } from '../data/category';
 import Bento from '../components/recipe/Bento';
+import CouponSearchBar from '../components/search/CouponSearchBar';
+import RecipeSearchBar from '../components/search/RecipeSearchBar';
 
 export default function Saved({ navigation }) {
     const [activeTab, setActiveTab] = useState('tab1');
+    const [couponSearch, setCouponSearch] = useState('');
+    const [recipeSearch, setRecipeSearch] = useState('');
 
     const handleTabPress = (tab) => {
         setActiveTab(tab);
@@ -42,34 +47,53 @@ export default function Saved({ navigation }) {
                     ]}>Recipes</Text>
                 </TouchableOpacity>
             </View>
+
             <View style={styles.tabPanels}>
                 {
                     activeTab === 'tab1' &&
-                    <ScrollView contentContainerStyle={styles.contentContainer}>
-                        {coupon.map((item) => (
-                            <TouchableOpacity onPress={() => navigation.navigate('CouponInfo')} key={item.id}>
-                                <CouponCard
-                                    style={styles.latest}
-                                    brand={item.brand}
-                                    background={item.background}
-                                    discount={item.discount}
-                                    product={item.product}
-                                    expiration={item.expiration}
-                                />
-                            </TouchableOpacity>
-                        ))}
-                    </ScrollView>
+                    <View style={styles.search}>
+                        <CouponSearchBar setCouponSearch={setCouponSearch}/>
+                        <ScrollView contentContainerStyle={styles.contentContainer}>
+                            {coupon
+                                .filter(item => item.name.toLowerCase().includes(couponSearch.toLowerCase()))
+                                .map((item) => (
+                                    <TouchableOpacity onPress={() => navigation.navigate('CouponInfo')} key={item.id}>
+                                        <CouponCard
+                                            style={styles.latest}
+                                            name={item.name}
+                                            brand={item.brand}
+                                            background={item.background}
+                                            discount={item.discount}
+                                            product={item.product}
+                                            expiration={item.expiration}
+                                        />
+                                    </TouchableOpacity>
+                            ))}
+                        </ScrollView>
+                    </View>
                 }
                 {
                     activeTab === 'tab2' &&
-                    <ScrollView contentContainerStyle={styles.contentContainer}>
-                        <Bento
-                            navigation={navigation}
-                            destination1="RecipeCategory"
-                            destination2="RecipeCategory"
-                            destination3="RecipeCategory"
-                        />
-                    </ScrollView>
+                    <View style={styles.search}>
+                        <RecipeSearchBar setRecipeSearch={setRecipeSearch}/>
+                        <ScrollView contentContainerStyle={styles.contentContainer}>
+                            {category
+                                .filter(item => item.cuisine.toLowerCase().includes(recipeSearch.toLowerCase()))
+                                .map((item) => (
+                                    <Bento
+                                        key={item.id}
+                                        cuisine={item.cuisine}
+                                        img1={item.img1}
+                                        img2={item.img2}
+                                        img3={item.img3}
+                                        navigation={navigation}
+                                        destination1="RecipeCategory"
+                                        destination2="RecipeCategory"
+                                        destination3="RecipeCategory"
+                                    />
+                            ))}
+                        </ScrollView>
+                    </View>
                 }
             </View>
         </View>
@@ -118,7 +142,11 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         flexWrap: 'wrap',
         gap: -20,
-        paddingBottom: 50,
-        height: 1000,
+        height: 1100,
+    },
+    search: {
+        justifyContent: 'center',
+        alignItems: 'center',
+        paddingVertical: 20,
     }
 });
