@@ -1,14 +1,24 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, ScrollView, View, Text, Image, Dimensions, Animated } from 'react-native';
+import { StyleSheet, ScrollView, View, Text, Image, Dimensions, Animated, Modal, TouchableOpacity, Pressable } from 'react-native';
 import { FontAwesome5 } from '@expo/vector-icons';
 import { colors } from '../theme';
 import Back from '../components/button/Back';
 import ShareBubble from '../assets/sharebubble/sharebubble';
+import Instagram from '../assets/media/Instagram';
+import Facebook from '../assets/media/Facebook';
+import Messages from '../assets/media/Messages';
+import Twitter from '../assets/media/Twitter';
 
 const screenWidth = Dimensions.get("window").width;
 
 const RecipeInfo = ({ navigation }) => {
     const [showShareBubble, setShowShareBubble] = useState(true);
+    const [overlayVisible, setOverlayVisible] = useState(false);
+
+    const toggleOverlay = () => {
+        setOverlayVisible(!overlayVisible);
+    };
+
     const fadeAnim = new Animated.Value(1);
 
     useEffect(() => {
@@ -45,7 +55,10 @@ const RecipeInfo = ({ navigation }) => {
                         {showShareBubble && <ShareBubble style={styles.shareBubble} />}
                     </Animated.View>
                     <View style={styles.icons}>
-                        <FontAwesome5 name={'share-alt'} size={25} color={colors.asparagus} solid />
+                        <TouchableOpacity onPress={toggleOverlay}>
+                            <FontAwesome5 name={'share-alt'} size={25} color={colors.asparagus} solid />
+                        </TouchableOpacity>
+
                         <FontAwesome5 name={'heart'} size={25} color={colors.asparagus} />
                     </View>
                     <Text style={styles.name}>Hot Pot</Text>
@@ -97,6 +110,47 @@ const RecipeInfo = ({ navigation }) => {
                     </View>
                 </View>
             </ScrollView>
+            <Modal
+                animationType="fade"
+                transparent={true}
+                visible={overlayVisible}
+            >
+                <TouchableOpacity
+                    style={styles.overlay}
+                    activeOpacity={1}
+                >
+                    <View style={styles.overlayContent}>
+                        <View style={styles.mediaBox}>
+                            <Text style={{ fontFamily: 'Manrope-SemiBold', fontSize: 20 }}>Like this Recipe?</Text>
+                            <Text style={{ fontFamily: 'Manrope-SemiBold', fontSize: 20 }}>Share it with a friend!</Text>
+                            <View style={styles.medias}>
+                                <Pressable>
+                                    <Instagram />
+                                </Pressable>
+                                <Pressable>
+                                    <Messages />
+                                </Pressable>
+                                <Pressable>
+                                    <Twitter />
+                                </Pressable>
+                                <Pressable>
+                                    <Facebook />
+                                </Pressable>
+                            </View>
+
+                            <Pressable
+                                style={styles.button}
+                                title="Close"
+                                onRequestClose={toggleOverlay}
+                                onPress={toggleOverlay}
+                            >
+                                <Text style={{ color: colors.offWhite }}>Close</Text>
+                            </Pressable>
+                        </View>
+
+                    </View>
+                </TouchableOpacity>
+            </Modal>
         </View>
     );
 }
@@ -193,6 +247,41 @@ const styles = StyleSheet.create({
     },
     step: {
         fontFamily: 'Manrope-Regular',
+    },
+    overlay: {
+        flex: 1,
+        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    overlayContent: {
+        width: '80%',
+        alignItems: 'center',
+    },
+    overlayText: {
+        fontSize: 50,
+        color: 'white',
+    },
+    mediaBox: {
+        width: 366,
+        height: 219,
+        backgroundColor: colors.offWhite,
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderRadius: 10
+    },
+    medias: {
+        display: 'flex',
+        flexDirection: 'row',
+        marginVertical: '6%'
+    },
+    button: {
+        width: 163,
+        height: 32,
+        backgroundColor: colors.davysGray,
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderRadius: 15
     }
 });
 
