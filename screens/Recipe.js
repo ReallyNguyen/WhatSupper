@@ -2,9 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, Button, TouchableOpacity, ActivityIndicator } from 'react-native';
 import { Box, VStack, Link, Heading, Image } from "@gluestack-ui/themed";
 import Back from '../components/button/Back';
+import { colors } from '../theme';
 
-export default function Recipe({ navigation }) {
+export default function Recipe({ navigation, route }) {
     const [isLoading, setIsLoading] = useState(true);
+    const [ocrResponse, setOcrResponse] = useState(null);
 
     useEffect(() => {
         const timer = setTimeout(() => {
@@ -12,6 +14,12 @@ export default function Recipe({ navigation }) {
         }, 2000);
         return () => clearTimeout(timer);
     }, []);
+
+    useEffect(() => {
+        if (route.params && route.params.ocrResponse) {
+            setOcrResponse(route.params.ocrResponse.ParsedResults[0].ParsedText.replace(/(\r\n|\n|\r)/gm, ""));
+        }
+    }, [route.params]);
 
     if (isLoading) {
         return <View style={styles.loading}>
@@ -25,6 +33,11 @@ export default function Recipe({ navigation }) {
                 <Back navigation={navigation} />
             </View>
             <Text style={styles.heading}>Here are some recipes based on what you scanned 🪄</Text>
+            {ocrResponse && 
+                <View style={styles.ocrResponse}>
+                    <Text style={styles.ocrText}> {JSON.stringify(ocrResponse)}</Text>
+                </View>
+            }
             <TouchableOpacity onPress={() => navigation.navigate('RecipeInfo')}>
                 <Box
                     maxWidth="$72"
@@ -76,8 +89,6 @@ export default function Recipe({ navigation }) {
                     </Box>
                 </Box>
             </TouchableOpacity>
-
-
         </View>
     );
 }
@@ -113,5 +124,15 @@ const styles = StyleSheet.create({
         fontSize: 28,
         textAlign: 'center',
         paddingHorizontal: 20,
+    },
+    ocrResponse: {
+        backgroundColor: colors.asparagus,
+        margin: 20,
+        padding: 10,
+        borderRadius: 15,
+    },
+    ocrText: {
+        color: colors.offWhite,
+        fontFamily: "Manrope-Regular"
     }
 });

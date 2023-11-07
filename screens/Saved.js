@@ -6,6 +6,7 @@ import { category } from '../data/category';
 import Bento from '../components/recipe/Bento';
 import CouponSearchBar from '../components/search/CouponSearchBar';
 import RecipeSearchBar from '../components/search/RecipeSearchBar';
+import Back from '../components/button/Back';
 
 export default function Saved({ navigation }) {
     const [activeTab, setActiveTab] = useState('tab1');
@@ -18,6 +19,9 @@ export default function Saved({ navigation }) {
 
     return (
         <View style={styles.container}>
+            <View style={styles.header}>
+                <Back navigation={navigation} destination="Home" />
+            </View>
             <Image style={styles.img} source={require('../assets/profile.png')} />
             <Text style={styles.name}>Henry Leung</Text>
 
@@ -101,9 +105,18 @@ export default function Saved({ navigation }) {
 };
 
 const styles = StyleSheet.create({
+    header: {
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        zIndex: 1,
+        marginLeft: '7%',
+        marginTop: '1%'
+    },
     img: {
         width: 100,
         height: 100,
+        marginTop: 30,
     },
     name: {
         fontFamily: "Manrope-Bold",
