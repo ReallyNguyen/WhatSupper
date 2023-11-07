@@ -5,7 +5,6 @@ import React from 'react';
 export default function Next({ navigation, destination }) {
     return (
         <View style={styles.container}>
-            <StatusBar style="auto" />
             <View style={styles.content}>
             </View>
             <Pressable

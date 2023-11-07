@@ -1,5 +1,7 @@
 import React, { useState, useRef } from 'react';
 import { StyleSheet, Text, View, ScrollView, TouchableOpacity, Animated } from 'react-native';
+import Header from '../components/header/Header';
+import ScanFlyerAd from '../components/header/ScanFlyerAd';
 import CouponCard from '../components/coupon/CouponCard';
 import { coupon } from '../data/coupon';
 
@@ -26,6 +28,10 @@ export default function Home({ navigation }) {
 
     return (
         <View style={styles.container}>
+            <Header />
+            <TouchableOpacity onPress={() => navigation.navigate('TutorialFirst')} style={styles.scanFlyerAdContainer}>
+                <ScanFlyerAd />
+            </TouchableOpacity>
             <View style={styles.tabList}>
                 <Animated.View style={[
                     styles.tabBackground,
@@ -192,5 +198,10 @@ const styles = StyleSheet.create({
         flexWrap: 'wrap',
         gap: -20,
         paddingBottom: 50,
+    },
+    scanFlyerAdContainer: {
+        width: 350,
+        height: 95,
+        marginVertical: '8%'
     }
 });

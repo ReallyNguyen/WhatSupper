@@ -1,76 +1,159 @@
-import React from 'react';
-import { StyleSheet, ScrollView, View, Text, Image, Dimensions } from 'react-native';
+import React, { useState, useEffect } from 'react';
+import { StyleSheet, ScrollView, View, Text, Image, Dimensions, Animated, Modal, TouchableOpacity, Pressable } from 'react-native';
 import { FontAwesome5 } from '@expo/vector-icons';
 import { colors } from '../theme';
 import Back from '../components/button/Back';
+import ShareBubble from '../assets/sharebubble/sharebubble';
+import Instagram from '../assets/media/Instagram';
+import Facebook from '../assets/media/Facebook';
+import Messages from '../assets/media/Messages';
+import Twitter from '../assets/media/Twitter';
+
 const screenWidth = Dimensions.get("window").width;
 
-const RecipeInfo = ({ navigation }) => (
-    <View>
-        <View>
-            <Image style={styles.img} source={require('../assets/recipes/hotpot.jpg')} />
-        </View>
-        <ScrollView>
-            <View style={styles.back}>
-                <Back navigation={navigation} color="black" />
-            </View>
+const RecipeInfo = ({ navigation }) => {
+    const [showShareBubble, setShowShareBubble] = useState(true);
+    const [overlayVisible, setOverlayVisible] = useState(false);
 
-            <View style={styles.recipe}>
-                <View style={styles.icons}>
-                    <FontAwesome5 name={'share-alt'} size={25} color={colors.asparagus} solid />
-                    <FontAwesome5 name={'heart'} size={25} color={colors.asparagus} />
-                </View>
-                <Text style={styles.name}>Hot Pot</Text>
-                <Text style={styles.cuisine}>ASIAN</Text>
-                <View style={styles.infoWrapper}>
-                    <View style={styles.info}>
-                        <FontAwesome5 name={'clock'} size={15} color={colors.offWhite} />
-                        <Text style={styles.infoText}>40 mins</Text>
-                    </View>
-                    <View style={styles.info}>
-                        <FontAwesome5 name={'list'} size={15} color={colors.offWhite} />
-                        <Text style={styles.infoText}>6 ingredients</Text>
-                    </View>
-                    <View style={styles.info}>
-                        <FontAwesome5 name={'fire'} size={15} color={colors.offWhite} />
-                        <Text style={styles.infoText}>560 cal</Text>
-                    </View>
-                </View>
-                <Text style={styles.heading}>Description</Text>
-                <Text style={styles.description}>
-                    A thorough how-to guide to Chinese hot pot covering all aspects of
-                    preparing this iconic meal at home. It will help you to throw a
-                    stress-free hot pot party.
-                </Text>
-                <Text style={styles.heading}>Ingredients</Text>
-                <Text style={styles.ingredient}>Spicy Hot Pot Base</Text>
-                <Text style={styles.ingredient}>Fresh Wheat Noodles</Text>
-                <Text style={styles.ingredient}>Lotus Root</Text>
-                <Text style={styles.ingredient}>Nappa Cabbage</Text>
-                <Text style={styles.ingredient}>Tofu</Text>
-                <Text style={styles.ingredient}>King Oyster Mushrooms</Text>
-                <Text style={styles.heading}>Instructions</Text>
-                <View style={styles.steps}>
-                    <Text style={styles.step}>
-                        1.Place the heat source and the pot/wok in the middle of the table.
-                        Pour in the broth. Place various food items around the pot.
-                    </Text>
-                    <Text style={styles.step}>
-                        2. Have the dipping sauces mixed and distributed in individual bowls.
-                        Keep some extra in case you need an adjustment or top-up during the meal.
-                    </Text>
-                    <Text style={styles.step}>
-                        3. Turn on the heat. Once the broth comes to a boil, you may start putting
-                        food items into the broth to cook. Fish out the cooked items and enjoy with the dipping sauce.
-                    </Text>
-                    <Text style={styles.step}>
-                        4. The water in the broth evaporates as you eat. Top up with hot water when needed.
-                    </Text>
-                </View>
+    const toggleOverlay = () => {
+        setOverlayVisible(!overlayVisible);
+    };
+
+    const fadeAnim = new Animated.Value(1);
+
+    useEffect(() => {
+        if (showShareBubble) {
+            const timer = setTimeout(() => {
+                Animated.timing(
+                    fadeAnim,
+                    {
+                        toValue: 0,
+                        duration: 500,
+                        useNativeDriver: true,
+                    }
+                ).start(() => {
+                    setShowShareBubble(false);
+                });
+            }, 5000);
+
+            return () => clearTimeout(timer);
+        }
+    }, [showShareBubble]);
+
+    return (
+        <View>
+            <View>
+                <Image style={styles.img} source={require('../assets/recipes/hotpot.jpg')} />
             </View>
-        </ScrollView>
-    </View>
-);
+            <ScrollView>
+                <View style={styles.back}>
+                    <Back navigation={navigation} color="black" />
+                </View>
+
+                <View style={styles.recipe}>
+                    <Animated.View style={{ opacity: fadeAnim }}>
+                        {showShareBubble && <ShareBubble style={styles.shareBubble} />}
+                    </Animated.View>
+                    <View style={styles.icons}>
+                        <TouchableOpacity onPress={toggleOverlay}>
+                            <FontAwesome5 name={'share-alt'} size={25} color={colors.asparagus} solid />
+                        </TouchableOpacity>
+
+                        <FontAwesome5 name={'heart'} size={25} color={colors.asparagus} />
+                    </View>
+                    <Text style={styles.name}>Hot Pot</Text>
+                    <Text style={styles.cuisine}>ASIAN</Text>
+                    <View style={styles.infoWrapper}>
+                        <View style={styles.info}>
+                            <FontAwesome5 name={'clock'} size={15} color={colors.offWhite} />
+                            <Text style={styles.infoText}>40 mins</Text>
+                        </View>
+                        <View style={styles.info}>
+                            <FontAwesome5 name={'list'} size={15} color={colors.offWhite} />
+                            <Text style={styles.infoText}>6 ingredients</Text>
+                        </View>
+                        <View style={styles.info}>
+                            <FontAwesome5 name={'fire'} size={15} color={colors.offWhite} />
+                            <Text style={styles.infoText}>560 cal</Text>
+                        </View>
+                    </View>
+                    <Text style={styles.heading}>Description</Text>
+                    <Text style={styles.description}>
+                        A thorough how-to guide to Chinese hot pot covering all aspects of
+                        preparing this iconic meal at home. It will help you to throw a
+                        stress-free hot pot party.
+                    </Text>
+                    <Text style={styles.heading}>Ingredients</Text>
+                    <Text style={styles.ingredient}>Spicy Hot Pot Base</Text>
+                    <Text style={styles.ingredient}>Fresh Wheat Noodles</Text>
+                    <Text style={styles.ingredient}>Lotus Root</Text>
+                    <Text style={styles.ingredient}>Nappa Cabbage</Text>
+                    <Text style={styles.ingredient}>Tofu</Text>
+                    <Text style={styles.ingredient}>King Oyster Mushrooms</Text>
+                    <Text style={styles.heading}>Instructions</Text>
+                    <View style={styles.steps}>
+                        <Text style={styles.step}>
+                            1.Place the heat source and the pot/wok in the middle of the table.
+                            Pour in the broth. Place various food items around the pot.
+                        </Text>
+                        <Text style={styles.step}>
+                            2. Have the dipping sauces mixed and distributed in individual bowls.
+                            Keep some extra in case you need an adjustment or top-up during the meal.
+                        </Text>
+                        <Text style={styles.step}>
+                            3. Turn on the heat. Once the broth comes to a boil, you may start putting
+                            food items into the broth to cook. Fish out the cooked items and enjoy with the dipping sauce.
+                        </Text>
+                        <Text style={styles.step}>
+                            4. The water in the broth evaporates as you eat. Top up with hot water when needed.
+                        </Text>
+                    </View>
+                </View>
+            </ScrollView>
+            <Modal
+                animationType="fade"
+                transparent={true}
+                visible={overlayVisible}
+            >
+                <TouchableOpacity
+                    style={styles.overlay}
+                    activeOpacity={1}
+                >
+                    <View style={styles.overlayContent}>
+                        <View style={styles.mediaBox}>
+                            <Text style={{ fontFamily: 'Manrope-SemiBold', fontSize: 20 }}>Like this Recipe?</Text>
+                            <Text style={{ fontFamily: 'Manrope-SemiBold', fontSize: 20 }}>Share it with a friend!</Text>
+                            <View style={styles.medias}>
+                                <Pressable>
+                                    <Instagram />
+                                </Pressable>
+                                <Pressable>
+                                    <Messages />
+                                </Pressable>
+                                <Pressable>
+                                    <Twitter />
+                                </Pressable>
+                                <Pressable>
+                                    <Facebook />
+                                </Pressable>
+                            </View>
+
+                            <Pressable
+                                style={styles.button}
+                                title="Close"
+                                onRequestClose={toggleOverlay}
+                                onPress={toggleOverlay}
+                            >
+                                <Text style={{ color: colors.offWhite }}>Close</Text>
+                            </Pressable>
+                        </View>
+
+                    </View>
+                </TouchableOpacity>
+            </Modal>
+        </View>
+    );
+}
 
 const styles = StyleSheet.create({
     img: {
@@ -98,7 +181,14 @@ const styles = StyleSheet.create({
     },
     icons: {
         flexDirection: 'row',
+        alignItems: 'center',
         gap: 15,
+    },
+    shareBubble: {
+        position: 'absolute',
+        left: -5,
+        bottom: 5,
+        zIndex: 1,
     },
     name: {
         fontFamily: 'Manrope-Bold',
@@ -157,6 +247,41 @@ const styles = StyleSheet.create({
     },
     step: {
         fontFamily: 'Manrope-Regular',
+    },
+    overlay: {
+        flex: 1,
+        backgroundColor: 'rgba(0, 0, 0, 0.5)',
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+    overlayContent: {
+        width: '80%',
+        alignItems: 'center',
+    },
+    overlayText: {
+        fontSize: 50,
+        color: 'white',
+    },
+    mediaBox: {
+        width: 366,
+        height: 219,
+        backgroundColor: colors.offWhite,
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderRadius: 10
+    },
+    medias: {
+        display: 'flex',
+        flexDirection: 'row',
+        marginVertical: '6%'
+    },
+    button: {
+        width: 163,
+        height: 32,
+        backgroundColor: colors.davysGray,
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderRadius: 15
     }
 });
 

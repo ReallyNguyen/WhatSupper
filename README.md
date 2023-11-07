@@ -33,6 +33,10 @@ npx expo start
 - **npx expo install expo-font @expo-google-fonts/manrope**
 - **npx expo install expo-splash-screen**
 
+### Animation
+
+- **npx expo install react-native-reanimated**
+
 ### Safe Areas
 
 [Installing dependencies into an Expo managed project](https://reactnavigation.org/docs/5.x/getting-started/)
