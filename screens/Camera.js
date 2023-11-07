@@ -1,16 +1,65 @@
 import React, { useState, useRef } from 'react';
-import { View, Text, Button, Image, Pressable, Modal, StyleSheet, TouchableOpacity } from 'react-native';
-import { createStackNavigator } from '@react-navigation/stack';
+import { View, Text, Button, Pressable, StyleSheet } from 'react-native';
 import { Camera } from 'expo-camera';
 import { ImageManipulator } from 'expo-image-crop';
-import Recipe from '../screens/Recipe'
 import { FontAwesome5 } from '@expo/vector-icons';
 import { colors } from '../theme';
+import axios from 'axios';
+
+async function ocrSpace(input, options = {}) {
+    try {
+        if (!input || typeof input !== 'string') {
+            throw Error('Param input is required and must be of type string');
+        }
+
+        const {
+            apiKey,
+            ocrUrl,
+            language,
+            isOverlayRequired,
+            filetype,
+            detectOrientation,
+            isCreateSearchablePdf,
+            isSearchablePdfHideTextLayer,
+            scale,
+            isTable,
+            OCREngine,
+        } = options;
+
+        const formData = new FormData();
+        formData.append('base64Image', `data:image/png;base64,${input}`);
+        formData.append('language', String(language || 'eng'));
+        formData.append('isOverlayRequired', String(isOverlayRequired || 'false'));
+        if (filetype) {
+        formData.append('filetype', String(filetype));
+        }
+        formData.append('detectOrientation', String(detectOrientation || 'false'));
+        formData.append('isCreateSearchablePdf', String(isCreateSearchablePdf || 'false'));
+        formData.append('isSearchablePdfHideTextLayer', String(isSearchablePdfHideTextLayer || 'false'));
+        formData.append('scale', String(scale || 'false'));
+        formData.append('isTable', String(isTable || 'false'));
+        formData.append('OCREngine', String(OCREngine || '1'));
+
+        const response = await axios.post(ocrUrl, formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+                'apikey': apiKey,
+            },
+        });
+
+        return response.data;
+    } 
+    catch (error) {
+        console.error(error);
+    }
+}
 
 export default function CameraAndCrop({ navigation }) {
     const [isVisible, setIsVisible] = useState(false);
     const [uri, setURI] = useState(null);
     const [pre, setPre] = useState(null);
+    const [ocrResponse, setOcrResponse] = useState(null);
+    const [croppedImage, setCroppedImage] = useState(null);
     const cameraRef = useRef();
 
     const takePicture = async () => {
@@ -22,9 +71,25 @@ export default function CameraAndCrop({ navigation }) {
         }
     };
 
-    // Define a state variable to track whether the image is cropped
-    const [imageCropped, setImageCropped] = useState(false);
-    const [modalVisible, setModalVisible] = useState(false);
+    const handleOCR = async (base64) => {
+        try {
+            if (!base64) {
+                throw new Error('base64 is missing or invalid');
+            }
+
+            const options = {
+                apiKey: 'K86472302488957',
+                ocrUrl: 'https://api.ocr.space/parse/image',
+            };
+
+            const response = await ocrSpace(base64, options);
+            console.log(response);
+            setOcrResponse(response);
+
+        } catch (error) {
+            console.error(error);
+        }
+    };
 
     return (
         <View style={{ flex: 1 }}>
@@ -33,14 +98,13 @@ export default function CameraAndCrop({ navigation }) {
                     photo={{ uri }}
                     saveOptions={{ "base64": true }}
                     isVisible={isVisible}
-                    onPictureChoosed={({ uri: uriM, base64 }) => {
+                    onPictureChoosed={async ({ uri: uriM, base64 }) => {
                         setPre(uriM);
                         setIsVisible(false);
                         console.log(base64);
-                        // Set imageCropped to true when the image is cropped
-                        setImageCropped(true);
-                        // Do something with the base64 variable
-                        navigation.navigate('Recipe', { base64: base64 });
+                        setCroppedImage(base64);
+                        await handleOCR(base64);
+                        navigation.navigate('Recipe', { base64: base64, ocrResponse: ocrResponse });
                     }}
                     onToggleModal={() => setIsVisible(!isVisible)}
                 />

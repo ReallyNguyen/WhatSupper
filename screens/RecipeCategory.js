@@ -1,10 +1,14 @@
 import { StyleSheet, View, ScrollView, Text, Image, TouchableOpacity } from 'react-native';
 import VerticalRecipe from '../components/recipe/VerticalRecipe';
 import { recipe } from '../data/recipe';
+import Back from '../components/button/Back';
 
 export default function RecipeCategory({navigation}) {
     return(
         <View style={styles.container}>
+            <View style={styles.header}>
+                <Back navigation={navigation} destination="Home" />
+            </View>
             <Text style={styles.name}>Asian</Text>
             <View style={styles.tabPanels}>
                 <ScrollView contentContainerStyle={styles.contentContainer}>
@@ -23,6 +27,14 @@ export default function RecipeCategory({navigation}) {
 };
 
 const styles = StyleSheet.create({
+    header: {
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        zIndex: 1,
+        marginLeft: '7%',
+        marginTop: '1%'
+    },
     img: {
         width: 100,
         height: 100,
