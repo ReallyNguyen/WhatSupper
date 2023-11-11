@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { View, Text, Button, Pressable, StyleSheet } from 'react-native';
 import { Camera } from 'expo-camera';
 import { ImageManipulator } from 'expo-image-crop';
@@ -59,6 +59,7 @@ export default function CameraAndCrop({ navigation }) {
     const [uri, setURI] = useState(null);
     const [pre, setPre] = useState(null);
     const [ocrResponse, setOcrResponse] = useState(null);
+    const [aiResponse, setAiResponse] = useState(null);
     const [croppedImage, setCroppedImage] = useState(null);
     const cameraRef = useRef();
 
@@ -84,12 +85,47 @@ export default function CameraAndCrop({ navigation }) {
 
             const response = await ocrSpace(base64, options);
             console.log(response);
-            setOcrResponse(response);
+            setOcrResponse(response.ParsedResults[0].ParsedText);
 
         } catch (error) {
             console.error(error);
         }
     };
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await axios.post(
+                    'https://lsswwzyavgt7egwvij52d2qkai0rseod.lambda-url.ca-central-1.on.aws/',
+                    {
+                        question: `from this ${ocrResponse}, display only the names of food ingredients and nothing else`,
+                    }
+                );
+
+                const ingredients = response.data.choices[0].message.content;
+                console.log(ingredients);
+                setAiResponse(ingredients);
+
+            } catch (error) {
+                console.error(error);
+            }
+        };
+
+        if (ocrResponse !== null) {
+            fetchData();
+        }
+
+    }, [ocrResponse]);
+
+    useEffect(() => {
+        const navigateToRecipe = async () => {
+            if (aiResponse !== null) {
+                navigation.navigate('Recipe', { aiResponse: aiResponse });
+            }
+        };
+    
+        navigateToRecipe();
+    }, [aiResponse]);
 
     return (
         <View style={{ flex: 1 }}>
@@ -101,10 +137,9 @@ export default function CameraAndCrop({ navigation }) {
                     onPictureChoosed={async ({ uri: uriM, base64 }) => {
                         setPre(uriM);
                         setIsVisible(false);
-                        console.log(base64);
+                        //console.log(base64);
                         setCroppedImage(base64);
                         await handleOCR(base64);
-                        navigation.navigate('Recipe', { base64: base64, ocrResponse: ocrResponse });
                     }}
                     onToggleModal={() => setIsVisible(!isVisible)}
                 />

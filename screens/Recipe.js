@@ -6,7 +6,7 @@ import { colors } from '../theme';
 
 export default function Recipe({ navigation, route }) {
     const [isLoading, setIsLoading] = useState(true);
-    const [ocrResponse, setOcrResponse] = useState(null);
+    const [aiResponse, setAiResponse] = useState(route.params?.aiResponse);
 
     useEffect(() => {
         const timer = setTimeout(() => {
@@ -14,12 +14,6 @@ export default function Recipe({ navigation, route }) {
         }, 2000);
         return () => clearTimeout(timer);
     }, []);
-
-    useEffect(() => {
-        if (route.params && route.params.ocrResponse) {
-            setOcrResponse(route.params.ocrResponse.ParsedResults[0].ParsedText.replace(/(\r\n|\n|\r)/gm, ""));
-        }
-    }, [route.params]);
 
     if (isLoading) {
         return <View style={styles.loading}>
@@ -33,9 +27,9 @@ export default function Recipe({ navigation, route }) {
                 <Back navigation={navigation} />
             </View>
             <Text style={styles.heading}>Here are some recipes based on what you scanned 🪄</Text>
-            {ocrResponse && 
-                <View style={styles.ocrResponse}>
-                    <Text style={styles.ocrText}> {JSON.stringify(ocrResponse)}</Text>
+            {aiResponse && 
+                <View style={styles.aiResponse}>
+                    <Text style={styles.aiText}> {JSON.stringify(aiResponse.replace(/(\r\n|\n|\r)/gm, ''))}</Text>
                 </View>
             }
             <TouchableOpacity onPress={() => navigation.navigate('RecipeInfo')}>
@@ -125,13 +119,13 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         paddingHorizontal: 20,
     },
-    ocrResponse: {
+    aiResponse: {
         backgroundColor: colors.asparagus,
         margin: 20,
         padding: 10,
         borderRadius: 15,
     },
-    ocrText: {
+    aiText: {
         color: colors.offWhite,
         fontFamily: "Manrope-Regular"
     }
