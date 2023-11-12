@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, Button, TouchableOpacity, ActivityIndicator } from 'react-native';
 import { Box, VStack, Link, Heading, Image } from "@gluestack-ui/themed";
 import Back from '../components/button/Back';
+
 import { colors } from '../theme';
 
 export default function Recipe({ navigation, route }) {
@@ -29,15 +30,20 @@ export default function Recipe({ navigation, route }) {
 
     return (
         <View style={styles.container}>
-            <View style={styles.back}>
-                <Back navigation={navigation} />
+            <View style={styles.header}>
+                <Back navigation={navigation} style={styles.back} />
+                <TouchableOpacity style={styles.addButton}>
+                    <Text style={styles.add}>Add +</Text>
+                </TouchableOpacity>
             </View>
             <Text style={styles.heading}>Here are some recipes based on what you scanned 🪄</Text>
-            {ocrResponse && 
+
+
+            {ocrResponse && (
                 <View style={styles.ocrResponse}>
-                    <Text style={styles.ocrText}> {JSON.stringify(ocrResponse)}</Text>
+                    <Text style={styles.ocrText}>{JSON.stringify(ocrResponse)}</Text>
                 </View>
-            }
+            )}
             <TouchableOpacity onPress={() => navigation.navigate('RecipeInfo')}>
                 <Box
                     maxWidth="$72"
@@ -100,6 +106,15 @@ const styles = StyleSheet.create({
         marginTop: 50,
         padding: 16,
     },
+    header: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        width: '100%',
+        paddingHorizontal: 16,
+        paddingTop: 10,
+        paddingBottom: 10,
+    },
     heading: {
         fontSize: 20,
         fontFamily: 'Manrope-Bold',
@@ -134,5 +149,19 @@ const styles = StyleSheet.create({
     ocrText: {
         color: colors.offWhite,
         fontFamily: "Manrope-Regular"
-    }
+    },
+    addButton: {
+        borderWidth: 2,
+        borderColor: colors.asparagus,
+        paddingHorizontal: 8,
+        paddingVertical: 6,
+        alignItems: 'center',
+        justifyContent: 'center',
+        borderRadius: 5
+    },
+    add: {
+        fontSize: 18,
+        fontWeight: 'bold',
+        color: colors.asparagus,
+    },
 });

@@ -1,9 +1,10 @@
 import React, { useState, useRef } from 'react';
-import { StyleSheet, Text, View, ScrollView, TouchableOpacity, Animated } from 'react-native';
+import { StyleSheet, Text, View, ScrollView, TouchableOpacity, Animated, Dimensions } from 'react-native';
 import Header from '../components/header/Header';
 import ScanFlyerAd from '../components/header/ScanFlyerAd';
 import CouponCard from '../components/coupon/CouponCard';
 import { coupon } from '../data/coupon';
+import ToggleMode from '../components/button/ToggleMode';
 
 export default function Home({ navigation }) {
     const [activeTab, setActiveTab] = useState('tab1');
@@ -32,62 +33,51 @@ export default function Home({ navigation }) {
             <TouchableOpacity onPress={() => navigation.navigate('TutorialFirst')} style={styles.scanFlyerAdContainer}>
                 <ScanFlyerAd />
             </TouchableOpacity>
-            <View style={styles.tabList}>
-                <Animated.View style={[
-                    styles.tabBackground,
-                    {
-                        transform: [
-                            {
-                                translateX: backgroundSlideValue.interpolate({
-                                    inputRange: [0, 1, 2],
-                                    outputRange: [0, 116, 232],
-                                }),
-                            },
-                        ],
-                    },
-                ]} />
-                <TouchableOpacity
-                    style={[
-                        styles.tab,
-                        activeTab === 'tab1' && styles.activeTab,
-                    ]}
-                    onPress={() => handleTabPress('tab1')}
-                    activeOpacity={0.1}
-                >
-                    <Text style={[
-                        styles.tabTitle,
-                        activeTab === 'tab1' && styles.activeTabText,
-                        activeTab === 'tab1' && styles.boldText,
-                    ]}>Latest</Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                    style={[
-                        styles.tab,
-                        activeTab === 'tab2' && styles.activeTab,
-                    ]}
-                    onPress={() => handleTabPress('tab2')}
-                    activeOpacity={0.1}
-                >
-                    <Text style={[
-                        styles.tabTitle,
-                        activeTab === 'tab2' && styles.activeTabText,
-                        activeTab === 'tab2' && styles.boldText,
-                    ]}>Trending</Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                    style={[
-                        styles.tab,
-                        activeTab === 'tab3' && styles.activeTab,
-                    ]}
-                    onPress={() => handleTabPress('tab3')}
-                    activeOpacity={0.1}
-                >
-                    <Text style={[
-                        styles.tabTitle,
-                        activeTab === 'tab3' && styles.activeTabText,
-                        activeTab === 'tab3' && styles.boldText,
-                    ]}>Popular</Text>
-                </TouchableOpacity>
+            <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginHorizontal: '10%' }}>
+                <View style={styles.tabList}>
+                    <Animated.View style={[
+                        styles.tabBackground,
+                        {
+                            transform: [
+                                {
+                                    translateX: backgroundSlideValue.interpolate({
+                                        inputRange: [0, 1, 2],
+                                        outputRange: [0, 91, 232],
+                                    }),
+                                },
+                            ],
+                        },
+                    ]} />
+                    <TouchableOpacity
+                        style={[
+                            styles.tab,
+                            activeTab === 'tab1' && styles.activeTab,
+                        ]}
+                        onPress={() => handleTabPress('tab1')}
+                        activeOpacity={0.1}
+                    >
+                        <Text style={[
+                            styles.tabTitle,
+                            activeTab === 'tab1' && styles.activeTabText,
+                            activeTab === 'tab1' && styles.boldText,
+                        ]}>Latest</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                        style={[
+                            styles.tab,
+                            activeTab === 'tab2' && styles.activeTab,
+                        ]}
+                        onPress={() => handleTabPress('tab2')}
+                        activeOpacity={0.1}
+                    >
+                        <Text style={[
+                            styles.tabTitle,
+                            activeTab === 'tab2' && styles.activeTabText,
+                            activeTab === 'tab2' && styles.boldText,
+                        ]}>Popular</Text>
+                    </TouchableOpacity>
+                </View>
+                <ToggleMode />
             </View>
             <View style={styles.tabPanels}>
                 {
@@ -124,23 +114,7 @@ export default function Home({ navigation }) {
                         ))}
                     </ScrollView>
                 }
-                {
-                    activeTab === 'tab3' &&
-                    <ScrollView contentContainerStyle={styles.contentContainer}>
-                        {coupon.map((item) => (
-                            <TouchableOpacity onPress={() => navigation.navigate('CouponInfo')} key={item.id}>
-                                <CouponCard
-                                    style={styles.latest}
-                                    brand={item.brand}
-                                    background={item.background}
-                                    discount={item.discount}
-                                    product={item.product}
-                                    expiration={item.expiration}
-                                />
-                            </TouchableOpacity>
-                        ))}
-                    </ScrollView>
-                }
+
             </View>
         </View>
     );
@@ -153,9 +127,13 @@ const styles = StyleSheet.create({
         justifyContent: 'flex-start',
         marginTop: 50
     },
+    scanFlyerAdContainer: {
+        alignSelf: 'center',
+    },
     tabList: {
+        display: 'flex',
         flexDirection: 'row',
-        width: 350,
+        width: 182,
         height: 30,
         backgroundColor: '#F1EFEF',
         borderRadius: 15,
@@ -164,7 +142,8 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.25,
         shadowRadius: 4,
         elevation: 5,
-        position: 'relative'
+        justifyContent: 'flex-start',
+        marginRight: '14%'
     },
     tab: {
         flex: 1,
@@ -186,7 +165,7 @@ const styles = StyleSheet.create({
     },
     tabBackground: {
         position: 'absolute',
-        width: '33.33%',
+        width: '50%',
         backgroundColor: '#629560',
         borderRadius: 15,
         height: '100%'
@@ -198,6 +177,7 @@ const styles = StyleSheet.create({
         flexWrap: 'wrap',
         gap: -20,
         paddingBottom: 50,
+        height: "200%"
     },
     scanFlyerAdContainer: {
         width: 350,
