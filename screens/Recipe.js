@@ -2,12 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { StyleSheet, Text, View, Button, TouchableOpacity, ActivityIndicator } from 'react-native';
 import { Box, VStack, Link, Heading, Image } from "@gluestack-ui/themed";
 import Back from '../components/button/Back';
-
 import { colors } from '../theme';
 
 export default function Recipe({ navigation, route }) {
     const [isLoading, setIsLoading] = useState(true);
-    const [ocrResponse, setOcrResponse] = useState(null);
+    const [aiResponse, setAiResponse] = useState(route.params?.aiResponse);
 
     useEffect(() => {
         const timer = setTimeout(() => {
@@ -15,12 +14,6 @@ export default function Recipe({ navigation, route }) {
         }, 2000);
         return () => clearTimeout(timer);
     }, []);
-
-    useEffect(() => {
-        if (route.params && route.params.ocrResponse) {
-            setOcrResponse(route.params.ocrResponse.ParsedResults[0].ParsedText.replace(/(\r\n|\n|\r)/gm, ""));
-        }
-    }, [route.params]);
 
     if (isLoading) {
         return <View style={styles.loading}>
@@ -30,20 +23,15 @@ export default function Recipe({ navigation, route }) {
 
     return (
         <View style={styles.container}>
-            <View style={styles.header}>
-                <Back navigation={navigation} style={styles.back} />
-                <TouchableOpacity style={styles.addButton}>
-                    <Text style={styles.add}>Add +</Text>
-                </TouchableOpacity>
+            <View style={styles.back}>
+                <Back navigation={navigation} />
             </View>
             <Text style={styles.heading}>Here are some recipes based on what you scanned 🪄</Text>
-
-
-            {ocrResponse && (
-                <View style={styles.ocrResponse}>
-                    <Text style={styles.ocrText}>{JSON.stringify(ocrResponse)}</Text>
+            {aiResponse &&
+                <View style={styles.aiResponse}>
+                    <Text style={styles.aiText}> {JSON.stringify(aiResponse.replace(/(\r\n|\n|\r)/gm, ''))}</Text>
                 </View>
-            )}
+            }
             <TouchableOpacity onPress={() => navigation.navigate('RecipeInfo')}>
                 <Box
                     maxWidth="$72"
@@ -106,15 +94,6 @@ const styles = StyleSheet.create({
         marginTop: 50,
         padding: 16,
     },
-    header: {
-        flexDirection: 'row',
-        justifyContent: 'space-between',
-        alignItems: 'center',
-        width: '100%',
-        paddingHorizontal: 16,
-        paddingTop: 10,
-        paddingBottom: 10,
-    },
     heading: {
         fontSize: 20,
         fontFamily: 'Manrope-Bold',
@@ -140,28 +119,14 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         paddingHorizontal: 20,
     },
-    ocrResponse: {
+    aiResponse: {
         backgroundColor: colors.asparagus,
         margin: 20,
         padding: 10,
         borderRadius: 15,
     },
-    ocrText: {
+    aiText: {
         color: colors.offWhite,
         fontFamily: "Manrope-Regular"
-    },
-    addButton: {
-        borderWidth: 2,
-        borderColor: colors.asparagus,
-        paddingHorizontal: 8,
-        paddingVertical: 6,
-        alignItems: 'center',
-        justifyContent: 'center',
-        borderRadius: 5
-    },
-    add: {
-        fontSize: 18,
-        fontWeight: 'bold',
-        color: colors.asparagus,
-    },
+    }
 });
