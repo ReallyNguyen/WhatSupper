@@ -31,7 +31,7 @@ async function ocrSpace(input, options = {}) {
         formData.append('language', String(language || 'eng'));
         formData.append('isOverlayRequired', String(isOverlayRequired || 'false'));
         if (filetype) {
-        formData.append('filetype', String(filetype));
+            formData.append('filetype', String(filetype));
         }
         formData.append('detectOrientation', String(detectOrientation || 'false'));
         formData.append('isCreateSearchablePdf', String(isCreateSearchablePdf || 'false'));
@@ -48,7 +48,7 @@ async function ocrSpace(input, options = {}) {
         });
 
         return response.data;
-    } 
+    }
     catch (error) {
         console.error(error);
     }
@@ -95,16 +95,32 @@ export default function CameraAndCrop({ navigation }) {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axios.post(
+                const ingResponse = await axios.post(
                     'https://lsswwzyavgt7egwvij52d2qkai0rseod.lambda-url.ca-central-1.on.aws/',
                     {
-                        question: `from this ${ocrResponse}, display only the names of food ingredients and nothing else`,
+                        question: `Create an array of ingredients using the extracted ${ocrResponse} variable. Only include the names of food ingredients from the OCR response.`,
                     }
                 );
 
-                const ingredients = response.data.choices[0].message.content;
-                console.log(ingredients);
-                setAiResponse(ingredients);
+                const ingredients = ingResponse.data.choices[0].message.content;
+                console.log("the ingredients", ingredients);
+
+                const response = await axios.post(
+                    'https://lsswwzyavgt7egwvij52d2qkai0rseod.lambda-url.ca-central-1.on.aws/',
+                    {
+                        question: `Create a JSON format with an array of 2 meals using ${ingredients}. Each meal should have an "id", "name", "cuisine", "description", "mins", "ingredients," and "instructions."
+                        `,
+                        img: true
+                    }
+                );
+
+                const recipes = response.data.choices[0].message.content;
+                console.log("The recipes", recipes);
+                setAiResponse(recipes);
+
+                //store recipes to async storage
+                //navigate to the recipe page
+                //retrieve from async storage in the recipe page
 
             } catch (error) {
                 console.error(error);
@@ -123,7 +139,7 @@ export default function CameraAndCrop({ navigation }) {
                 navigation.navigate('Recipe', { aiResponse: aiResponse });
             }
         };
-    
+
         navigateToRecipe();
     }, [aiResponse]);
 

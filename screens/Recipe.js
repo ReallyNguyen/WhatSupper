@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, View, Button, TouchableOpacity, ActivityIndicator } from 'react-native';
-import { Box, VStack, Link, Heading, Image } from "@gluestack-ui/themed";
+import { StyleSheet, Text, View, ScrollView, TouchableOpacity } from 'react-native';
+import { Box, Image } from "@gluestack-ui/themed";
 import Back from '../components/button/Back';
 import { colors } from '../theme';
+import { FontAwesome5 } from '@expo/vector-icons';
 
 export default function Recipe({ navigation, route }) {
     const [isLoading, setIsLoading] = useState(true);
@@ -15,75 +16,76 @@ export default function Recipe({ navigation, route }) {
         return () => clearTimeout(timer);
     }, []);
 
-    if (isLoading) {
-        return <View style={styles.loading}>
-            <Text style={styles.loadingText}>Hold on, we are working our AI recipe magic! ✨</Text>
-        </View>
+    if (!aiResponse) {
+        return (
+            <View style={styles.loading}>
+                <Text style={styles.loadingText}>No AI response available.</Text>
+            </View>
+        );
     }
+    const parsedResponse = aiResponse;
+
 
     return (
-        <View style={styles.container}>
-            <View style={styles.back}>
-                <Back navigation={navigation} />
-            </View>
-            <Text style={styles.heading}>Here are some recipes based on what you scanned 🪄</Text>
-            {aiResponse &&
-                <View style={styles.aiResponse}>
-                    <Text style={styles.aiText}> {JSON.stringify(aiResponse.replace(/(\r\n|\n|\r)/gm, ''))}</Text>
+        <ScrollView>
+            <View style={styles.container}>
+                <View style={styles.back}>
+                    <Back navigation={navigation} />
                 </View>
-            }
-            <TouchableOpacity onPress={() => navigation.navigate('RecipeInfo')}>
-                <Box
-                    maxWidth="$72"
-                    borderColor="$borderLight200"
-                    borderRadius="$lg"
-                    borderWidth="$1"
-                    my="$4"
-                    overflow="hidden"
-                    sx={{
-                        "@base": {
-                            mx: "$5",
-                        },
-                        "@lg": {
-                            my: "0",
-                        },
-                        _dark: {
-                            bg: "$backgroundDark900",
-                            borderColor: "$borderDark800",
-                        },
-                    }}
-                >
-                    <Box style={{ position: 'relative' }}>
-                        <Image
-                            h={120}
-                            w={310}
-                            source={require('../assets/recipes/hotpot.jpg')}
-                            resizeMode="cover"
-                            alt="image"
-                        />
-                        <View style={{ position: 'absolute', bottom: 0, left: 0, width: '100%', height: '60%', backgroundColor: 'rgba(0,0,0,0.5)' }}>
-                            <View style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
-                                <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingHorizontal: 10 }}>
-                                    <Text style={{ color: 'white', fontSize: 16, fontWeight: "bold" }}>Hot Pot</Text>
-                                    <View style={{ display: 'flex', flexDirection: 'row' }}>
-                                        <View style={{ backgroundColor: 'rgba(0,0,0,0.5)', padding: 5, borderRadius: 5, marginRight: 5 }}>
-                                            <Text style={{ color: 'white', fontSize: 10 }}>40 mins</Text>
-                                        </View>
-                                        <View style={{ backgroundColor: 'rgba(0,0,0,0.5)', padding: 5, borderRadius: 5, marginRight: 5 }}>
-                                            <Text style={{ color: 'white', fontSize: 10 }}>560 kcals</Text>
+                <Text style={styles.heading}>Here are some recipes based on what you scanned 🪄</Text>
+                {parsedResponse.meals && Array.isArray(parsedResponse.meals) && parsedResponse.meals.map((item, index) => (
+                    <TouchableOpacity key={index} onPress={() => navigation.navigate('RecipeInfo', { recipe: item })}>
+                        <Box
+                            key={index}
+                            maxWidth="$72"
+                            borderColor="$borderLight200"
+                            borderRadius="$lg"
+                            borderWidth="$1"
+                            my="$4"
+                            overflow="hidden"
+                            sx={{
+                                "@base": {
+                                    mx: "$5",
+                                },
+                                "@lg": {
+                                    my: "0",
+                                },
+                                _dark: {
+                                    bg: "$backgroundDark900",
+                                    borderColor: "$borderDark800",
+                                },
+                            }}
+                        >
+                            <Image
+                                h={120}
+                                w={310}
+                                source={{ uri: item.image_url }}
+                                resizeMode="cover"
+                                alt="image"
+                            />
+                            <View style={{ position: 'absolute', bottom: 0, left: 0, width: '100%', height: '60%', backgroundColor: 'rgba(0,0,0,0.5)' }}>
+                                <View style={{ display: 'flex', flexDirection: 'column', height: '100%' }}>
+                                    <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', alignItems: 'center', paddingHorizontal: 10 }}>
+                                        <Text style={{ color: 'white', fontSize: 16, fontWeight: "bold" }}>{item.name}</Text>
+                                        <View style={{ display: 'flex', flexDirection: 'row' }}>
+                                            <View style={{ backgroundColor: 'rgba(0,0,0,0.5)', padding: 5, borderRadius: 5, marginRight: 5 }}>
+                                                <Text style={{ color: 'white', fontSize: 10 }}>{item.mins} mins</Text>
+                                            </View>
+                                            <View style={{ backgroundColor: 'rgba(0,0,0,0.5)', padding: 5, borderRadius: 5, marginRight: 5 }}>
+                                                <Text style={{ color: 'white', fontSize: 10 }}>{item.cuisine}</Text>
+                                            </View>
                                         </View>
                                     </View>
+                                    <Text style={{ color: 'white', fontSize: 10, paddingHorizontal: 10, marginTop: 10 }}>
+                                        {item.description}
+                                    </Text>
                                 </View>
-                                <Text style={{ color: 'white', fontSize: 10, paddingHorizontal: 10, marginTop: 10 }}>
-                                    A thorough how-to guide to Chinese hot pot covering all aspects of preparing this iconic
-                                    meal at home....
-                                </Text>
                             </View>
-                        </View>
-                    </Box>
-                </Box>
-            </TouchableOpacity>
-        </View>
+                        </Box>
+                    </TouchableOpacity>
+                ))}
+            </View>
+        </ScrollView>
     );
 }
 
@@ -100,7 +102,7 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         marginTop: 50,
         marginBottom: 16,
-        width: '80%'
+        width: '80%',
     },
     back: {
         position: 'absolute',
@@ -119,14 +121,28 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         paddingHorizontal: 20,
     },
-    aiResponse: {
-        backgroundColor: colors.asparagus,
-        margin: 20,
+    overlay: {
+        position: 'absolute',
+        bottom: 0,
+        left: 0,
+        width: '100%',
+        height: '60%',
+        backgroundColor: 'rgba(0, 0, 0, 0.5)',
         padding: 10,
-        borderRadius: 15,
     },
-    aiText: {
-        color: colors.offWhite,
-        fontFamily: "Manrope-Regular"
-    }
+    recipeName: {
+        color: 'white',
+        fontSize: 16,
+        fontWeight: 'bold',
+    },
+    details: {
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        marginTop: 5,
+    },
+    detailText: {
+        color: 'white',
+        fontSize: 10,
+    },
 });

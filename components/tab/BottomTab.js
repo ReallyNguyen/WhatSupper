@@ -16,6 +16,8 @@ import CouponInfo from '../../screens/CouponInfo';
 import RecipeCategory from '../../screens/RecipeCategory';
 import { FontAwesome5 } from '@expo/vector-icons';
 import { View, TouchableOpacity } from 'react-native'
+import { useTheme, ThemeProvider } from '../../ThemeContext';
+
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -83,21 +85,24 @@ function BottomTabNavigator() {
 export default function MainStack() {
     return (
         <>
-            <BottomTabNavigator />
-            <Stack.Navigator>
-                <Stack.Screen name="First" component={First} options={{ headerShown: false }} />
-                <Stack.Screen name="Second" component={Second} options={{ headerShown: false }} />
-                <Stack.Screen name="Third" component={Third} options={{ headerShown: false }} />
-                <Stack.Screen name="Home" component={Home} options={{ headerShown: false }} />
-                <Stack.Screen name="TutorialFirst" component={TutorialFirst} options={{ headerShown: false }} />
-                <Stack.Screen name="TutorialSecond" component={TutorialSecond} options={{ headerShown: false }} />
-                <Stack.Screen name="Saved" component={Saved} options={{ headerShown: false }} />
-                <Stack.Screen name="Camera" component={Camera} options={{ headerShown: false }} />
-                <Stack.Screen name="Recipe" component={Recipe} options={{ headerShown: false }} />
-                <Stack.Screen name="RecipeInfo" component={RecipeInfo} options={{ headerShown: false }} />
-                <Stack.Screen name="CouponInfo" component={CouponInfo} options={{ headerShown: false }} />
-                <Stack.Screen name="RecipeCategory" component={RecipeCategory} options={{ headerShown: false }} />
-            </Stack.Navigator>
+            <ThemeProvider>
+                <BottomTabNavigator />
+                <Stack.Navigator>
+                    <Stack.Screen name="First" component={First} options={{ headerShown: false }} />
+                    <Stack.Screen name="Second" component={Second} options={{ headerShown: false }} />
+                    <Stack.Screen name="Third" component={Third} options={{ headerShown: false }} />
+                    <Stack.Screen name="Home" component={Home} options={{ headerShown: false }} />
+                    <Stack.Screen name="TutorialFirst" component={TutorialFirst} options={{ headerShown: false }} />
+                    <Stack.Screen name="TutorialSecond" component={TutorialSecond} options={{ headerShown: false }} />
+                    <Stack.Screen name="Saved" component={Saved} options={{ headerShown: false }} />
+                    <Stack.Screen name="Camera" component={Camera} options={{ headerShown: false }} />
+                    <Stack.Screen name="Recipe" component={Recipe} options={{ headerShown: false }} />
+                    <Stack.Screen name="RecipeInfo" component={RecipeInfo} options={{ headerShown: false }} />
+                    <Stack.Screen name="CouponInfo" component={CouponInfo} options={{ headerShown: false }} />
+                    <Stack.Screen name="RecipeCategory" component={RecipeCategory} options={{ headerShown: false }} />
+                </Stack.Navigator>
+            </ThemeProvider>
+
         </>
     );
 }

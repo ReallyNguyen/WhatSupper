@@ -37,6 +37,14 @@ npx expo start
 
 - **npx expo install react-native-reanimated**
 
+### Theme
+
+- **npx expo config --type introspect**
+
+### select list
+
+- **npm install react-native-dropdown-select-list**
+
 ### Safe Areas
 
 [Installing dependencies into an Expo managed project](https://reactnavigation.org/docs/5.x/getting-started/)

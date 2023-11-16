@@ -1,7 +1,7 @@
 import * as React from "react"
 import Svg, { Path } from "react-native-svg"
 const Light = (props) => (
-    <Svg xmlns="http://www.w3.org/2000/svg" fill="none" {...props} width="45" height="50" viewBox="-5 -14 45 45">
+    <Svg xmlns="http://www.w3.org/2000/svg" fill="none" {...props} width="55" height="60" viewBox="-18 2 45 45">
         <Path
             fill="#221F1F"
             d="M7.5 2.3V1Zm0 10.4V14ZM3.87 3.87l-.92-.92Zm7.353 7.353.92.92ZM2.3 7.5H1Zm10.4 0H14Zm-1.476-3.63.919-.92ZM3.87 11.222l-.92.92Zm3.63-.473a3.25 3.25 0 1 1 0-6.5 3.25 3.25 0 0 1 0 6.5Z"

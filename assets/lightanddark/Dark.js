@@ -1,14 +1,14 @@
 import * as React from "react"
 import Svg, { Path } from "react-native-svg"
 const Dark = (props) => (
-    <Svg xmlns="http://www.w3.org/2000/svg" fill="none" {...props}>
+    <Svg xmlns="http://www.w3.org/2000/svg" fill="none" {...props} width="40" height="45" viewBox="-10 2 45 45">
         <Path
             fill="#F1EFEF"
             stroke="#F1EFEF"
             strokeLinecap="round"
             strokeLinejoin="round"
-            strokeWidth={1.13}
-            d="M1 5.353a4.69 4.69 0 0 0 9.043 1.745A4.69 4.69 0 0 1 3.94 1 4.692 4.692 0 0 0 1 5.353Z"
+            strokeWidth={2}
+            d="M1 8.702a8.297 8.297 0 0 0 16 3.087A8.297 8.297 0 0 1 5.61 4.092c0-1.088.212-2.14.593-3.092A8.3 8.3 0 0 0 1 8.702Z"
         />
     </Svg>
 )
