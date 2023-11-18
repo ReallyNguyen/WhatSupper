@@ -55,9 +55,6 @@ function CouponCard({ brand, name, background, discount, product, expiration }) 
           </Box>
         </Box>
         <VStack px="$4" pt="$1.5" pb="$6">
-          <Text style={{ color: 'red' }} fontSize="$sm">
-            {discount}
-          </Text>
           <Heading _dark={{ color: '$textLight200' }} size="xs" my="$1" style={{ fontWeight: 'normal' }}>
             {product}
           </Heading>

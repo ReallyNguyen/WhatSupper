@@ -1,9 +1,11 @@
 import { StyleSheet, TextInput, View } from 'react-native';
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
 import { colors } from '../../theme';
+import { useTheme } from '../../ThemeContext'
 
-export default function CouponSearchBar({setCouponSearch}) {
-    return(
+export default function CouponSearchBar({ setCouponSearch }) {
+    const { isDarkMode, toggleTheme } = useTheme();
+    return (
         <View style={styles.search}>
             <FontAwesomeIcon
                 name={'search'}
@@ -15,6 +17,7 @@ export default function CouponSearchBar({setCouponSearch}) {
                 style={styles.input}
                 placeholder="Find a Coupon.."
                 onChangeText={setCouponSearch}
+                placeholderTextColor={isDarkMode && colors.offWhite}
             />
             <FontAwesomeIcon
                 name={'sliders'}
@@ -46,7 +49,7 @@ const styles = StyleSheet.create({
         position: 'absolute',
         left: 15,
     },
-    sliders:{
+    sliders: {
         borderColor: colors.davysGray,
         borderWidth: 1,
         borderRadius: 10,

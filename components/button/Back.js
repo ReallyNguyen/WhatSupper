@@ -1,10 +1,13 @@
 import React from 'react';
 import { View, Pressable } from 'react-native';
 import { FontAwesome5 } from '@expo/vector-icons';
+import { useTheme } from '../../ThemeContext';
+import { colors } from '../../theme';
 
-export default function Back({ navigation, color }) {
-    const backColor = color === 'black' ? 'black' : 'white';
-    const iconColor = color === 'black' ? 'white' : 'black';
+export default function Back({ navigation }) {
+    const { isDarkMode, toggleTheme } = useTheme();
+    const backColor = isDarkMode ? colors.offBlack : colors.white;
+    const iconColor = isDarkMode ? colors.offWhite : colors.black;
 
     return (
         <View style={{ flex: 1 }}>
@@ -13,6 +16,7 @@ export default function Back({ navigation, color }) {
                     name={'angle-left'}
                     size={35}
                     color={iconColor}
+                    style={{ backgroundColor: backColor, padding: 10, borderRadius: 10 }}
                 />
             </Pressable>
         </View>

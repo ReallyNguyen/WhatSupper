@@ -32,9 +32,10 @@ export default function ToggleMode() {
                             data={themes}
                             keyExtractor={(item) => item.id}
                             renderItem={({ item }) => (
-                                <TouchableOpacity onPress={() => { handleChange(item.id); toggleTheme(); }} style={styles.option}>
+                                <TouchableOpacity onPress={() => { handleChange(item.id); toggleTheme(item.id); }} style={styles.option}>
                                     <Text style={[styles.optionText, isDarkMode && styles.darkOptionText]}>{item.name}</Text>
                                 </TouchableOpacity>
+
                             )}
                         />
                     </View>

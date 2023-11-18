@@ -1,19 +1,23 @@
 import React from 'react';
 import { View, Text, StyleSheet, Image } from 'react-native';
 import Logo from '../../assets/logo/logo';
+import { useTheme } from '../../ThemeContext'
+import { colors } from '../../theme';
 
 export default function Header() {
+    const { isDarkMode, toggleTheme } = useTheme();
+
     return (
 
-        <View style={styles.headerContainer}>
+        <View style={[styles.headerContainer, isDarkMode && styles.darkContainer]}>
             <View style={styles.textContainer}>
-                <Text style={{ fontSize: 20, fontFamily: 'Manrope-Regular' }}>👋 Hello, </Text>
-                <Text style={{ fontSize: 20, fontFamily: 'Manrope-Bold' }}>Henry!</Text>
+                <Text style={[styles.greetingText, isDarkMode && styles.darkGreetingText]}>👋 Hello, </Text>
+                <Text style={[styles.boldText, isDarkMode && styles.darkBoldText]}>Henry!</Text>
             </View>
             <View style={styles.logoContainer}>
                 <Logo style={styles.logo} />
             </View>
-        </View>
+        </View >
 
     );
 }
@@ -25,6 +29,9 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         marginHorizontal: '8%',
     },
+    darkContainer: {
+        color: colors.offWhite
+    },
     textContainer: {
         flexDirection: 'row',
         alignItems: 'center',
@@ -33,5 +40,19 @@ const styles = StyleSheet.create({
     },
     logoContainer: {
         justifyContent: 'flex-end'
-    }
+    },
+    greetingText: {
+        fontSize: 20,
+        fontFamily: 'Manrope-Regular',
+    },
+    darkGreetingText: {
+        color: colors.offWhite,
+    },
+    boldText: {
+        fontSize: 20,
+        fontFamily: 'Manrope-Bold',
+    },
+    darkBoldText: {
+        color: colors.offWhite,
+    },
 });

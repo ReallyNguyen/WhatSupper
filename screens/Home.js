@@ -5,8 +5,12 @@ import ScanFlyerAd from '../components/header/ScanFlyerAd';
 import CouponCard from '../components/coupon/CouponCard';
 import { coupon } from '../data/coupon';
 import ToggleMode from '../components/button/ToggleMode';
+import { useTheme } from '../ThemeContext'
+import { colors } from '../theme';
 
 export default function Home({ navigation }) {
+    const { isDarkMode, toggleTheme } = useTheme();
+
     const [activeTab, setActiveTab] = useState('tab1');
     const slideValue = useRef(new Animated.Value(0)).current;
     const backgroundSlideValue = useRef(new Animated.Value(0)).current;
@@ -28,7 +32,7 @@ export default function Home({ navigation }) {
     };
 
     return (
-        <View style={styles.container}>
+        <View style={[styles.container, isDarkMode && styles.darkContainer]}>
             <Header />
             <TouchableOpacity onPress={() => navigation.navigate('TutorialFirst')} style={styles.scanFlyerAdContainer}>
                 <ScanFlyerAd />
@@ -60,7 +64,7 @@ export default function Home({ navigation }) {
                             styles.tabTitle,
                             activeTab === 'tab1' && styles.activeTabText,
                             activeTab === 'tab1' && styles.boldText,
-                        ]}>Latest</Text>
+                        ]}>Local</Text>
                     </TouchableOpacity>
                     <TouchableOpacity
                         style={[
@@ -125,7 +129,11 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: 'center',
         justifyContent: 'flex-start',
-        marginTop: 50
+
+    },
+    darkContainer: {
+        backgroundColor: colors.offBlack,
+        color: colors.offWhite
     },
     scanFlyerAdContainer: {
         alignSelf: 'center',
@@ -161,7 +169,8 @@ const styles = StyleSheet.create({
         fontWeight: 'bold'
     },
     tabPanels: {
-        alignItems: 'center'
+        alignItems: 'center',
+        zIndex: -5
     },
     tabBackground: {
         position: 'absolute',

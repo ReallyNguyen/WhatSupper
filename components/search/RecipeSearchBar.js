@@ -1,9 +1,12 @@
 import { StyleSheet, TextInput, View } from 'react-native';
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
 import { colors } from '../../theme';
+import { useTheme } from '../../ThemeContext'
 
-export default function RecipeSearchBar({setRecipeSearch}) {
-    return(
+export default function RecipeSearchBar({ setRecipeSearch }) {
+    const { isDarkMode, toggleTheme } = useTheme();
+
+    return (
         <View style={styles.search}>
             <FontAwesomeIcon
                 name={'search'}
@@ -12,8 +15,9 @@ export default function RecipeSearchBar({setRecipeSearch}) {
                 color={colors.davysGray}
             />
             <TextInput
-                style={styles.input}
+                style={[styles.input]}
                 placeholder="Find a Recipe.."
+                placeholderTextColor={isDarkMode && colors.offWhite}
                 onChangeText={setRecipeSearch}
             />
             <FontAwesomeIcon
@@ -33,6 +37,9 @@ const styles = StyleSheet.create({
         gap: 10,
         marginBottom: 20,
     },
+    darkText: {
+        color: 'blue'
+    },
     input: {
         height: 35,
         width: "74%",
@@ -40,13 +47,13 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderRadius: 10,
         padding: 10,
-        paddingLeft: 50,
+        paddingLeft: 50
     },
     searchIcon: {
         position: 'absolute',
         left: 15,
     },
-    sliders:{
+    sliders: {
         borderColor: colors.davysGray,
         borderWidth: 1,
         borderRadius: 10,

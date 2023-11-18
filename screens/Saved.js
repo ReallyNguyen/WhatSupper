@@ -7,8 +7,11 @@ import Bento from '../components/recipe/Bento';
 import CouponSearchBar from '../components/search/CouponSearchBar';
 import RecipeSearchBar from '../components/search/RecipeSearchBar';
 import Back from '../components/button/Back';
+import { useTheme } from '../ThemeContext'
+import { colors } from '../theme';
 
 export default function Saved({ navigation }) {
+    const { isDarkMode, toggleTheme } = useTheme();
     const [activeTab, setActiveTab] = useState('tab1');
     const [couponSearch, setCouponSearch] = useState('');
     const [recipeSearch, setRecipeSearch] = useState('');
@@ -18,12 +21,12 @@ export default function Saved({ navigation }) {
     };
 
     return (
-        <View style={styles.container}>
+        <View style={[styles.container, isDarkMode && styles.darkContainer]}>
             <View style={styles.header}>
                 <Back navigation={navigation} destination="Home" />
             </View>
             <Image style={styles.img} source={require('../assets/profile.png')} />
-            <Text style={styles.name}>Henry Leung</Text>
+            <Text style={[styles.name, isDarkMode && styles.darkText]}>Henry Leung</Text>
 
             <View style={styles.tabList}>
                 <TouchableOpacity
@@ -36,6 +39,7 @@ export default function Saved({ navigation }) {
                     <Text style={[
                         styles.tabTitle,
                         activeTab === 'tab1' && styles.activeTabText,
+                        isDarkMode && styles.darkText
                     ]}>Coupons</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
@@ -48,6 +52,7 @@ export default function Saved({ navigation }) {
                     <Text style={[
                         styles.tabTitle,
                         activeTab === 'tab2' && styles.activeTabText,
+                        isDarkMode && styles.darkText
                     ]}>Recipes</Text>
                 </TouchableOpacity>
             </View>
@@ -56,7 +61,7 @@ export default function Saved({ navigation }) {
                 {
                     activeTab === 'tab1' &&
                     <View style={styles.search}>
-                        <CouponSearchBar setCouponSearch={setCouponSearch}/>
+                        <CouponSearchBar setCouponSearch={setCouponSearch} />
                         <ScrollView contentContainerStyle={styles.contentContainer}>
                             {coupon
                                 .filter(item => item.name.toLowerCase().includes(couponSearch.toLowerCase()))
@@ -72,14 +77,14 @@ export default function Saved({ navigation }) {
                                             expiration={item.expiration}
                                         />
                                     </TouchableOpacity>
-                            ))}
+                                ))}
                         </ScrollView>
                     </View>
                 }
                 {
                     activeTab === 'tab2' &&
                     <View style={styles.search}>
-                        <RecipeSearchBar setRecipeSearch={setRecipeSearch}/>
+                        <RecipeSearchBar setRecipeSearch={setRecipeSearch} />
                         <ScrollView contentContainerStyle={styles.contentContainer}>
                             {category
                                 .filter(item => item.cuisine.toLowerCase().includes(recipeSearch.toLowerCase()))
@@ -95,7 +100,7 @@ export default function Saved({ navigation }) {
                                         destination2="RecipeCategory"
                                         destination3="RecipeCategory"
                                     />
-                            ))}
+                                ))}
                         </ScrollView>
                     </View>
                 }
@@ -111,12 +116,17 @@ const styles = StyleSheet.create({
         left: 0,
         zIndex: 1,
         marginLeft: '7%',
-        marginTop: '1%'
+    },
+    darkContainer: {
+        backgroundColor: colors.offBlack,
+        color: colors.offWhite
+    },
+    darkText: {
+        color: colors.offWhite
     },
     img: {
         width: 100,
         height: 100,
-        marginTop: 30,
     },
     name: {
         fontFamily: "Manrope-Bold",
@@ -127,7 +137,6 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: 'center',
         justifyContent: 'flex-start',
-        marginTop: 50
     },
     tabList: {
         flexDirection: 'row',

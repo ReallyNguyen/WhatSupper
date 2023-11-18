@@ -1,10 +1,12 @@
 import { StyleSheet, Text, View, TouchableOpacity, Image, Pressable } from 'react-native';
 import Back from '../components/button/Back';
 import { colors } from '../theme';
+import { useTheme } from '../ThemeContext'
 
 export default function CouponInfo({ navigation }) {
+    const { isDarkMode, toggleTheme } = useTheme();
     return (
-        <View style={styles.container}>
+        <View style={[styles.container, isDarkMode && styles.darkContainer]}>
             <View style={styles.header}>
                 <Back navigation={navigation} destination="Home" />
             </View>
@@ -12,9 +14,9 @@ export default function CouponInfo({ navigation }) {
             <Text style={styles.discount}>30% off</Text>
             <View style={styles.infoContainer}>
                 <View style={styles.info}>
-                    <Text style={styles.brand}>Walmart</Text>
-                    <Text style={styles.exp}>Valid Oct 24-31, 2023</Text>
-                    <Text style={styles.desc}>On all select Great Value brands. While supplies last. </Text>
+                    <Text style={[styles.brand, isDarkMode && styles.darkText]}>Walmart</Text>
+                    <Text style={[styles.exp, isDarkMode && styles.darkText]}>Valid Oct 24-31, 2023</Text>
+                    <Text style={[styles.desc, isDarkMode && styles.darkText]}>On all select Great Value brands. While supplies last. </Text>
                 </View>
                 <Image style={styles.qr} source={require('../assets/coupon/qrcode.png')} />
             </View>
@@ -29,6 +31,13 @@ const styles = StyleSheet.create({
         flex: 1,
         alignItems: 'center',
     },
+    darkContainer: {
+        backgroundColor: colors.offBlack,
+
+    },
+    darkText: {
+        color: colors.offWhite
+    },
     header: {
         position: 'absolute',
         top: 0,
@@ -41,6 +50,7 @@ const styles = StyleSheet.create({
         width: 300,
         height: 100,
         marginTop: '40%',
+        tintColor: colors.offWhite
     },
     discount: {
         fontSize: 30,
