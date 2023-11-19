@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import { Box, Image, Text, View, TouchableOpacity } from "@gluestack-ui/themed";
-import { StyleSheet } from 'react-native';
+import { Image, View, TouchableOpacity, StyleSheet } from 'react-native';
+import { Text, Box, VStack, Heading } from '@gluestack-ui/themed';
 import { colors } from "../../theme";
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
 
@@ -50,15 +50,17 @@ export default function LocalRecipe({ img, name, ingredients, price }) {
                 />
 
                 <View style={{ position: 'absolute', top: 10, right: 10 }}>
-
-                    <FontAwesomeIcon
-                        name={isFavourite ? 'heart' : 'heart-o'}
-                        style={{
-                            fontSize: 24,
-                            color: 'white',
-                        }}
-                    />
-
+                    <TouchableOpacity onPress={handleFavouritePress}>
+                        <View>
+                            <FontAwesomeIcon
+                                name={isFavourite ? 'heart' : 'heart-o'}
+                                style={{
+                                    fontSize: 24,
+                                    color: 'white',
+                                }}
+                            />
+                        </View>
+                    </TouchableOpacity>
                 </View>
 
 
