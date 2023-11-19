@@ -4,9 +4,11 @@ import Header from '../components/header/Header';
 import ScanFlyerAd from '../components/header/ScanFlyerAd';
 import CouponCard from '../components/coupon/CouponCard';
 import { coupon } from '../data/coupon';
+import { local } from '../data/local';
 import ToggleMode from '../components/button/ToggleMode';
 import { useTheme } from '../ThemeContext'
 import { colors } from '../theme';
+import LocalRecipe from '../components/recipe/LocalRecipe';
 
 export default function Home({ navigation }) {
     const { isDarkMode, toggleTheme } = useTheme();
@@ -87,15 +89,14 @@ export default function Home({ navigation }) {
                 {
                     activeTab === 'tab1' &&
                     <ScrollView contentContainerStyle={styles.contentContainer}>
-                        {coupon.map((item) => (
+                        {local.map((item) => (
                             <TouchableOpacity onPress={() => navigation.navigate('CouponInfo')} key={item.id}>
-                                <CouponCard
+                                <LocalRecipe
                                     style={styles.latest}
-                                    brand={item.brand}
-                                    background={item.background}
-                                    discount={item.discount}
-                                    product={item.product}
-                                    expiration={item.expiration}
+                                    img={item.img}
+                                    name={item.name}
+                                    ingredients={item.ingredients}
+                                    price={item.price}
                                 />
                             </TouchableOpacity>
                         ))}

@@ -28,6 +28,7 @@ const styles = StyleSheet.create({
         justifyContent: 'space-between',
         alignItems: 'center',
         marginHorizontal: '8%',
+        marginTop: '20%'
     },
     darkContainer: {
         color: colors.offWhite

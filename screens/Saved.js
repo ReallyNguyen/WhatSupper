@@ -25,8 +25,11 @@ export default function Saved({ navigation }) {
             <View style={styles.header}>
                 <Back navigation={navigation} destination="Home" />
             </View>
-            <Image style={styles.img} source={require('../assets/profile.png')} />
-            <Text style={[styles.name, isDarkMode && styles.darkText]}>Henry Leung</Text>
+            <View style={styles.user}>
+                <Image style={styles.img} source={require('../assets/profile.png')} />
+                <Text style={[styles.name, isDarkMode && styles.darkText]}>Henry Leung</Text>
+            </View>
+
 
             <View style={styles.tabList}>
                 <TouchableOpacity
@@ -116,6 +119,10 @@ const styles = StyleSheet.create({
         left: 0,
         zIndex: 1,
         marginLeft: '7%',
+        marginTop: '8%'
+    },
+    user: {
+        marginTop: '17%'
     },
     darkContainer: {
         backgroundColor: colors.offBlack,
