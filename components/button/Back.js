@@ -10,7 +10,7 @@ export default function Back({ navigation }) {
     const iconColor = isDarkMode ? colors.offWhite : colors.black;
 
     return (
-        <View style={{ flex: 1 }}>
+        <View style={{ flex: 1, marginTop: 8 }}>
             <Pressable onPress={() => navigation.goBack()}>
                 <FontAwesome5
                     name={'angle-left'}
