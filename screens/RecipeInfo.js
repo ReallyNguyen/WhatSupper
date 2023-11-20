@@ -1,5 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, ScrollView, View, Text, Image, Dimensions, Animated, Modal, TouchableOpacity, Pressable } from 'react-native';
+import {
+    StyleSheet,
+    ScrollView,
+    View,
+    Text,
+    Image,
+    Dimensions,
+    Animated,
+    Modal,
+    TouchableOpacity,
+    Pressable,
+} from 'react-native';
 import { FontAwesome5 } from '@expo/vector-icons';
 import { colors } from '../theme';
 import Back from '../components/button/Back';
@@ -9,11 +20,12 @@ import Facebook from '../assets/media/Facebook';
 import Messages from '../assets/media/Messages';
 import Twitter from '../assets/media/Twitter';
 
-const screenWidth = Dimensions.get("window").width;
+const screenWidth = Dimensions.get('window').width;
 
-const RecipeInfo = ({ navigation }) => {
+const RecipeInfo = ({ route, navigation }) => {
     const [showShareBubble, setShowShareBubble] = useState(true);
     const [overlayVisible, setOverlayVisible] = useState(false);
+    const { recipe } = route.params;
 
     const toggleOverlay = () => {
         setOverlayVisible(!overlayVisible);
@@ -24,14 +36,11 @@ const RecipeInfo = ({ navigation }) => {
     useEffect(() => {
         if (showShareBubble) {
             const timer = setTimeout(() => {
-                Animated.timing(
-                    fadeAnim,
-                    {
-                        toValue: 0,
-                        duration: 500,
-                        useNativeDriver: true,
-                    }
-                ).start(() => {
+                Animated.timing(fadeAnim, {
+                    toValue: 0,
+                    duration: 500,
+                    useNativeDriver: true,
+                }).start(() => {
                     setShowShareBubble(false);
                 });
             }, 5000);
@@ -40,10 +49,11 @@ const RecipeInfo = ({ navigation }) => {
         }
     }, [showShareBubble]);
 
+
     return (
         <View>
             <View>
-                <Image style={styles.img} source={require('../assets/recipes/hotpot.jpg')} />
+                <Image style={styles.img} source={{ uri: recipe.image_url }} />
             </View>
             <ScrollView>
                 <View style={styles.back}>
@@ -61,12 +71,12 @@ const RecipeInfo = ({ navigation }) => {
 
                         <FontAwesome5 name={'heart'} size={25} color={colors.asparagus} />
                     </View>
-                    <Text style={styles.name}>Hot Pot</Text>
-                    <Text style={styles.cuisine}>ASIAN</Text>
+                    <Text style={styles.name}>{recipe.name}</Text>
+                    <Text style={styles.cuisine}>{recipe.cuisine}</Text>
                     <View style={styles.infoWrapper}>
                         <View style={styles.info}>
                             <FontAwesome5 name={'clock'} size={15} color={colors.offWhite} />
-                            <Text style={styles.infoText}>40 mins</Text>
+                            <Text style={styles.infoText}>{recipe.mins} mins</Text>
                         </View>
                         <View style={styles.info}>
                             <FontAwesome5 name={'list'} size={15} color={colors.offWhite} />
@@ -74,38 +84,23 @@ const RecipeInfo = ({ navigation }) => {
                         </View>
                         <View style={styles.info}>
                             <FontAwesome5 name={'fire'} size={15} color={colors.offWhite} />
-                            <Text style={styles.infoText}>560 cal</Text>
+                            <Text style={styles.infoText}>{recipe.cals} cal</Text>
                         </View>
                     </View>
                     <Text style={styles.heading}>Description</Text>
                     <Text style={styles.description}>
-                        A thorough how-to guide to Chinese hot pot covering all aspects of
-                        preparing this iconic meal at home. It will help you to throw a
-                        stress-free hot pot party.
+                        {recipe.description}
                     </Text>
                     <Text style={styles.heading}>Ingredients</Text>
-                    <Text style={styles.ingredient}>Spicy Hot Pot Base</Text>
-                    <Text style={styles.ingredient}>Fresh Wheat Noodles</Text>
-                    <Text style={styles.ingredient}>Lotus Root</Text>
-                    <Text style={styles.ingredient}>Nappa Cabbage</Text>
-                    <Text style={styles.ingredient}>Tofu</Text>
-                    <Text style={styles.ingredient}>King Oyster Mushrooms</Text>
+                    {recipe.ingredients.map((ingredient, index) => (
+                        <Text key={index} style={styles.ingredient}>
+                            {`${index + 1}. ${ingredient}`}
+                        </Text>
+                    ))}
                     <Text style={styles.heading}>Instructions</Text>
                     <View style={styles.steps}>
                         <Text style={styles.step}>
-                            1.Place the heat source and the pot/wok in the middle of the table.
-                            Pour in the broth. Place various food items around the pot.
-                        </Text>
-                        <Text style={styles.step}>
-                            2. Have the dipping sauces mixed and distributed in individual bowls.
-                            Keep some extra in case you need an adjustment or top-up during the meal.
-                        </Text>
-                        <Text style={styles.step}>
-                            3. Turn on the heat. Once the broth comes to a boil, you may start putting
-                            food items into the broth to cook. Fish out the cooked items and enjoy with the dipping sauce.
-                        </Text>
-                        <Text style={styles.step}>
-                            4. The water in the broth evaporates as you eat. Top up with hot water when needed.
+                            {recipe.instructions}
                         </Text>
                     </View>
                 </View>
@@ -153,11 +148,12 @@ const RecipeInfo = ({ navigation }) => {
             </Modal>
         </View>
     );
-}
+};
 
 const styles = StyleSheet.create({
     img: {
         position: 'absolute',
+        top: 0,
         width: 420,
     },
     back: {

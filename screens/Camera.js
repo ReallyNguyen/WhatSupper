@@ -108,7 +108,7 @@ export default function CameraAndCrop({ navigation }) {
                 const response = await axios.post(
                     'https://lsswwzyavgt7egwvij52d2qkai0rseod.lambda-url.ca-central-1.on.aws/',
                     {
-                        question: `Create a JSON format with an array of 2 meals using ${ingredients}. Each meal should have an "id", "name", "cuisine", "description", "mins", "ingredients," and "instructions."
+                        question: `Create a JSON format with an array of 2 meals using ${ingredients}. Each meal should have an "id", "name", "cuisine", "description", "mins", "cals", "ingredients," and "instructions."
                         `,
                         img: true
                     }
