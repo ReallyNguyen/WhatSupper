@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, View, ScrollView, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, ScrollView, TouchableOpacity, Pressable, ActivityIndicator } from 'react-native';
 import { Box, Image } from "@gluestack-ui/themed";
 import Back from '../components/button/Back';
 import { colors } from '../theme';
@@ -7,15 +7,8 @@ import { FontAwesome5 } from '@expo/vector-icons';
 
 export default function Recipe({ navigation, route }) {
     const [isLoading, setIsLoading] = useState(true);
-    const [aiResponse, setAiResponse] = useState(route.params?.aiResponse);
+    const [aiResponse, setAiResponse] = useState(null);
     const [aiIngredients, setAiIngredients] = useState(route.params?.aiIngredients);
-
-    useEffect(() => {
-        const timer = setTimeout(() => {
-            setIsLoading(false);
-        }, 2000);
-        return () => clearTimeout(timer);
-    }, []);
 
     if (!aiResponse) {
         return (
@@ -24,28 +17,60 @@ export default function Recipe({ navigation, route }) {
             </View>
         );
     }
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const response = await axios.post(
+                    'https://lsswwzyavgt7egwvij52d2qkai0rseod.lambda-url.ca-central-1.on.aws/',
+                    {
+                        question: `Create a JSON format with an array of 2 meals using ${aiIngredients}. Each meal should have an "id", "name", "cuisine", "description", "mins", "cals", "ingredients,", "numsIngredient", and "instructions in an array"
+                        `,
+                        img: true
+                    }
+                );
+
+                const recipes = response.data.choices[0].message.content;
+                console.log("The recipes", recipes);
+                setAiResponse(recipes);
+
+            } catch (error) {
+                console.error(error);
+            }
+        };
+
+        if (ocrResponse !== null) {
+            fetchData();
+        }
+
+    }, [ navigation]);
+
+    useEffect(() => {
+        const loading = async () => {
+            if (aiResponse !== null) {
+                setIsLoading(false);
+            }
+        };
+
+        loading();
+    }, [aiResponse]);
+
     const parsedResponse = aiResponse;
-    const parsedIngredients = aiIngredients;
     console.log(parsedResponse)
-    console.log("hi", parsedIngredients);
-    console.log("aiIngredients from params:", aiIngredients);
+
     return (
         <ScrollView>
+            {isLoading ? (
+                <View style={styles.loadingContainer}>
+                    <ActivityIndicator size="large" color={colors.primary} />
+                    <Text style={{ marginTop: 10 }}>Processing...</Text>
+                </View>
+            ) : (
             <View style={styles.container}>
                 <View style={styles.back}>
                     <Back navigation={navigation} />
                 </View>
                 <Text style={styles.heading}>Here are some recipes based on what you scanned 🪄</Text>
-
-                {aiIngredients.ingredients && Array.isArray(aiIngredients.ingredients) && aiIngredients.ingredients.map((ingredient, i) => (
-                    <View key={i}>
-                        <Text>{ingredient}</Text>
-                    </View>
-                ))}
-
-
-                <Text>hi</Text>
-
                 {parsedResponse.meals && Array.isArray(parsedResponse.meals) && parsedResponse.meals.map((item, index) => (
                     <TouchableOpacity key={index} onPress={() => navigation.navigate('RecipeInfo', { recipe: item })}>
                         <Box
@@ -97,7 +122,7 @@ export default function Recipe({ navigation, route }) {
                         </Box>
                     </TouchableOpacity>
                 ))}
-            </View>
+            </View> )}
         </ScrollView>
     );
 }

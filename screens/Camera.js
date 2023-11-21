@@ -71,27 +71,14 @@ export default function CameraAndCrop({ navigation }) {
                 const ingResponse = await axios.post(
                     'https://lsswwzyavgt7egwvij52d2qkai0rseod.lambda-url.ca-central-1.on.aws/',
                     {
-                        question: `Create a JSON format for an array of ingredients called using the extracted chicken and kimchi variable. Only include the names of food ingredients from the OCR response.`,
+                        question: `Create a JSON format for an array of ingredients using the extracted ${ocrResponse}. Only include the names of food ingredients from the OCR response.`,
                     }
                 );
 
                 const ingredients = ingResponse.data.choices[0].message.content;
                 console.log("the ingredients", ingredients);
-
-                const response = await axios.post(
-                    'https://lsswwzyavgt7egwvij52d2qkai0rseod.lambda-url.ca-central-1.on.aws/',
-                    {
-                        question: `Create a JSON format with an array of 2 meals using chicken and kimchi. Each meal should have an "id", "name", "cuisine", "description", "mins", "cals", "ingredients,", "numsIngredient", and "instructions in an array"
-                        `,
-                        img: true
-                    }
-                );
-
-                const recipes = response.data.choices[0].message.content;
-                console.log("The recipes", recipes);
-                setAiResponse(recipes);
                 setAiIngredients(ingredients);
-                navigation.navigate('Recipe', { aiResponse: recipes, aiIngredients: ingredients });
+                navigation.navigate('Ingredients', { aiIngredients: ingredients });
 
             } catch (error) {
                 console.error(error);
