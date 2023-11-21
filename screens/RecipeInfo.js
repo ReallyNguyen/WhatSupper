@@ -21,6 +21,7 @@ import Messages from '../assets/media/Messages';
 import Twitter from '../assets/media/Twitter';
 
 const screenWidth = Dimensions.get('window').width;
+const screenHeight = Dimensions.get('window').height;
 
 const RecipeInfo = ({ route, navigation }) => {
     const [showShareBubble, setShowShareBubble] = useState(true);
@@ -48,12 +49,16 @@ const RecipeInfo = ({ route, navigation }) => {
             return () => clearTimeout(timer);
         }
     }, [showShareBubble]);
-
+    console.log(recipe.image_url)
 
     return (
         <View>
             <View>
-                <Image style={styles.img} source={{ uri: recipe.image_url }} />
+                <Image
+                    style={styles.img}
+                    source={{ uri: recipe.image_url }}
+                    onError={(error) => console.error('Error loading image:', error)}
+                />
             </View>
             <ScrollView>
                 <View style={styles.back}>
@@ -80,7 +85,7 @@ const RecipeInfo = ({ route, navigation }) => {
                         </View>
                         <View style={styles.info}>
                             <FontAwesome5 name={'list'} size={15} color={colors.offWhite} />
-                            <Text style={styles.infoText}>6 ingredients</Text>
+                            <Text style={styles.infoText}>{recipe.numsIngredient} ingredients</Text>
                         </View>
                         <View style={styles.info}>
                             <FontAwesome5 name={'fire'} size={15} color={colors.offWhite} />
@@ -94,14 +99,16 @@ const RecipeInfo = ({ route, navigation }) => {
                     <Text style={styles.heading}>Ingredients</Text>
                     {recipe.ingredients.map((ingredient, index) => (
                         <Text key={index} style={styles.ingredient}>
-                            {`${index + 1}. ${ingredient}`}
+                            {`${ingredient}`}
                         </Text>
                     ))}
                     <Text style={styles.heading}>Instructions</Text>
                     <View style={styles.steps}>
-                        <Text style={styles.step}>
-                            {recipe.instructions}
-                        </Text>
+                        {recipe.instructions.map((instruction, index) => (
+                            <Text key={index} style={styles.step}>
+                                {` ${index + 1}. ${instruction}`}
+                            </Text>
+                        ))}
                     </View>
                 </View>
             </ScrollView>
@@ -153,7 +160,6 @@ const RecipeInfo = ({ route, navigation }) => {
 const styles = StyleSheet.create({
     img: {
         position: 'absolute',
-        top: 0,
         width: 420,
     },
     back: {
@@ -169,11 +175,12 @@ const styles = StyleSheet.create({
         top: 200,
         backgroundColor: 'white',
         width: { screenWidth },
-        height: 1200,
+        height: 1600,
         border: 'solid',
         borderTopRightRadius: 250,
         paddingTop: 30,
         paddingLeft: 20,
+
     },
     icons: {
         flexDirection: 'row',
@@ -188,15 +195,16 @@ const styles = StyleSheet.create({
     },
     name: {
         fontFamily: 'Manrope-Bold',
-        fontSize: 30,
+        fontSize: 25,
         paddingTop: 20,
         paddingBottom: 10,
+        width: "65%"
     },
     cuisine: {
         fontFamily: 'Manrope-Bold',
         backgroundColor: colors.offBlack,
         color: colors.offWhite,
-        width: 65,
+        width: 85,
         paddingLeft: 10,
         paddingTop: 3,
         paddingBottom: 3,
@@ -235,6 +243,7 @@ const styles = StyleSheet.create({
     },
     ingredient: {
         fontFamily: 'Manrope-Regular',
+        marginBottom: 10
     },
     steps: {
         width: 330,
