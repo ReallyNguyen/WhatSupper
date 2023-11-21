@@ -97,11 +97,12 @@ export default function MainStack() {
                     <Stack.Screen name="TutorialSecond" component={TutorialSecond} options={{ headerShown: false }} />
                     <Stack.Screen name="Saved" component={Saved} options={{ headerShown: false }} />
                     <Stack.Screen name="Camera" component={Camera} options={{ headerShown: false }} />
+                    <Stack.Screen name="Ingredients" component={Ingredients} options={{ headerShown: false }} />
                     <Stack.Screen name="Recipe" component={Recipe} options={{ headerShown: false }} />
                     <Stack.Screen name="RecipeInfo" component={RecipeInfo} options={{ headerShown: false }} />
                     <Stack.Screen name="CouponInfo" component={CouponInfo} options={{ headerShown: false }} />
                     <Stack.Screen name="RecipeCategory" component={RecipeCategory} options={{ headerShown: false }} />
-                    <Stack.Screen name="Ingredients" component={Ingredients} options={{ headerShown: false }} />
+
                 </Stack.Navigator>
             </ThemeProvider>
 

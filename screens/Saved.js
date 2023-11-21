@@ -12,7 +12,7 @@ import { colors } from '../theme';
 
 export default function Saved({ navigation }) {
     const { isDarkMode, toggleTheme } = useTheme();
-    const [activeTab, setActiveTab] = useState('tab1');
+    const [activeTab, setActiveTab] = useState('recipes');
     const [couponSearch, setCouponSearch] = useState('');
     const [recipeSearch, setRecipeSearch] = useState('');
 
@@ -35,15 +35,15 @@ export default function Saved({ navigation }) {
                 <TouchableOpacity
                     style={[
                         styles.tab,
-                        activeTab === 'tab1' && styles.activeTab,
+                        activeTab === 'recipes' && styles.activeTab,
                     ]}
-                    onPress={() => handleTabPress('tab1')}
+                    onPress={() => handleTabPress('recipes')}
                 >
                     <Text style={[
                         styles.tabTitle,
-                        activeTab === 'tab1' && styles.activeTabText,
+                        activeTab === 'recipes' && styles.activeTabText,
                         isDarkMode && styles.darkText
-                    ]}>Coupons</Text>
+                    ]}>Recipes</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
                     style={[
@@ -62,24 +62,24 @@ export default function Saved({ navigation }) {
 
             <View style={styles.tabPanels}>
                 {
-                    activeTab === 'tab1' &&
+                    activeTab === 'recipes' &&
                     <View style={styles.search}>
-                        <CouponSearchBar setCouponSearch={setCouponSearch} />
+                        <RecipeSearchBar setRecipeSearch={setRecipeSearch} />
                         <ScrollView contentContainerStyle={styles.contentContainer}>
-                            {coupon
-                                .filter(item => item.name.toLowerCase().includes(couponSearch.toLowerCase()))
+                            {category
+                                .filter(item => item.cuisine.toLowerCase().includes(recipeSearch.toLowerCase()))
                                 .map((item) => (
-                                    <TouchableOpacity onPress={() => navigation.navigate('CouponInfo')} key={item.id}>
-                                        <CouponCard
-                                            style={styles.latest}
-                                            name={item.name}
-                                            brand={item.brand}
-                                            background={item.background}
-                                            discount={item.discount}
-                                            product={item.product}
-                                            expiration={item.expiration}
-                                        />
-                                    </TouchableOpacity>
+                                    <Bento
+                                        key={item.id}
+                                        cuisine={item.cuisine}
+                                        img1={item.img1}
+                                        img2={item.img2}
+                                        img3={item.img3}
+                                        navigation={navigation}
+                                        destination1="RecipeCategory"
+                                        destination2="RecipeCategory"
+                                        destination3="RecipeCategory"
+                                    />
                                 ))}
                         </ScrollView>
                     </View>

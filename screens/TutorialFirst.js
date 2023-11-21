@@ -32,7 +32,7 @@ export default function TutorialFirst({ navigation }) {
             isAnimationTriggered.current = true;
             textOpacity.value = withSpring(0); // Fade out text
             progress.value = withTiming(0.5, { duration: 1000 }); // Opacity to 50% over 1 second
-            translateY.value = withTiming(-250, { duration: 1000 }); // Move the element up
+            translateY.value = withTiming(-300, { duration: 1000 }); // Move the element up
             setTimeout(() => {
                 setText1('Crop out the');
                 setText2('ingredients you want...');
@@ -77,11 +77,15 @@ export default function TutorialFirst({ navigation }) {
                             />
                         </TouchableOpacity>
                     ) : (
-                        <TouchableOpacity style={styles.header}>
-                            <Back navigation={navigation} />
+                        <TouchableOpacity onPress={() => navigation.goBack()} style={styles.header}>
+                            <FontAwesome5
+                                name={'angle-left'}
+                                size={35}
+                                color={colors.offBlack}
+                            />
                         </TouchableOpacity>
                     )}
-                    <Text style={{ fontFamily: "Manrope-SemiBold", fontSize: 26, marginTop: '10%' }}>
+                    <Text style={{ fontFamily: "Manrope-SemiBold", fontSize: 26, marginTop: '30%' }}>
                         {text1}
                     </Text>
                     <Text style={{ fontFamily: "Manrope-SemiBold", fontSize: 26 }}>
@@ -89,7 +93,7 @@ export default function TutorialFirst({ navigation }) {
                     </Text>
                     <View style={styles.centeredContainer}>
                         <Image
-                            style={{ width: 328, height: 380, position: 'relative', zIndex: 0, borderRadius: 15 }}
+                            style={{ width: 328, height: 380, position: 'relative', zIndex: -1, borderRadius: 15 }}
                             source={require('../assets/tutorial.png')}
                         />
                         <TouchableOpacity
@@ -151,11 +155,9 @@ const styles = StyleSheet.create({
     },
     header: {
         position: 'absolute',
-        top: 0,
-        left: 0,
-        zIndex: 1,
-        marginLeft: '10%',
-        marginTop: '5%'
+        top: 50,
+        left: 40,
+        zIndex: 2,
     },
     centeredContainer: {
         flex: 1,
@@ -165,7 +167,7 @@ const styles = StyleSheet.create({
     },
     overlappingTap: {
         position: 'absolute',
-        top: 10,
+        top: 0,
         left: -23,
         zIndex: 3,
         color: 'white'

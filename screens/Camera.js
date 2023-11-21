@@ -64,6 +64,7 @@ export default function CameraAndCrop({ navigation }) {
     const [croppedImage, setCroppedImage] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
     const cameraRef = useRef();
+    const [permission, requestPermission] = Camera.useCameraPermissions();
 
     useEffect(() => {
         const fetchData = async () => {
@@ -71,7 +72,7 @@ export default function CameraAndCrop({ navigation }) {
                 const ingResponse = await axios.post(
                     'https://lsswwzyavgt7egwvij52d2qkai0rseod.lambda-url.ca-central-1.on.aws/',
                     {
-                        question: `Create a JSON format for an array of ingredients using the extracted ${ocrResponse}. Only include the names of food ingredients from the OCR response.`,
+                        question: `Create a JSON format for an array of ingredients and name that array ingredients using the extracted ${ocrResponse}. Only include the names of food ingredients from the OCR response.`,
                     }
                 );
 
@@ -123,14 +124,29 @@ export default function CameraAndCrop({ navigation }) {
     };
 
     useEffect(() => {
-        const navigateToRecipe = async () => {
-            if (aiResponse !== null) {
+        const navigateToIngredients = async () => {
+            if (aiIngredients !== null) {
                 setIsLoading(false);
             }
         };
 
-        navigateToRecipe();
-    }, [aiResponse]);
+        navigateToIngredients();
+    }, [aiIngredients]);
+
+    if (!permission) {
+        // Camera permissions are still loading
+        return <View />;
+    }
+
+    if (!permission.granted) {
+        // Camera permissions are not granted yet
+        return (
+            <View style={styles.container}>
+                <Text style={{ textAlign: 'center', marginTop: "50%" }}>We need your permission to show the camera</Text>
+                <Button onPress={requestPermission} title="grant permission" />
+            </View>
+        );
+    }
 
     return (
         <View style={{ flex: 1 }}>
