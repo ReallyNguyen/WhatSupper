@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { View, Text, Button, Pressable, StyleSheet } from 'react-native';
+import { View, Text, Button, Pressable, StyleSheet, ActivityIndicator } from 'react-native';
 import { Camera } from 'expo-camera';
 import { ImageManipulator } from 'expo-image-crop';
 import { FontAwesome5 } from '@expo/vector-icons';
@@ -60,8 +60,49 @@ export default function CameraAndCrop({ navigation }) {
     const [pre, setPre] = useState(null);
     const [ocrResponse, setOcrResponse] = useState(null);
     const [aiResponse, setAiResponse] = useState(null);
+    const [aiIngredients, setAiIngredients] = useState(null);
     const [croppedImage, setCroppedImage] = useState(null);
+    const [isLoading, setIsLoading] = useState(false);
     const cameraRef = useRef();
+
+    useEffect(() => {
+        const fetchData = async () => {
+            try {
+                const ingResponse = await axios.post(
+                    'https://lsswwzyavgt7egwvij52d2qkai0rseod.lambda-url.ca-central-1.on.aws/',
+                    {
+                        question: `Create a JSON format for an array of ingredients called using the extracted chicken and kimchi variable. Only include the names of food ingredients from the OCR response.`,
+                    }
+                );
+
+                const ingredients = ingResponse.data.choices[0].message.content;
+                console.log("the ingredients", ingredients);
+
+                const response = await axios.post(
+                    'https://lsswwzyavgt7egwvij52d2qkai0rseod.lambda-url.ca-central-1.on.aws/',
+                    {
+                        question: `Create a JSON format with an array of 2 meals using chicken and kimchi. Each meal should have an "id", "name", "cuisine", "description", "mins", "cals", "ingredients,", "numsIngredient", and "instructions in an array"
+                        `,
+                        img: true
+                    }
+                );
+
+                const recipes = response.data.choices[0].message.content;
+                console.log("The recipes", recipes);
+                setAiResponse(recipes);
+                setAiIngredients(ingredients);
+                navigation.navigate('Recipe', { aiResponse: recipes, aiIngredients: ingredients });
+
+            } catch (error) {
+                console.error(error);
+            }
+        };
+
+        if (ocrResponse !== null) {
+            fetchData();
+        }
+
+    }, [ocrResponse, navigation]);
 
     const takePicture = async () => {
         if (cameraRef.current) {
@@ -83,6 +124,8 @@ export default function CameraAndCrop({ navigation }) {
                 ocrUrl: 'https://api.ocr.space/parse/image',
             };
 
+            setIsLoading(true);
+
             const response = await ocrSpace(base64, options);
             console.log(response);
             setOcrResponse(response.ParsedResults[0].ParsedText);
@@ -93,50 +136,9 @@ export default function CameraAndCrop({ navigation }) {
     };
 
     useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const ingResponse = await axios.post(
-                    'https://lsswwzyavgt7egwvij52d2qkai0rseod.lambda-url.ca-central-1.on.aws/',
-                    {
-                        question: `Create an array of ingredients using the extracted ${ocrResponse} variable. Only include the names of food ingredients from the OCR response.`,
-                    }
-                );
-
-                const ingredients = ingResponse.data.choices[0].message.content;
-                console.log("the ingredients", ingredients);
-
-                const response = await axios.post(
-                    'https://lsswwzyavgt7egwvij52d2qkai0rseod.lambda-url.ca-central-1.on.aws/',
-                    {
-                        question: `Create a JSON format with an array of 2 meals using ${ingredients}. Each meal should have an "id", "name", "cuisine", "description", "mins", "cals", "ingredients," and "instructions."
-                        `,
-                        img: true
-                    }
-                );
-
-                const recipes = response.data.choices[0].message.content;
-                console.log("The recipes", recipes);
-                setAiResponse(recipes);
-
-                //store recipes to async storage
-                //navigate to the recipe page
-                //retrieve from async storage in the recipe page
-
-            } catch (error) {
-                console.error(error);
-            }
-        };
-
-        if (ocrResponse !== null) {
-            fetchData();
-        }
-
-    }, [ocrResponse]);
-
-    useEffect(() => {
         const navigateToRecipe = async () => {
             if (aiResponse !== null) {
-                navigation.navigate('Recipe', { aiResponse: aiResponse });
+                setIsLoading(false);
             }
         };
 
@@ -145,7 +147,12 @@ export default function CameraAndCrop({ navigation }) {
 
     return (
         <View style={{ flex: 1 }}>
-            {isVisible ? (
+            {isLoading ? (
+                <View style={styles.loadingContainer}>
+                    <ActivityIndicator size="large" color={colors.primary} />
+                    <Text style={{ marginTop: 10 }}>Processing...</Text>
+                </View>
+            ) : isVisible ? (
                 <ImageManipulator
                     photo={{ uri }}
                     saveOptions={{ "base64": true }}
@@ -153,8 +160,8 @@ export default function CameraAndCrop({ navigation }) {
                     onPictureChoosed={async ({ uri: uriM, base64 }) => {
                         setPre(uriM);
                         setIsVisible(false);
-                        //console.log(base64);
                         setCroppedImage(base64);
+                        setIsLoading(true);
                         await handleOCR(base64);
                     }}
                     onToggleModal={() => setIsVisible(!isVisible)}
@@ -224,5 +231,10 @@ const styles = StyleSheet.create({
         paddingHorizontal: 10,
         position: 'absolute',
         right: 30,
-    }
+    },
+    loadingContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
 });

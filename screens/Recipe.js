@@ -8,6 +8,7 @@ import { FontAwesome5 } from '@expo/vector-icons';
 export default function Recipe({ navigation, route }) {
     const [isLoading, setIsLoading] = useState(true);
     const [aiResponse, setAiResponse] = useState(route.params?.aiResponse);
+    const [aiIngredients, setAiIngredients] = useState(route.params?.aiIngredients);
 
     useEffect(() => {
         const timer = setTimeout(() => {
@@ -24,8 +25,10 @@ export default function Recipe({ navigation, route }) {
         );
     }
     const parsedResponse = aiResponse;
-
-
+    const parsedIngredients = aiIngredients;
+    console.log(parsedResponse)
+    console.log("hi", parsedIngredients);
+    console.log("aiIngredients from params:", aiIngredients);
     return (
         <ScrollView>
             <View style={styles.container}>
@@ -33,6 +36,16 @@ export default function Recipe({ navigation, route }) {
                     <Back navigation={navigation} />
                 </View>
                 <Text style={styles.heading}>Here are some recipes based on what you scanned 🪄</Text>
+
+                {aiIngredients.ingredients && Array.isArray(aiIngredients.ingredients) && aiIngredients.ingredients.map((ingredient, i) => (
+                    <View key={i}>
+                        <Text>{ingredient}</Text>
+                    </View>
+                ))}
+
+
+                <Text>hi</Text>
+
                 {parsedResponse.meals && Array.isArray(parsedResponse.meals) && parsedResponse.meals.map((item, index) => (
                     <TouchableOpacity key={index} onPress={() => navigation.navigate('RecipeInfo', { recipe: item })}>
                         <Box
