@@ -14,6 +14,7 @@ import Recipe from '../../screens/Recipe';
 import RecipeInfo from '../../screens/RecipeInfo';
 import CouponInfo from '../../screens/CouponInfo';
 import RecipeCategory from '../../screens/RecipeCategory';
+import Ingredients from '../../screens/Ingredients';
 import { FontAwesome5 } from '@expo/vector-icons';
 import { View, TouchableOpacity } from 'react-native'
 import { useTheme, ThemeProvider } from '../../ThemeContext';
@@ -100,6 +101,7 @@ export default function MainStack() {
                     <Stack.Screen name="RecipeInfo" component={RecipeInfo} options={{ headerShown: false }} />
                     <Stack.Screen name="CouponInfo" component={CouponInfo} options={{ headerShown: false }} />
                     <Stack.Screen name="RecipeCategory" component={RecipeCategory} options={{ headerShown: false }} />
+                    <Stack.Screen name="Ingredients" component={Ingredients} options={{ headerShown: false }} />
                 </Stack.Navigator>
             </ThemeProvider>
 
