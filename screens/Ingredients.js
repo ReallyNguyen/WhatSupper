@@ -7,8 +7,10 @@ import { FontAwesome5 } from '@expo/vector-icons';
 export default function Ingredients({ navigation, route }) {
     const [aiIngredients, setAiIngredients] = useState(route.params?.aiIngredients);
     const [isModalVisible, setIsModalVisible] = useState(false);
-    const [showPersonalize, setShowPersonalize] = useState(false);
-    const [typedText, setTypedText] = useState('');
+    const [showCustomize, setShowCustomize] = useState(false);
+    const [newIngredient, setNewIngredient] = useState('');
+    const [showNew, setShowNew] = useState(false);
+    const [ingredientsList, setIngredientsList] = useState([]);
 
     let parsedIngredients = null;
 
@@ -21,6 +23,21 @@ export default function Ingredients({ navigation, route }) {
     console.log(parsedIngredients);
     console.log("aiIngredients from params:", aiIngredients);
 
+    useEffect(() => {
+        if (newIngredient.length > 0) {
+            setShowNew(true);
+        } else {
+            setShowNew(false);
+        }
+    }, [newIngredient]);
+
+    const addIngredient = () => {
+        if (newIngredient.length > 0) {
+            setIngredientsList(prevList => [...prevList, newIngredient]);
+            setNewIngredient('');
+        }
+    };
+
     return (
         <ScrollView>
             <View style={styles.container}>
@@ -30,7 +47,7 @@ export default function Ingredients({ navigation, route }) {
                         <Text style={styles.addTxt}>Add +</Text>
                     </Pressable>
                 </View>
-                <Text style={styles.heading}>Here are the ingredients based on what you scanned 🪄</Text>
+                <Text style={styles.heading}>Here are the ingredients based on what you scanned</Text>
                 <View style={styles.ingredientsContainer}>
                     {parsedIngredients.ingredients && Array.isArray(parsedIngredients.ingredients) && parsedIngredients.ingredients.map((ingredient, i) => (
                         <View style={styles.ingredientBox} key={i}>
@@ -44,26 +61,28 @@ export default function Ingredients({ navigation, route }) {
                             <Text style={{ color: colors.offWhite, fontSize: 13 }}>{ingredient}</Text>
                         </View>
                     ))}
-                    <View style={styles.ingredientBox}>
-                        <Pressable style={styles.delete}>
-                            <FontAwesome5
-                                name={'times'}
-                                size={10}
-                                color={colors.offBlack}
-                            />
-                        </Pressable>
-                        <Text style={{ color: colors.offWhite }}>{typedText}</Text>
-                    </View>
+                    {ingredientsList.map((ingredient, i) => (
+                        <View style={styles.ingredientBox} key={i}>
+                            <Pressable style={styles.delete}>
+                                <FontAwesome5
+                                    name={'times'}
+                                    size={10}
+                                    color={colors.offBlack}
+                                />
+                            </Pressable>
+                            <Text style={{ color: colors.offWhite }}>{ingredient}</Text>
+                        </View>
+                    ))}
                 </View>
                 <Pressable onPress={() => navigation.navigate('Recipe', { aiIngredients: aiIngredients })}>
-                    <Text>Generate Recipes</Text>
+                    <Text style={styles.generate}>Generate Recipes</Text>
                 </Pressable>
                 <Modal visible={isModalVisible} animationType="slide" transparent={true}>
                     <View style={styles.modalContainer}>
                         <Pressable onPress={() => setIsModalVisible(false)}>
                             <Text>_______________</Text>
                         </Pressable>
-                        {showPersonalize ? null : (
+                        {showCustomize ? null : (
                             <View style={styles.optionContainer}>
                                 <Text style={styles.modalHeading}>What would you like to add?</Text>
                                 <View style={styles.options}>
@@ -75,24 +94,24 @@ export default function Ingredients({ navigation, route }) {
                                                 color={colors.offBlack}
                                             />
                                         </Pressable>
-                                        <Text style={styles.optionsTitle}>Scan{"\n"}More Flyers?</Text>
+                                        <Text style={styles.optionsTitle}>Scan More Flyers?</Text>
                                     </View>
                                     <View style={styles.option}>
-                                        <Pressable style={styles.optionIcon} onPress={() => { setShowPersonalize(true) }}>
+                                        <Pressable style={styles.optionIcon} onPress={() => { setShowCustomize(true) }}>
                                             <FontAwesome5
                                                 name={'plus'}
                                                 size={25}
                                                 color={colors.offBlack}
                                             />
                                         </Pressable>
-                                        <Text style={styles.optionsTitle}>Add{"\n"}Ingredients</Text>
+                                        <Text style={styles.optionsTitle}>Add Ingredients</Text>
                                     </View>
                                 </View>
                             </View>
                         )}
-                        {showPersonalize && (
+                        {showCustomize && (
                             <View style={styles.optionContainer}>
-                                <Pressable onPress={() => { setShowPersonalize(false) }} style={styles.back}>
+                                <Pressable onPress={() => { setShowCustomize(false) }} style={styles.back}>
                                     <FontAwesome5
                                         name={'angle-left'}
                                         size={25}
@@ -105,19 +124,23 @@ export default function Ingredients({ navigation, route }) {
                                     <TextInput
                                         style={styles.input}
                                         placeholder="Type in an ingredient.. Ex: Kimchi"
-                                        onChangeText={text => setTypedText(text)}
+                                        onChangeText={text => setNewIngredient(text)}
+                                        onSubmitEditing={addIngredient}
+                                        value={newIngredient}
                                     />
                                 </View>
-                                <View style={styles.ingredientBox}>
-                                    <Pressable style={styles.delete}>
-                                        <FontAwesome5
-                                            name={'times'}
-                                            size={10}
-                                            color={colors.offBlack}
-                                        />
-                                    </Pressable>
-                                    <Text style={{ color: colors.offWhite }}>{typedText}</Text>
-                                </View>
+                                {ingredientsList.map((ingredient, i) => (
+                                    <View style={styles.ingredientBox} key={i}>
+                                        <Pressable style={styles.delete}>
+                                            <FontAwesome5
+                                                name={'times'}
+                                                size={10}
+                                                color={colors.offBlack}
+                                            />
+                                        </Pressable>
+                                        <Text style={{ color: colors.offWhite }}>{ingredient}</Text>
+                                    </View>
+                                ))}
                                 <Pressable style={styles.next}>
                                     <Text style={{ color: colors.offWhite }}>Next</Text>
                                 </Pressable>
@@ -268,5 +291,9 @@ const styles = StyleSheet.create({
         position: 'absolute',
         bottom: -80,
         right: 0,
+    },
+    generate: {
+        marginTop: 50,
+        fontFamily: 'Manrope-Regular',
     }
 });
