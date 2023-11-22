@@ -5,6 +5,7 @@ import { ImageManipulator } from 'expo-image-crop';
 import { FontAwesome5 } from '@expo/vector-icons';
 import { colors } from '../theme';
 import axios from 'axios';
+import Loading from '../components/loading/Loading';
 
 async function ocrSpace(input, options = {}) {
     try {
@@ -72,7 +73,7 @@ export default function CameraAndCrop({ navigation }) {
                 const ingResponse = await axios.post(
                     'https://lsswwzyavgt7egwvij52d2qkai0rseod.lambda-url.ca-central-1.on.aws/',
                     {
-                        question: `Create a JSON format for an array of ingredients and name that array ingredients using the extracted ${ocrResponse}. Only include the names of food ingredients from the OCR response.`,
+                        question: `Create a JSON format for an array of ingredients and name that array ingredients using the extracted ${ocrResponse}. Only include the names of food ingredients from the OCR response and no category.`,
                     }
                 );
 
@@ -91,6 +92,13 @@ export default function CameraAndCrop({ navigation }) {
         }
 
     }, [ocrResponse, navigation]);
+
+    const animation = useRef(null);
+
+    useEffect(() => {
+        animation.current?.play();
+    }, []);
+
 
     const takePicture = async () => {
         if (cameraRef.current) {
@@ -151,10 +159,12 @@ export default function CameraAndCrop({ navigation }) {
     return (
         <View style={{ flex: 1 }}>
             {isLoading ? (
+
                 <View style={styles.loadingContainer}>
-                    <ActivityIndicator size="large" color={colors.primary} />
-                    <Text style={{ marginTop: 10 }}>Processing...</Text>
+                    <Loading />
                 </View>
+
+
             ) : isVisible ? (
                 <ImageManipulator
                     photo={{ uri }}

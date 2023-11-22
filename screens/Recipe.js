@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { StyleSheet, Text, View, ScrollView, TouchableOpacity, Pressable, ActivityIndicator } from 'react-native';
 import { Box, Image } from "@gluestack-ui/themed";
 import Back from '../components/button/Back';
@@ -6,11 +6,22 @@ import { colors } from '../theme';
 import { useFocusEffect } from '@react-navigation/native';
 import axios from 'axios';
 import { FontAwesome5 } from '@expo/vector-icons';
+import LottieView from 'lottie-react-native';
+import Loading from '../components/loading/Loading';
 
 export default function Recipe({ navigation, route }) {
     const [isLoading, setIsLoading] = useState(true);
     const [aiResponse, setAiResponse] = useState(null);
     const [aiIngredients, setAiIngredients] = useState(route.params?.aiIngredients);
+    const [newIngredient, setNewIngredient] = useState('');
+    const [showNew, setShowNew] = useState(false);
+    const [ingredientsList, setIngredientsList] = useState([]);
+
+    const animation = useRef(null);
+
+    useEffect(() => {
+        animation.current?.play();
+    }, []);
 
     useEffect(() => {
         const loading = async () => {
@@ -21,6 +32,14 @@ export default function Recipe({ navigation, route }) {
 
         loading();
     }, [aiResponse]);
+
+    useEffect(() => {
+        if (newIngredient.length > 0) {
+            setShowNew(true);
+        } else {
+            setShowNew(false);
+        }
+    }, [newIngredient]);
 
     useFocusEffect(
         React.useCallback(() => {
@@ -50,51 +69,26 @@ export default function Recipe({ navigation, route }) {
         }, [aiIngredients])
     );
 
-    if (!aiResponse) {
-        return (
-            <View style={styles.loading}>
-                <Text style={styles.loadingText}>No AI response available.</Text>
-            </View>
-        );
+    let parsedIngredients = null;
+
+    try {
+        parsedIngredients = JSON.parse(aiIngredients);
+    } catch (error) {
+        console.error('Error parsing aiIngredients:', error);
     }
 
-    // useEffect(() => {
-    //     const fetchData = async () => {
-    //         try {
-    //             const response = await axios.post(
-    //                 'https://lsswwzyavgt7egwvij52d2qkai0rseod.lambda-url.ca-central-1.on.aws/',
-    //                 {
-    //                     question: `Create a JSON format with an array of 2 meals using ${aiIngredients}. Each meal should have an "id", "name", "cuisine", "description", "mins", "cals", "ingredients,", "numsIngredient", and "instructions in an array"
-    //                     `,
-    //                     img: true
-    //                 }
-    //             );
-
-    //             const recipes = response.data.choices[0].message.content;
-    //             console.log("The recipes", recipes);
-    //             setAiResponse(recipes);
-
-    //         } catch (error) {
-    //             console.error(error);
-    //         }
-    //     };
-
-    //     if (ocrResponse !== null) {
-    //         fetchData();
-    //     }
-
-    // }, []);
+    console.log(parsedIngredients);
+    console.log("aiIngredients from params:", aiIngredients);
 
 
     const parsedResponse = aiResponse;
     console.log(parsedResponse)
 
     return (
-        <ScrollView>
+        <ScrollView >
             {isLoading ? (
                 <View style={styles.loadingContainer}>
-                    <ActivityIndicator size="large" color={colors.primary} />
-                    <Text style={{ marginTop: 10 }}>Processing...</Text>
+                    <Loading />
                 </View>
             ) : (
                 <View style={styles.container}>
@@ -102,6 +96,34 @@ export default function Recipe({ navigation, route }) {
                         <Back navigation={navigation} />
                     </View>
                     <Text style={styles.heading}>Here are some recipes based on what you scanned 🪄</Text>
+
+                    <View style={styles.ingredientsContainer}>
+                        {parsedIngredients.ingredients && Array.isArray(parsedIngredients.ingredients) && parsedIngredients.ingredients.map((ingredient, i) => (
+                            <View style={styles.ingredientBox} key={i}>
+                                <Pressable onPress={() => removeIngredient(i)} style={styles.delete}>
+                                    <FontAwesome5
+                                        name={'times'}
+                                        size={10}
+                                        color={colors.offBlack}
+                                    />
+                                </Pressable>
+                                <Text style={{ color: colors.offWhite, fontSize: 13 }}>{ingredient}</Text>
+                            </View>
+                        ))}
+                        {ingredientsList.map((ingredient, i) => (
+                            <View style={styles.ingredientBox} key={i}>
+                                <Pressable style={styles.delete}>
+                                    <FontAwesome5
+                                        name={'times'}
+                                        size={10}
+                                        color={colors.offBlack}
+                                    />
+                                </Pressable>
+                                <Text style={{ color: colors.offWhite }}>{ingredient}</Text>
+                            </View>
+                        ))}
+                    </View>
+
                     {parsedResponse.meals && Array.isArray(parsedResponse.meals) && parsedResponse.meals.map((item, index) => (
                         <TouchableOpacity key={index} onPress={() => navigation.navigate('RecipeInfo', { recipe: item })}>
                             <Box
@@ -155,6 +177,8 @@ export default function Recipe({ navigation, route }) {
                     ))}
                 </View>)}
         </ScrollView>
+
+
     );
 }
 
@@ -204,6 +228,29 @@ const styles = StyleSheet.create({
         fontSize: 16,
         fontWeight: 'bold',
     },
+    ingredientsContainer: {
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        gap: 10,
+        width: '80%',
+        marginTop: 10,
+    },
+    ingredientBox: {
+        backgroundColor: colors.asparagus,
+        padding: 10,
+        borderRadius: 5,
+    },
+    delete: {
+        backgroundColor: colors.offWhite,
+        borderWidth: 1,
+        borderColor: colors.offBlack,
+        paddingVertical: 3,
+        paddingHorizontal: 4,
+        borderRadius: 20,
+        position: 'absolute',
+        top: -5,
+        left: -5,
+    },
     details: {
         flexDirection: 'row',
         justifyContent: 'space-between',
@@ -214,4 +261,11 @@ const styles = StyleSheet.create({
         color: 'white',
         fontSize: 10,
     },
+    loadingContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        marginTop: '50%'
+    },
+
 });

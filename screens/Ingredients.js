@@ -33,9 +33,20 @@ export default function Ingredients({ navigation, route }) {
 
     const addIngredient = () => {
         if (newIngredient.length > 0) {
-            setIngredientsList(prevList => [...prevList, newIngredient]);
+            const updatedIngredientsList = [...ingredientsList, newIngredient];
+            setIngredientsList(updatedIngredientsList);
+
+            const updatedIngredients = [...parsedIngredients.ingredients, newIngredient];
+            setAiIngredients(JSON.stringify({ ingredients: updatedIngredients }));
+
             setNewIngredient('');
         }
+    };
+
+    const removeIngredient = (index) => {
+        const updatedIngredients = [...parsedIngredients.ingredients];
+        updatedIngredients.splice(index, 1);
+        setAiIngredients(JSON.stringify({ ingredients: updatedIngredients }));
     };
 
     return (
@@ -51,7 +62,7 @@ export default function Ingredients({ navigation, route }) {
                 <View style={styles.ingredientsContainer}>
                     {parsedIngredients.ingredients && Array.isArray(parsedIngredients.ingredients) && parsedIngredients.ingredients.map((ingredient, i) => (
                         <View style={styles.ingredientBox} key={i}>
-                            <Pressable style={styles.delete}>
+                            <Pressable onPress={() => removeIngredient(i)} style={styles.delete}>
                                 <FontAwesome5
                                     name={'times'}
                                     size={10}
@@ -59,18 +70,6 @@ export default function Ingredients({ navigation, route }) {
                                 />
                             </Pressable>
                             <Text style={{ color: colors.offWhite, fontSize: 13 }}>{ingredient}</Text>
-                        </View>
-                    ))}
-                    {ingredientsList.map((ingredient, i) => (
-                        <View style={styles.ingredientBox} key={i}>
-                            <Pressable style={styles.delete}>
-                                <FontAwesome5
-                                    name={'times'}
-                                    size={10}
-                                    color={colors.offBlack}
-                                />
-                            </Pressable>
-                            <Text style={{ color: colors.offWhite }}>{ingredient}</Text>
                         </View>
                     ))}
                 </View>
