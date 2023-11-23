@@ -73,7 +73,7 @@ export default function CameraAndCrop({ navigation }) {
                 const ingResponse = await axios.post(
                     'https://lsswwzyavgt7egwvij52d2qkai0rseod.lambda-url.ca-central-1.on.aws/',
                     {
-                        question: `Create a JSON format for an array of ingredients and name that array ingredients using the extracted ${ocrResponse}. Only include the names of food ingredients from the OCR response and no category.`,
+                        question: `Create a JSON format for an array of food ingredients and name that array 'ingredients' using the extracted ${ocrResponse}. Please include only the names of food ingredients from the OCR response and exclude any information related to categories, brand names, and prices. The goal is to focus exclusively on displaying the food ingredients present in the OCR response.`,
                     }
                 );
 

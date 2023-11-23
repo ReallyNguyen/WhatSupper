@@ -92,7 +92,7 @@ export default function MainStack() {
                     <Stack.Screen name="First" component={First} options={{ headerShown: false }} />
                     <Stack.Screen name="Second" component={Second} options={{ headerShown: false }} />
                     <Stack.Screen name="Third" component={Third} options={{ headerShown: false }} />
-                    <Stack.Screen name="Home" component={Home} options={{ headerShown: false }} />
+                    <Stack.Screen name="Home" component={Home} options={{ headerShown: false, gestureEnabled: false }} />
                     <Stack.Screen name="TutorialFirst" component={TutorialFirst} options={{ headerShown: false }} />
                     <Stack.Screen name="TutorialSecond" component={TutorialSecond} options={{ headerShown: false }} />
                     <Stack.Screen name="Saved" component={Saved} options={{ headerShown: false }} />
