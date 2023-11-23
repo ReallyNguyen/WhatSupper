@@ -19,6 +19,14 @@ export default function Recipe({ navigation, route }) {
 
     const animation = useRef(null);
 
+    const selectedNumber = route.params?.selectedNumber || 2;
+
+    const removeIngredient = (index) => {
+        const updatedIngredients = [...parsedIngredients.ingredients];
+        updatedIngredients.splice(index, 1);
+        setAiIngredients(JSON.stringify({ ingredients: updatedIngredients }));
+    };
+
     useEffect(() => {
         animation.current?.play();
     }, []);
@@ -48,7 +56,7 @@ export default function Recipe({ navigation, route }) {
                     const response = await axios.post(
                         'https://lsswwzyavgt7egwvij52d2qkai0rseod.lambda-url.ca-central-1.on.aws/',
                         {
-                            question: `Create a JSON format with an array of 2 meals using ${aiIngredients}. Each meal should have an "id", "name", "cuisine", "description", "mins", "cals", "ingredients,", "numsIngredient", and "instructions in an array"
+                            question: `Create a JSON format with an array of ${selectedNumber} meals using ${aiIngredients}. Each meal should have an "id", "name", "cuisine", "description", "mins", "cals", "ingredients,", "numsIngredient", and "instructions in an array"
                             `,
                             img: true
                         }
@@ -66,7 +74,7 @@ export default function Recipe({ navigation, route }) {
             if (aiIngredients !== null) {
                 fetchData();
             }
-        }, [aiIngredients])
+        }, [aiIngredients, selectedNumber])
     );
 
     let parsedIngredients = null;

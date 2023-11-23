@@ -11,6 +11,8 @@ export default function Ingredients({ navigation, route }) {
     const [newIngredient, setNewIngredient] = useState('');
     const [showNew, setShowNew] = useState(false);
     const [ingredientsList, setIngredientsList] = useState([]);
+    const [selectedNumber, setSelectedNumber] = useState(null);
+    const [pressedButton, setPressedButton] = useState(null);
 
     let parsedIngredients = null;
 
@@ -43,10 +45,19 @@ export default function Ingredients({ navigation, route }) {
         }
     };
 
+    const generateRecipes = () => {
+        navigation.navigate('Recipe', { aiIngredients: aiIngredients, selectedNumber: selectedNumber || 2 });
+    };
+
     const removeIngredient = (index) => {
         const updatedIngredients = [...parsedIngredients.ingredients];
         updatedIngredients.splice(index, 1);
         setAiIngredients(JSON.stringify({ ingredients: updatedIngredients }));
+    };
+
+    const handleNumberPress = (number) => {
+        setSelectedNumber(number);
+        console.log(`Selected Number: ${number}`);
     };
 
     return (
@@ -76,10 +87,11 @@ export default function Ingredients({ navigation, route }) {
                 <Pressable onPress={() => navigation.navigate('Recipe', { aiIngredients: aiIngredients })}>
                     <Text style={styles.generate}>Generate Recipes</Text>
                 </Pressable>
+
                 <Modal visible={isModalVisible} animationType="slide" transparent={true}>
                     <View style={styles.modalContainer}>
                         <Pressable onPress={() => setIsModalVisible(false)}>
-                            <Text>_______________</Text>
+                            <Text style={{ fontSize: 70 }}>X</Text>
                         </Pressable>
                         {showCustomize ? null : (
                             <View style={styles.optionContainer}>
@@ -128,21 +140,42 @@ export default function Ingredients({ navigation, route }) {
                                         value={newIngredient}
                                     />
                                 </View>
-                                {ingredientsList.map((ingredient, i) => (
-                                    <View style={styles.ingredientBox} key={i}>
-                                        <Pressable style={styles.delete}>
-                                            <FontAwesome5
-                                                name={'times'}
-                                                size={10}
-                                                color={colors.offBlack}
-                                            />
+                                <View style={styles.ingredientsList}>
+                                    {ingredientsList.map((ingredient, i) => (
+                                        <View style={styles.ingredientBox} key={i}>
+                                            <Pressable style={styles.delete}>
+                                                <FontAwesome5
+                                                    name={'times'}
+                                                    size={10}
+                                                    color={colors.offBlack}
+                                                />
+                                            </Pressable>
+                                            <Text style={{ color: colors.offWhite }}>{ingredient}</Text>
+                                        </View>
+                                    ))}
+                                </View>
+
+                                <View style={styles.recipesContainer}>
+                                    <Text style={styles.recipeHeading}>How many recipes would you like?</Text>
+                                    <View style={styles.bottomContainer}>
+                                        <Pressable onPress={() => handleNumberPress(1)} style={[styles.recipeAdd, pressedButton === 1 && styles.filledButton]}>
+                                            <Text style={[styles.buttonText, pressedButton === 1 && styles.filledButtonText]}>1</Text>
                                         </Pressable>
-                                        <Text style={{ color: colors.offWhite }}>{ingredient}</Text>
+                                        <Pressable onPress={() => handleNumberPress(2)} style={[styles.recipeAdd, pressedButton === 2 && styles.filledButton]}>
+                                            <Text style={[styles.buttonText, pressedButton === 2 && styles.filledButtonText]}>2</Text>
+                                        </Pressable>
+                                        <Pressable onPress={() => handleNumberPress(3)} style={[styles.recipeAdd, pressedButton === 3 && styles.filledButton]}>
+                                            <Text style={[styles.buttonText, pressedButton === 3 && styles.filledButtonText]}>3</Text>
+                                        </Pressable>
+                                        <Pressable onPress={() => handleNumberPress(4)} style={[styles.recipeAdd, pressedButton === 4 && styles.filledButton]}>
+                                            <Text style={[styles.buttonText, pressedButton === 4 && styles.filledButtonText]}>4</Text>
+                                        </Pressable>
+
+                                        <Pressable onPress={() => generateRecipes()} style={styles.next}>
+                                            <Text style={styles.buttonTextNext}>Next</Text>
+                                        </Pressable>
                                     </View>
-                                ))}
-                                <Pressable style={styles.next}>
-                                    <Text style={{ color: colors.offWhite }}>Next</Text>
-                                </Pressable>
+                                </View>
                             </View>
                         )}
                     </View>
@@ -157,6 +190,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         marginTop: 50,
         padding: 16,
+
     },
     heading: {
         fontSize: 20,
@@ -168,7 +202,9 @@ const styles = StyleSheet.create({
     },
     header: {
         flexDirection: 'row',
-        width: '80%',
+        justifyContent: 'space-around',
+        alignItems: 'center',
+        marginHorizontal: 20,
         marginBottom: 20,
     },
     loading: {
@@ -188,6 +224,13 @@ const styles = StyleSheet.create({
         gap: 10,
         width: '80%',
         marginTop: 10,
+    },
+    ingredientsList: {
+        display: 'flex',
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        gap: 10,
+        width: '90%',
     },
     ingredientBox: {
         backgroundColor: colors.asparagus,
@@ -209,11 +252,14 @@ const styles = StyleSheet.create({
         borderWidth: 1,
         borderRadius: 5,
         borderColor: colors.asparagus,
-        paddingVertical: 7,
-        paddingHorizontal: 5
+        width: 54,
+        height: 30,
+        alignContent: 'center',
+        justifyContent: 'center'
     },
     addTxt: {
         color: colors.asparagus,
+        textAlign: 'center'
     },
     modalContainer: {
         position: 'absolute',
@@ -237,7 +283,7 @@ const styles = StyleSheet.create({
     optionContainer: {
         justifyContent: 'center',
         alignItems: 'center',
-        width: '65%'
+        width: '69%'
     },
     options: {
         flexDirection: 'row',
@@ -283,16 +329,60 @@ const styles = StyleSheet.create({
         paddingLeft: 10,
         marginVertical: 15,
     },
-    next: {
-        backgroundColor: colors.asparagus,
-        padding: 10,
-        borderRadius: 5,
-        position: 'absolute',
-        bottom: -80,
-        right: 0,
-    },
     generate: {
         marginTop: 50,
         fontFamily: 'Manrope-Regular',
-    }
+    },
+    recipesContainer: {
+        flexDirection: 'column',
+    },
+    recipeHeading: {
+        fontFamily: "Manrope-Bold",
+        fontSize: 16,
+        marginVertical: '5%'
+    },
+    bottomContainer: {
+        flexDirection: 'row',
+        alignItems: 'center',
+        justifyContent: 'space-between'
+    },
+    numberButtonRow: {
+        flexDirection: 'row',
+    },
+    recipeAdd: {
+        marginHorizontal: 5,
+        padding: 10,
+        borderRadius: 5,
+        backgroundColor: colors.offWhite,
+        borderColor: colors.asparagus,
+        borderWidth: 1
+    },
+    buttonText: {
+        textAlign: 'center',
+        color: colors.asparagus
+    },
+    buttonTextNext: {
+        color: colors.offWhite,
+        textAlign: 'center'
+    },
+    next: {
+        marginHorizontal: 5,
+        width: '30%',
+        padding: 10,
+        borderRadius: 5,
+        backgroundColor: colors.asparagus,
+        borderColor: colors.asparagus,
+        borderWidth: 1,
+        justifyContent: 'center',
+        textAlign: 'center',
+    },
+    filledButton: {
+        backgroundColor: colors.asparagus
+    },
+    filledButtonText: {
+        color: colors.offWhite,
+        textAlign: 'center',
+        backgroundColor: colors.asparagus
+    },
+
 });
