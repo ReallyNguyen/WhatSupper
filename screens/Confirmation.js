@@ -4,7 +4,7 @@ import Back from '../components/button/Back';
 import { colors } from '../theme';
 import { FontAwesome5 } from '@expo/vector-icons';
 
-export default function Ingredients({ navigation, route }) {
+export default function Confirmation({ navigation, route }) {
     const [aiIngredients, setAiIngredients] = useState(route.params?.aiIngredients);
     const [isModalVisible, setIsModalVisible] = useState(false);
     const [showCustomize, setShowCustomize] = useState(false);
@@ -47,6 +47,8 @@ export default function Ingredients({ navigation, route }) {
 
     const generateRecipes = () => {
         navigation.navigate('Recipe', { aiIngredients: aiIngredients, selectedNumber: selectedNumber || 2 });
+        setIsModalVisible(false);
+
     };
 
     const removeIngredient = (index) => {
@@ -63,30 +65,44 @@ export default function Ingredients({ navigation, route }) {
     return (
         <ScrollView>
             <View style={styles.container}>
-                <View style={styles.header}>
-                    <Back navigation={navigation} />
-                    <Pressable style={styles.add} onPress={() => setIsModalVisible(true)}>
-                        <Text style={styles.addTxt}>Add +</Text>
+                <Text style={styles.heading}>Confirm your Scan 👀</Text>
+                <View>
+
+
+                    <View style={styles.ingredientsContainer}>
+
+                        <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
+                            <View style={{ width: '70%' }}>
+                                <Text style={{ fontSize: 18, fontFamily: 'Manrope-SemiBold' }}>Ingredients</Text>
+                                <Text style={{ fontSize: 14, fontFamily: 'Manrope-Medium', marginBottom: '5%' }}>Check the boxes to indicate which ingredients you want:</Text>
+                            </View>
+                            <Pressable style={styles.add} onPress={() => setIsModalVisible(true)}>
+                                <Text style={styles.addTxt}>Add +</Text>
+                            </Pressable>
+                        </View>
+
+                        {parsedIngredients.ingredients && Array.isArray(parsedIngredients.ingredients) && parsedIngredients.ingredients.map((ingredient, i) => (
+                            <View style={styles.ingredientBox} key={i}>
+                                <Pressable onPress={() => removeIngredient(i)} style={styles.delete}>
+                                    <FontAwesome5
+                                        name={'times'}
+                                        size={10}
+                                        color={colors.offBlack}
+                                    />
+                                </Pressable>
+                                <Text style={{ color: colors.offWhite, fontSize: 13 }}>{ingredient}</Text>
+                            </View>
+                        ))}
+                    </View>
+                </View>
+                <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', gap: '50%', marginTop: '70%' }}>
+                    <Pressable style={styles.rescanButton} onPress={() => navigation.navigate('Camera')}>
+                        <Text style={styles.rescan}>← Rescan</Text>
+                    </Pressable>
+                    <Pressable style={styles.generateButton} onPress={() => navigation.navigate('Recipe', { aiIngredients: aiIngredients })}>
+                        <Text style={styles.generate}>Generate →</Text>
                     </Pressable>
                 </View>
-                <Text style={styles.heading}>Here are the ingredients based on what you scanned</Text>
-                <View style={styles.ingredientsContainer}>
-                    {parsedIngredients.ingredients && Array.isArray(parsedIngredients.ingredients) && parsedIngredients.ingredients.map((ingredient, i) => (
-                        <View style={styles.ingredientBox} key={i}>
-                            <Pressable onPress={() => removeIngredient(i)} style={styles.delete}>
-                                <FontAwesome5
-                                    name={'times'}
-                                    size={10}
-                                    color={colors.offBlack}
-                                />
-                            </Pressable>
-                            <Text style={{ color: colors.offWhite, fontSize: 13 }}>{ingredient}</Text>
-                        </View>
-                    ))}
-                </View>
-                <Pressable onPress={() => navigation.navigate('Recipe', { aiIngredients: aiIngredients })}>
-                    <Text style={styles.generate}>Generate Recipes</Text>
-                </Pressable>
 
                 <Modal visible={isModalVisible} animationType="slide" transparent={true}>
                     <View style={styles.modalContainer}>
@@ -193,12 +209,13 @@ const styles = StyleSheet.create({
 
     },
     heading: {
-        fontSize: 20,
+        fontSize: 24,
         fontFamily: 'Manrope-Bold',
         fontWeight: 'bold',
         marginTop: 50,
         marginBottom: 16,
-        width: '80%'
+        width: '80%',
+        textAlign: 'center'
     },
     header: {
         flexDirection: 'row',
@@ -222,8 +239,13 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         flexWrap: 'wrap',
         gap: 10,
-        width: '80%',
+        width: '95%',
         marginTop: 10,
+        borderWidth: 1,
+        borderRadius: 5,
+        borderColor: colors.asparagus,
+        padding: '5%',
+
     },
     ingredientsList: {
         display: 'flex',
@@ -236,6 +258,22 @@ const styles = StyleSheet.create({
         backgroundColor: colors.asparagus,
         padding: 10,
         borderRadius: 5,
+    },
+    generateButton: {
+        backgroundColor: colors.asparagus,
+        height: 40,
+        width: 107,
+        borderRadius: 8,
+        justifyContent: 'center'
+    },
+    rescanButton: {
+        borderWidth: 1,
+        alignContent: 'center',
+        borderColor: colors.offBlack,
+        height: 40,
+        width: 107,
+        borderRadius: 8,
+        justifyContent: 'center'
     },
     delete: {
         backgroundColor: colors.offWhite,
@@ -330,8 +368,13 @@ const styles = StyleSheet.create({
         marginVertical: 15,
     },
     generate: {
-        marginTop: 50,
         fontFamily: 'Manrope-Regular',
+        textAlign: 'center',
+        color: colors.offWhite
+    },
+    rescan: {
+        fontFamily: 'Manrope-Regular',
+        textAlign: 'center'
     },
     recipesContainer: {
         flexDirection: 'column',
