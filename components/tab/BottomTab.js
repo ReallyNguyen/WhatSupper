@@ -14,7 +14,7 @@ import Recipe from '../../screens/Recipe';
 import RecipeInfo from '../../screens/RecipeInfo';
 import CouponInfo from '../../screens/CouponInfo';
 import RecipeCategory from '../../screens/RecipeCategory';
-import Ingredients from '../../screens/Ingredients';
+import Confirmation from '../../screens/Confirmation';
 import { FontAwesome5 } from '@expo/vector-icons';
 import { View, TouchableOpacity } from 'react-native'
 import { useTheme, ThemeProvider } from '../../ThemeContext';
@@ -24,7 +24,7 @@ const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 
 function BottomTabNavigator() {
-    const hiddenRoute = ["First", "Second", "Third", "TutorialFirst", "TutorialSecond", "CouponInfo", "Camera", "Recipe", "RecipeCategory", "Saved"];
+    const hiddenRoute = ["First", "Second", "Third", "TutorialFirst", "TutorialSecond", "CouponInfo", "Camera", "Recipe", "RecipeCategory", "Saved", "Confirmation"];
     const [currentScreen, setCurrentScreen] = useState("Home")
     const nav = useNavigation();
     React.useEffect(() => {
@@ -97,7 +97,7 @@ export default function MainStack() {
                     <Stack.Screen name="TutorialSecond" component={TutorialSecond} options={{ headerShown: false }} />
                     <Stack.Screen name="Saved" component={Saved} options={{ headerShown: false }} />
                     <Stack.Screen name="Camera" component={Camera} options={{ headerShown: false }} />
-                    <Stack.Screen name="Ingredients" component={Ingredients} options={{ headerShown: false }} />
+                    <Stack.Screen name="Confirmation" component={Confirmation} options={{ headerShown: false }} />
                     <Stack.Screen name="Recipe" component={Recipe} options={{ headerShown: false }} />
                     <Stack.Screen name="RecipeInfo" component={RecipeInfo} options={{ headerShown: false }} />
                     <Stack.Screen name="CouponInfo" component={CouponInfo} options={{ headerShown: false }} />
