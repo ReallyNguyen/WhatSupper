@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, View, ScrollView, Pressable, Modal, TextInput } from 'react-native';
+import { StyleSheet, Text, View, ScrollView, Pressable, Modal, TextInput, Image } from 'react-native';
 import Back from '../components/button/Back';
 import { colors } from '../theme';
 import { FontAwesome5 } from '@expo/vector-icons';
@@ -13,6 +13,7 @@ export default function Confirmation({ navigation, route }) {
     const [ingredientsList, setIngredientsList] = useState([]);
     const [selectedNumber, setSelectedNumber] = useState(null);
     const [pressedButton, setPressedButton] = useState(null);
+    const [uri, setUri] = useState(route.params?.uri);
 
     let parsedIngredients = null;
 
@@ -24,7 +25,7 @@ export default function Confirmation({ navigation, route }) {
 
     console.log(parsedIngredients);
     console.log("aiIngredients from params:", aiIngredients);
-
+    console.log("image", uri)
     useEffect(() => {
         if (newIngredient.length > 0) {
             setShowNew(true);
@@ -67,10 +68,13 @@ export default function Confirmation({ navigation, route }) {
             <View style={styles.container}>
                 <Text style={styles.heading}>Confirm your Scan 👀</Text>
                 <View>
-
+                    {uri && (
+                        <View style={styles.imageContainer}>
+                            <Image source={{ uri: uri }} style={styles.image} />
+                        </View>
+                    )}
 
                     <View style={styles.ingredientsContainer}>
-
                         <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
                             <View style={{ width: '70%' }}>
                                 <Text style={{ fontSize: 18, fontFamily: 'Manrope-SemiBold' }}>Ingredients</Text>
@@ -81,7 +85,7 @@ export default function Confirmation({ navigation, route }) {
                             </Pressable>
                         </View>
 
-                        {parsedIngredients.ingredients && Array.isArray(parsedIngredients.ingredients) && parsedIngredients.ingredients.map((ingredient, i) => (
+                        {parsedIngredients !== null && parsedIngredients.ingredients && Array.isArray(parsedIngredients.ingredients) && parsedIngredients.ingredients.map((ingredient, i) => (
                             <View style={styles.ingredientBox} key={i}>
                                 <Pressable onPress={() => removeIngredient(i)} style={styles.delete}>
                                     <FontAwesome5
@@ -99,7 +103,7 @@ export default function Confirmation({ navigation, route }) {
                     <Pressable style={styles.rescanButton} onPress={() => navigation.navigate('Camera')}>
                         <Text style={styles.rescan}>← Rescan</Text>
                     </Pressable>
-                    <Pressable style={styles.generateButton} onPress={() => navigation.navigate('Recipe', { aiIngredients: aiIngredients })}>
+                    <Pressable style={styles.generateButton} onPress={() => navigation.navigate('Recipe', { aiIngredients: aiIngredients, autoGen: true })}>
                         <Text style={styles.generate}>Generate →</Text>
                     </Pressable>
                 </View>
@@ -207,6 +211,16 @@ const styles = StyleSheet.create({
         marginTop: 50,
         padding: 16,
 
+    },
+    imageContainer: {
+        alignItems: 'center',
+        marginTop: 20,
+    },
+    image: {
+        width: 300,
+        height: 300,
+        borderRadius: 10,
+        marginTop: 10,
     },
     heading: {
         fontSize: 24,
