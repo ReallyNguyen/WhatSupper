@@ -6,17 +6,14 @@ import LottieView from 'lottie-react-native';
 const animjson = require('../../assets/loading/Loading.json');
 export default function Loading() {
     const animation = useRef(null);
-    // useEffect(() => {
-    //     animation.current?.play();
-    // }, []);
 
-    useFocusEffect(
-        React.useCallback(() => {
-            if (animation.current) {
-                animation.current?.play();
-            }
-        }, [animation.current])
-    );
+    useEffect(() => {
+        animation.current?.reset();
+        setTimeout(() => {
+            animation.current?.play();
+        }, 100)
+
+    }, []);
 
     return (
         <View style={styles.animationContainerContainer}>
