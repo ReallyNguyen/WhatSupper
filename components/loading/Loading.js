@@ -17,7 +17,7 @@ export default function Loading() {
 
     return (
         <View style={styles.animationContainerContainer}>
-            <Text style={{ fontFamily: 'Manrope-SemiBold', fontSize: 26, marginHorizontal: '10%' }}>Hold on, we are working our AI recipe magic! ✨</Text>
+            <Text style={{ fontFamily: 'Manrope-SemiBold', fontSize: 26, marginHorizontal: '10%', textAlign: 'center' }}>Hold on, we are working our AI recipe magic! ✨</Text>
             <LottieView
                 autoPlay
                 ref={animation}
