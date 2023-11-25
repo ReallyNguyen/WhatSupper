@@ -86,12 +86,6 @@ export default function CameraAndCrop({ navigation }) {
         }
     };
 
-    const animation = useRef(null);
-
-    useEffect(() => {
-        animation.current?.play();
-    }, []);
-
 
     const takePicture = async () => {
         if (cameraRef.current) {
@@ -120,7 +114,6 @@ export default function CameraAndCrop({ navigation }) {
             const ingredients = await fetchData(response.ParsedResults[0].ParsedText);
 
             navigation.navigate('Confirmation', { aiIngredients: ingredients, uri: uriM });
-            // setOcrResponse();
 
         } catch (error) {
             console.error(error);
@@ -170,7 +163,7 @@ export default function CameraAndCrop({ navigation }) {
                         setCroppedImage(base64);
                         setIsLoading(true);
                         await handleOCR(base64, uriM);
-                        // navigation.navigate('Confirmation', { uri: uriM });
+                        setIsLoading(false);
                     }}
                     onToggleModal={() => setIsVisible(!isVisible)}
                 />
