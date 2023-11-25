@@ -91,7 +91,7 @@ export default function Recipe({ navigation, route }) {
             const response = await axios.post(
                 'https://lsswwzyavgt7egwvij52d2qkai0rseod.lambda-url.ca-central-1.on.aws/',
                 {
-                    question: `Create a JSON format with an array of ${selectedNumber} meals using ${aiIngredients}. If its null/undefine, make two meals. Each meal should have an "id", "name", "cuisine", "description", "mins", "cals", "ingredients,", "numsIngredient", and "instructions in an array"`,
+                    question: `Create a JSON format with an array of ${selectedNumber || 2} meals using ${aiIngredients} and name that array 'meals'. Each meal should have an "id", "name", "cuisine", "description", "mins", "cals", "ingredients,", "numsIngredient", and "instructions in an array"`,
                     img: true,
                 }
             );
@@ -109,7 +109,7 @@ export default function Recipe({ navigation, route }) {
 
     useFocusEffect(
         React.useCallback(() => {
-            if (aiIngredients !== null) {
+            if (aiIngredients !== null && aiResponse === null) {
                 fetchData();
             }
         }, [aiIngredients, selectedNumber])

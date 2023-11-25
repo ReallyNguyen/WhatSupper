@@ -59,7 +59,7 @@ export default function CameraAndCrop({ navigation }) {
     const [isVisible, setIsVisible] = useState(false);
     const [uri, setURI] = useState(null);
     const [pre, setPre] = useState(null);
-    const [ocrResponse, setOcrResponse] = useState(null);
+    // const [ocrResponse, setOcrResponse] = useState(null);
     const [aiResponse, setAiResponse] = useState(null);
     const [aiIngredients, setAiIngredients] = useState(null);
     const [croppedImage, setCroppedImage] = useState(null);
@@ -67,31 +67,24 @@ export default function CameraAndCrop({ navigation }) {
     const cameraRef = useRef();
     const [permission, requestPermission] = Camera.useCameraPermissions();
 
-    useEffect(() => {
-        const fetchData = async () => {
-            try {
-                const ingResponse = await axios.post(
-                    'https://lsswwzyavgt7egwvij52d2qkai0rseod.lambda-url.ca-central-1.on.aws/',
-                    {
-                        question: `Create a JSON format for an array of food ingredients and name that array 'ingredients' using the extracted ${ocrResponse}. Please include only the names of food ingredients from the OCR response and exclude any information related to categories, brand names, weight, and prices. Only food. The goal is to focus exclusively on displaying the food ingredients present in the OCR response.`,
-                    }
-                );
+    const fetchData = async (ocrResponse) => {
+        try {
+            const ingResponse = await axios.post(
+                'https://lsswwzyavgt7egwvij52d2qkai0rseod.lambda-url.ca-central-1.on.aws/',
+                {
+                    question: `Create a JSON format for an array of food ingredients and name that array 'ingredients' using the extracted ${ocrResponse}. Please include only the names of food ingredients from the OCR response and exclude any information related to categories, brand names, weight, and prices. Only food. The goal is to focus exclusively on displaying the food ingredients present in the OCR response.`,
+                }
+            );
 
-                const ingredients = ingResponse.data.choices[0].message.content;
-                console.log("the ingredients", ingredients);
-                setAiIngredients(ingredients);
-                navigation.navigate('Confirmation', { aiIngredients: ingredients });
+            const ingredients = ingResponse.data.choices[0].message.content;
+            console.log("the ingredients", ingredients);
+            // setAiIngredients(ingredients);
+            return ingredients;
 
-            } catch (error) {
-                console.error(error);
-            }
-        };
-
-        if (ocrResponse !== null) {
-            fetchData();
+        } catch (error) {
+            console.error(error);
         }
-
-    }, [ocrResponse, navigation]);
+    };
 
     const animation = useRef(null);
 
@@ -102,13 +95,14 @@ export default function CameraAndCrop({ navigation }) {
 
     const takePicture = async () => {
         if (cameraRef.current) {
+            console.log('Picture taken:', uri);
             const photo = await cameraRef.current.takePictureAsync();
             setURI(photo.uri);
             setIsVisible(true);
         }
     };
 
-    const handleOCR = async (base64) => {
+    const handleOCR = async (base64, uriM) => {
         try {
             if (!base64) {
                 throw new Error('base64 is missing or invalid');
@@ -123,7 +117,10 @@ export default function CameraAndCrop({ navigation }) {
 
             const response = await ocrSpace(base64, options);
             console.log(response);
-            setOcrResponse(response.ParsedResults[0].ParsedText);
+            const ingredients = await fetchData(response.ParsedResults[0].ParsedText);
+
+            navigation.navigate('Confirmation', { aiIngredients: ingredients, uri: uriM });
+            // setOcrResponse();
 
         } catch (error) {
             console.error(error);
@@ -158,23 +155,22 @@ export default function CameraAndCrop({ navigation }) {
     return (
         <View style={{ flex: 1 }}>
             {isLoading ? (
-
                 <View style={styles.loadingContainer}>
                     <Loading />
                 </View>
-
-
             ) : isVisible ? (
                 <ImageManipulator
                     photo={{ uri }}
                     saveOptions={{ "base64": true }}
                     isVisible={isVisible}
                     onPictureChoosed={async ({ uri: uriM, base64 }) => {
+                        console.log("urim", uriM)
                         setPre(uriM);
                         setIsVisible(false);
                         setCroppedImage(base64);
                         setIsLoading(true);
-                        await handleOCR(base64);
+                        await handleOCR(base64, uriM);
+                        // navigation.navigate('Confirmation', { uri: uriM });
                     }}
                     onToggleModal={() => setIsVisible(!isVisible)}
                 />

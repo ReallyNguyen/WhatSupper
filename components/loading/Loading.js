@@ -1,12 +1,22 @@
 import React, { useRef, useEffect } from 'react';
 import { Button, StyleSheet, View, Text } from 'react-native';
+import { useFocusEffect } from '@react-navigation/native';
 import LottieView from 'lottie-react-native';
 
+const animjson = require('../../assets/loading/Loading.json');
 export default function Loading() {
     const animation = useRef(null);
-    useEffect(() => {
-        animation.current?.play();
-    }, []);
+    // useEffect(() => {
+    //     animation.current?.play();
+    // }, []);
+
+    useFocusEffect(
+        React.useCallback(() => {
+            if (animation.current) {
+                animation.current?.play();
+            }
+        }, [animation.current])
+    );
 
     return (
         <View style={styles.animationContainerContainer}>
@@ -18,7 +28,8 @@ export default function Loading() {
                     width: 300,
                     height: 300,
                 }}
-                source={require('../../assets/loading/Loading.json')}
+
+                source={animjson}
 
             />
         </View>

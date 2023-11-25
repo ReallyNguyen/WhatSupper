@@ -11,7 +11,12 @@ export default function Back({ navigation }) {
 
     return (
         <View style={{ flex: 1, marginTop: 8 }}>
-            <Pressable onPress={() => navigation.goBack()}>
+            <Pressable onPress={() => {
+                navigation.setParams({
+                    autoGen: false
+                })
+                navigation.goBack()
+            }}>
                 <FontAwesome5
                     name={'angle-left'}
                     size={35}
