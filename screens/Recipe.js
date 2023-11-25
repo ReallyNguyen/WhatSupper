@@ -255,7 +255,7 @@ export default function Recipe({ navigation, route }) {
                                     color={colors.offBlack}
                                 />
                             </Pressable>
-                            <ScrollView>
+                            <ScrollView style={{ overflow: 'visible', flexGrow: 0, flexShrink: 0, height: 400 }}>
                                 <Text style={styles.modalHeading}>Personalize Recipes to Your Taste ⏲️</Text>
                                 <View style={styles.addInput}>
                                     <Text style={styles.addHeading}>Add Ingredient(s):</Text>

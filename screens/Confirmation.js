@@ -118,7 +118,7 @@ export default function Confirmation({ navigation, route }) {
                 <Modal visible={isModalVisible} animationType="slide" transparent={true}>
                     <View style={styles.modalContainer}>
                         <Pressable onPress={() => setIsModalVisible(false)}>
-                            <Text style={{ fontSize: 70 }}>X</Text>
+                            <Text style={{ fontSize: 60 }}>X</Text>
                         </Pressable>
                         {showCustomize ? null : (
                             <View style={styles.optionContainer}>
@@ -156,53 +156,56 @@ export default function Confirmation({ navigation, route }) {
                                         color={colors.offBlack}
                                     />
                                 </Pressable>
-                                <Text style={styles.modalHeading}>Personalize Recipes to Your Taste ⏲️</Text>
-                                <View style={styles.addInput}>
-                                    <Text style={styles.addHeading}>Add Ingredient(s):</Text>
-                                    <TextInput
-                                        style={styles.input}
-                                        placeholder="Type in an ingredient.. Ex: Kimchi"
-                                        onChangeText={text => setNewIngredient(text)}
-                                        onSubmitEditing={addIngredient}
-                                        value={newIngredient}
-                                    />
-                                </View>
-                                <View style={styles.ingredientsList}>
-                                    {ingredientsList.map((ingredient, i) => (
-                                        <View style={styles.ingredientBox} key={i}>
-                                            <Pressable style={styles.delete}>
-                                                <FontAwesome5
-                                                    name={'times'}
-                                                    size={10}
-                                                    color={colors.offBlack}
-                                                />
-                                            </Pressable>
-                                            <Text style={{ color: colors.offWhite }}>{ingredient}</Text>
-                                        </View>
-                                    ))}
-                                </View>
-
-                                <View style={styles.recipesContainer}>
-                                    <Text style={styles.recipeHeading}>How many recipes would you like?</Text>
-                                    <View style={styles.bottomContainer}>
-                                        <Pressable onPress={() => handleNumberPress(1)} style={[styles.recipeAdd, pressedButton === 1 && styles.filledButton]}>
-                                            <Text style={[styles.buttonText, pressedButton === 1 && styles.filledButtonText]}>1</Text>
-                                        </Pressable>
-                                        <Pressable onPress={() => handleNumberPress(2)} style={[styles.recipeAdd, pressedButton === 2 && styles.filledButton]}>
-                                            <Text style={[styles.buttonText, pressedButton === 2 && styles.filledButtonText]}>2</Text>
-                                        </Pressable>
-                                        <Pressable onPress={() => handleNumberPress(3)} style={[styles.recipeAdd, pressedButton === 3 && styles.filledButton]}>
-                                            <Text style={[styles.buttonText, pressedButton === 3 && styles.filledButtonText]}>3</Text>
-                                        </Pressable>
-                                        <Pressable onPress={() => handleNumberPress(4)} style={[styles.recipeAdd, pressedButton === 4 && styles.filledButton]}>
-                                            <Text style={[styles.buttonText, pressedButton === 4 && styles.filledButtonText]}>4</Text>
-                                        </Pressable>
-
-                                        <Pressable onPress={() => generateRecipes()} style={styles.next}>
-                                            <Text style={styles.buttonTextNext}>Next</Text>
-                                        </Pressable>
+                                <ScrollView style={{ overflow: 'visible', flexGrow: 0, flexShrink: 0, height: 400 }}>
+                                    <Text style={styles.modalHeading}>Personalize Recipes to Your Taste ⏲️</Text>
+                                    <View style={styles.addInput}>
+                                        <Text style={styles.addHeading}>Add Ingredient(s):</Text>
+                                        <TextInput
+                                            style={styles.input}
+                                            placeholder="Type in an ingredient.. Ex: Kimchi"
+                                            onChangeText={text => setNewIngredient(text)}
+                                            onSubmitEditing={addIngredient}
+                                            value={newIngredient}
+                                        />
                                     </View>
-                                </View>
+                                    <View style={styles.ingredientsList}>
+                                        {ingredientsList.map((ingredient, i) => (
+                                            <View style={styles.ingredientBox} key={i}>
+                                                <Pressable style={styles.delete}>
+                                                    <FontAwesome5
+                                                        name={'times'}
+                                                        size={10}
+                                                        color={colors.offBlack}
+                                                    />
+                                                </Pressable>
+                                                <Text style={{ color: colors.offWhite }}>{ingredient}</Text>
+                                            </View>
+                                        ))}
+                                    </View>
+
+                                    <View style={styles.recipesContainer}>
+                                        <Text style={styles.recipeHeading}>How many recipes would you like?</Text>
+                                        <View style={styles.bottomContainer}>
+                                            <Pressable onPress={() => handleNumberPress(1)} style={[styles.recipeAdd, pressedButton === 1 && styles.filledButton]}>
+                                                <Text style={[styles.buttonText, pressedButton === 1 && styles.filledButtonText]}>1</Text>
+                                            </Pressable>
+                                            <Pressable onPress={() => handleNumberPress(2)} style={[styles.recipeAdd, pressedButton === 2 && styles.filledButton]}>
+                                                <Text style={[styles.buttonText, pressedButton === 2 && styles.filledButtonText]}>2</Text>
+                                            </Pressable>
+                                            <Pressable onPress={() => handleNumberPress(3)} style={[styles.recipeAdd, pressedButton === 3 && styles.filledButton]}>
+                                                <Text style={[styles.buttonText, pressedButton === 3 && styles.filledButtonText]}>3</Text>
+                                            </Pressable>
+                                            <Pressable onPress={() => handleNumberPress(4)} style={[styles.recipeAdd, pressedButton === 4 && styles.filledButton]}>
+                                                <Text style={[styles.buttonText, pressedButton === 4 && styles.filledButtonText]}>4</Text>
+                                            </Pressable>
+
+                                            <Pressable onPress={() => generateRecipes()} style={styles.next}>
+                                                <Text style={styles.buttonTextNext}>Next</Text>
+                                            </Pressable>
+                                        </View>
+                                    </View>
+                                </ScrollView>
+
                             </View>
                         )}
                     </View>
@@ -340,7 +343,8 @@ const styles = StyleSheet.create({
         borderTopLeftRadius: 20,
         borderTopRightRadius: 20,
         shadowColor: colors.offBlack,
-        elevation: 1
+        elevation: 1,
+        flex: 1
     },
     modalHeading: {
         fontFamily: "Manrope-Bold",
@@ -351,7 +355,8 @@ const styles = StyleSheet.create({
     optionContainer: {
         justifyContent: 'center',
         alignItems: 'center',
-        width: '69%'
+        width: '69%',
+        heigth: '200%'
     },
     options: {
         flexDirection: 'row',
