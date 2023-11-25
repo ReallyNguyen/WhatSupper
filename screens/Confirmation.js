@@ -70,13 +70,19 @@ export default function Confirmation({ navigation, route }) {
                 <View>
                     {uri && (
                         <View style={styles.imageContainer}>
-                            <Image source={{ uri: uri }} style={styles.image} />
+                            <Text style={{ fontSize: 18, fontFamily: 'Manrope-SemiBold' }}>Flyer Scanned</Text>
+                            <Text style={{ width: '70%', fontSize: 14, fontFamily: 'Manrope-Medium' }}>Click on the photo to see if you scanned your flyer clearly:</Text>
+                            <Image source={{ uri: uri }} style={styles.image}
+                                h={120}
+                                w={310}
+                                resizeMode="cover"
+                                alt="image" />
                         </View>
                     )}
 
                     <View style={styles.ingredientsContainer}>
                         <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
-                            <View style={{ width: '70%' }}>
+                            <View style={{ width: '70%', marginRight: '12%' }}>
                                 <Text style={{ fontSize: 18, fontFamily: 'Manrope-SemiBold' }}>Ingredients</Text>
                                 <Text style={{ fontSize: 14, fontFamily: 'Manrope-Medium', marginBottom: '5%' }}>Check the boxes to indicate which ingredients you want:</Text>
                             </View>
@@ -99,7 +105,7 @@ export default function Confirmation({ navigation, route }) {
                         ))}
                     </View>
                 </View>
-                <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', gap: '50%', marginTop: '70%' }}>
+                <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', gap: '50%', marginTop: '9%' }}>
                     <Pressable style={styles.rescanButton} onPress={() => navigation.navigate('Camera')}>
                         <Text style={styles.rescan}>← Rescan</Text>
                     </Pressable>
@@ -217,8 +223,8 @@ const styles = StyleSheet.create({
         marginTop: 20,
     },
     image: {
-        width: 300,
-        height: 300,
+        width: 150,
+        height: 230,
         borderRadius: 10,
         marginTop: 10,
     },
@@ -226,8 +232,8 @@ const styles = StyleSheet.create({
         fontSize: 24,
         fontFamily: 'Manrope-Bold',
         fontWeight: 'bold',
-        marginTop: 50,
-        marginBottom: 16,
+        marginTop: 25,
+        marginBottom: 25,
         width: '80%',
         textAlign: 'center'
     },
@@ -253,13 +259,22 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         flexWrap: 'wrap',
         gap: 10,
-        width: '95%',
-        marginTop: 10,
-        borderWidth: 1,
-        borderRadius: 5,
-        borderColor: colors.asparagus,
+        width: 338,
+        marginTop: 20,
+        borderWidth: 2,
+        borderRadius: 15,
+        borderColor: colors.davysGray,
         padding: '5%',
-
+    },
+    imageContainer: {
+        flexDirection: 'column',
+        gap: 10,
+        width: 338,
+        marginTop: 10,
+        borderWidth: 2,
+        borderRadius: 15,
+        borderColor: colors.davysGray,
+        padding: '5%',
     },
     ingredientsList: {
         display: 'flex',
@@ -274,7 +289,7 @@ const styles = StyleSheet.create({
         borderRadius: 5,
     },
     generateButton: {
-        backgroundColor: colors.asparagus,
+        backgroundColor: colors.olivine,
         height: 40,
         width: 107,
         borderRadius: 8,

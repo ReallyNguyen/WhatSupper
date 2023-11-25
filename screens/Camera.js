@@ -170,7 +170,7 @@ export default function CameraAndCrop({ navigation }) {
                         setCroppedImage(base64);
                         setIsLoading(true);
                         await handleOCR(base64, uriM);
-                        // navigation.navigate('Confirmation', { uri: uriM });
+                        setIsLoading(false);
                     }}
                     onToggleModal={() => setIsVisible(!isVisible)}
                 />
