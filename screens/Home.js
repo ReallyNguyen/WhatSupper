@@ -35,7 +35,7 @@ export default function Home({ navigation }) {
 
     return (
         <View style={[styles.container, isDarkMode && styles.darkContainer]}>
-            <Header />
+            <Header navigation={navigation}/>
             <TouchableOpacity onPress={() => navigation.navigate('TutorialFirst')} style={styles.scanFlyerAdContainer}>
                 <ScanFlyerAd />
             </TouchableOpacity>
