@@ -1,26 +1,27 @@
-import { StatusBar } from 'expo-status-bar';
 import { StyleSheet, Text, View, Button, Image, TouchableOpacity } from 'react-native';
-import Next from '../components/button/Next';
 import { colors } from '../theme';
 import Skip from '../components/skip';
+import Login from '../firebase/Login';
+import Register from '../firebase/Register';
 
-
-export default function SecondIntro({ navigation }) {
+export default function SignIn({ navigation }) {
     return (
         <View style={styles.container}>
             <Image style={styles.background} source={require('../assets/background/background3.png')} />
             <View style={styles.introduction}>
                 <View style={styles.intro}>
-                    <Text style={{ color: colors.offWhite, fontSize: 40, fontFamily: "Manrope-ExtraBold" }}>Create Meals at an</Text>
-                    <Text style={{ color: colors.asparagus, fontSize: 40, fontFamily: "Manrope-ExtraBold" }}>Affordable Cost</Text>
+                    <Text style={{ color: colors.offWhite, fontSize: 40, fontFamily: "Manrope-ExtraBold" }}>Sign In</Text>
+                </View>
+                <View style={styles.inputs}>
+                    <Login navigation={navigation}/>
+                    <Register />
                 </View>
                 <View style={styles.skipButtonContainer}>
-                <TouchableOpacity onPress={() => navigation.navigate('Home')}>
-                    <Skip />
-                </TouchableOpacity>
+                    <TouchableOpacity onPress={() => navigation.navigate('Home')}>
+                        <Skip />
+                    </TouchableOpacity>
+                </View>
             </View>
-            </View>
-            <Next navigation={navigation} destination="SignIn" />
         </View>
     );
 }
@@ -45,12 +46,11 @@ const styles = StyleSheet.create({
         alignItems: 'center'
     },
     intro: {
-        justifyContent: 'flex-start'
+        justifyContent: 'center',
     },
     skipButtonContainer: {
         position: 'absolute',
         top: 50,
         right: 20,
     },
-
 });
