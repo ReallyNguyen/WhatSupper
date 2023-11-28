@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { StyleSheet, Text, View, ScrollView, Pressable, Modal, TextInput, Image } from 'react-native';
+import { StyleSheet, Text, View, ScrollView, Pressable, Modal, TextInput, Image, TouchableOpacity } from 'react-native';
 import Back from '../components/button/Back';
 import { colors } from '../theme';
 import { FontAwesome5 } from '@expo/vector-icons';
@@ -60,6 +60,7 @@ export default function Confirmation({ navigation, route }) {
 
     const handleNumberPress = (number) => {
         setSelectedNumber(number);
+        setPressedButton(number);
         console.log(`Selected Number: ${number}`);
     };
 
@@ -73,11 +74,13 @@ export default function Confirmation({ navigation, route }) {
                         <View style={styles.imageContainer}>
                             <Text style={{ fontSize: 18, fontFamily: 'Manrope-SemiBold' }}>Flyer Scanned</Text>
                             <Text style={{ width: '70%', fontSize: 14, fontFamily: 'Manrope-Medium' }}>Click on the photo to see if you scanned your flyer clearly:</Text>
-                            <Image source={{ uri: uri }} style={styles.image}
-                                h={120}
-                                w={310}
-                                resizeMode="cover"
-                                alt="image" />
+                            <TouchableOpacity>
+                                <Image source={{ uri: uri }} style={styles.image}
+                                    h={120}
+                                    w={310}
+                                    resizeMode="cover"
+                                    alt="image" />
+                            </TouchableOpacity>
                         </View>
                     )}
 
@@ -156,7 +159,7 @@ export default function Confirmation({ navigation, route }) {
                                         color={colors.offBlack}
                                     />
                                 </Pressable>
-                                <ScrollView style={{ overflow: 'visible', flexGrow: 0, flexShrink: 0, height: 400 }}>
+                                <ScrollView style={{ overflow: 'visible', flexGrow: 0, flexShrink: 0, height: 300 }}>
                                     <Text style={styles.modalHeading}>Personalize Recipes to Your Taste ⏲️</Text>
                                     <View style={styles.addInput}>
                                         <Text style={styles.addHeading}>Add Ingredient(s):</Text>
@@ -211,7 +214,7 @@ export default function Confirmation({ navigation, route }) {
                     </View>
                 </Modal>
             </View>
-        </ScrollView>
+        </ScrollView >
     );
 }
 
@@ -350,7 +353,7 @@ const styles = StyleSheet.create({
         fontFamily: "Manrope-Bold",
         fontSize: 25,
         textAlign: 'center',
-        marginTop: 100,
+        marginTop: 65,
     },
     optionContainer: {
         justifyContent: 'center',

@@ -35,7 +35,7 @@ export default function Home({ navigation }) {
 
     return (
         <View style={[styles.container, isDarkMode && styles.darkContainer]}>
-            <Header navigation={navigation}/>
+            <Header navigation={navigation} />
             <TouchableOpacity onPress={() => navigation.navigate('TutorialFirst')} style={styles.scanFlyerAdContainer}>
                 <ScanFlyerAd />
             </TouchableOpacity>
@@ -90,7 +90,7 @@ export default function Home({ navigation }) {
                     activeTab === 'tab1' &&
                     <ScrollView contentContainerStyle={styles.contentContainer}>
                         {local.map((item) => (
-                            <TouchableOpacity onPress={() => navigation.navigate('CouponInfo')} key={item.id}>
+                            <TouchableOpacity onPress={() => navigation.navigate('FakeRecipeInfo')} key={item.id}>
                                 <LocalRecipe
                                     style={styles.latest}
                                     img={item.img}
@@ -105,15 +105,14 @@ export default function Home({ navigation }) {
                 {
                     activeTab === 'tab2' &&
                     <ScrollView contentContainerStyle={styles.contentContainer}>
-                        {coupon.map((item) => (
-                            <TouchableOpacity onPress={() => navigation.navigate('CouponInfo')} key={item.id}>
-                                <CouponCard
+                        {local.map((item) => (
+                            <TouchableOpacity onPress={() => navigation.navigate('FakeRecipeInfo')} key={item.id}>
+                                <LocalRecipe
                                     style={styles.latest}
-                                    brand={item.brand}
-                                    background={item.background}
-                                    discount={item.discount}
-                                    product={item.product}
-                                    expiration={item.expiration}
+                                    img={item.img}
+                                    name={item.name}
+                                    ingredients={item.ingredients}
+                                    price={item.price}
                                 />
                             </TouchableOpacity>
                         ))}
@@ -186,8 +185,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         flexWrap: 'wrap',
         gap: -20,
-        paddingBottom: 50,
-        height: "200%"
+        height: '130%'
     },
     scanFlyerAdContainer: {
         width: 350,
