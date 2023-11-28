@@ -12,7 +12,7 @@ import TutorialSecond from '../../screens/TutorialSecond';
 import Saved from '../../screens/Saved';
 import Recipe from '../../screens/Recipe';
 import RecipeInfo from '../../screens/RecipeInfo';
-import CouponInfo from '../../screens/CouponInfo';
+import FakeRecipeInfo from '../../screens/FakeRecipeInfo';
 import RecipeCategory from '../../screens/RecipeCategory';
 import Confirmation from '../../screens/Confirmation';
 import SignIn from '../../screens/SignIn';
@@ -25,7 +25,7 @@ const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 
 function BottomTabNavigator() {
-    const hiddenRoute = ["First", "Second", "Third", "TutorialFirst", "TutorialSecond", "CouponInfo", "Camera", "Recipe", "RecipeCategory", "Saved", "Confirmation", "SignIn"];
+    const hiddenRoute = ["First", "Second", "Third", "TutorialFirst", "TutorialSecond", "CouponInfo", "Camera", "Recipe", "RecipeCategory", "Saved", "Confirmation", "SignIn", "RecipeInfo"];
     const [currentScreen, setCurrentScreen] = useState("Home")
     const nav = useNavigation();
     React.useEffect(() => {
@@ -101,7 +101,7 @@ export default function MainStack() {
                     <Stack.Screen name="Confirmation" component={Confirmation} options={{ headerShown: false }} />
                     <Stack.Screen name="Recipe" component={Recipe} options={{ headerShown: false }} />
                     <Stack.Screen name="RecipeInfo" component={RecipeInfo} options={{ headerShown: false }} />
-                    <Stack.Screen name="CouponInfo" component={CouponInfo} options={{ headerShown: false }} />
+                    <Stack.Screen name="FakeRecipeInfo" component={FakeRecipeInfo} options={{ headerShown: false }} />
                     <Stack.Screen name="RecipeCategory" component={RecipeCategory} options={{ headerShown: false }} />
                     <Stack.Screen name="SignIn" component={SignIn} options={{ headerShown: false }} />
                 </Stack.Navigator>
