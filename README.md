@@ -45,6 +45,10 @@ npx expo start
 
 - **npm install react-native-dropdown-select-list**
 
+### Firebase
+- npm install firebase
+- npm i @react-native-async-storage/async-storage
+
 ### Safe Areas
 
 [Installing dependencies into an Expo managed project](https://reactnavigation.org/docs/5.x/getting-started/)

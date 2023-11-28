@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { StyleSheet, View, ScrollView, Text, Image, TouchableOpacity } from 'react-native';
 import CouponCard from '../components/coupon/CouponCard';
 import { coupon } from '../data/coupon';
@@ -9,16 +9,69 @@ import RecipeSearchBar from '../components/search/RecipeSearchBar';
 import Back from '../components/button/Back';
 import { useTheme } from '../ThemeContext'
 import { colors } from '../theme';
+import { collection, doc, getDoc, getDocs, query, where } from 'firebase/firestore';
+import { auth, db } from '../firebase/firebase.config';
+import { onAuthStateChanged } from 'firebase/auth';
 
 export default function Saved({ navigation }) {
     const { isDarkMode, toggleTheme } = useTheme();
     const [activeTab, setActiveTab] = useState('recipes');
     const [couponSearch, setCouponSearch] = useState('');
     const [recipeSearch, setRecipeSearch] = useState('');
+    const [fn, setFN] = useState("");
+    const [scanData, setScanData] = useState([]);
+    const [user, setUser] = useState(null);
 
     const handleTabPress = (tab) => {
         setActiveTab(tab);
     };
+
+    const getUser = async () => {
+        const myself = auth;
+        if(!myself.currentUser){
+            alert('Not logged in')
+            return;
+        }
+
+        const docRef = doc(db, "users", myself.currentUser.uid);
+        const docSnap = await getDoc(docRef);
+
+        if (docSnap.exists()) {
+            const user = docSnap.data();
+            setFN(user.name);
+        } else {
+            console.log("No such document");
+        }
+    }
+
+    useEffect(() => {
+        getUser()
+    }, []);
+
+    const fetchScanData = async () => {
+        if (user) {
+            const q = query(collection(db, 'scans'), where('userId', '==', user.uid));
+            const querySnapshot = await getDocs(q);
+            const data = querySnapshot.docs.map((doc) => doc.data());
+            setScanData(data);
+        }
+    };
+
+    useEffect(() => {
+        const stop = onAuthStateChanged(auth, (user) => {
+            if (user) {
+                setUser(user);
+            } else {
+                setUser(null);
+            }
+        });
+
+        return () => stop();
+    }, []);
+
+    useEffect(() => {
+        fetchScanData();
+    }, [user]);
 
     return (
         <View style={[styles.container, isDarkMode && styles.darkContainer]}>
@@ -27,7 +80,7 @@ export default function Saved({ navigation }) {
             </View>
             <View style={styles.user}>
                 <Image style={styles.img} source={require('../assets/profile.png')} />
-                <Text style={[styles.name, isDarkMode && styles.darkText]}>Henry Leung</Text>
+                <Text style={[styles.name, isDarkMode && styles.darkText]}>{fn}</Text>
             </View>
 
 
@@ -56,7 +109,7 @@ export default function Saved({ navigation }) {
                         styles.tabTitle,
                         activeTab === 'tab2' && styles.activeTabText,
                         isDarkMode && styles.darkText
-                    ]}>Recipes</Text>
+                    ]}>Scan History</Text>
                 </TouchableOpacity>
             </View>
 
@@ -89,21 +142,9 @@ export default function Saved({ navigation }) {
                     <View style={styles.search}>
                         <RecipeSearchBar setRecipeSearch={setRecipeSearch} />
                         <ScrollView contentContainerStyle={styles.contentContainer}>
-                            {category
-                                .filter(item => item.cuisine.toLowerCase().includes(recipeSearch.toLowerCase()))
-                                .map((item) => (
-                                    <Bento
-                                        key={item.id}
-                                        cuisine={item.cuisine}
-                                        img1={item.img1}
-                                        img2={item.img2}
-                                        img3={item.img3}
-                                        navigation={navigation}
-                                        destination1="RecipeCategory"
-                                        destination2="RecipeCategory"
-                                        destination3="RecipeCategory"
-                                    />
-                                ))}
+                            {scanData.map((scan, index) => (
+                                <Image key={index} source={{ uri: scan.uri }} style={styles.scanImage} />
+                            ))}
                         </ScrollView>
                     </View>
                 }
@@ -122,7 +163,8 @@ const styles = StyleSheet.create({
         marginTop: '8%'
     },
     user: {
-        marginTop: '17%'
+        marginTop: '17%',
+        alignItems: 'center'
     },
     darkContainer: {
         backgroundColor: colors.offBlack,
@@ -170,12 +212,17 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         flexDirection: 'row',
         flexWrap: 'wrap',
-        gap: -20,
-        height: 1100,
+        gap: 20,
+        height: 1500,
     },
     search: {
         justifyContent: 'center',
         alignItems: 'center',
         paddingVertical: 20,
-    }
+    },
+    scanImage: {
+        width: 150,
+        height: 220,
+        borderRadius: 10,
+    },
 });
