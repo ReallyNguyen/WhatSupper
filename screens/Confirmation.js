@@ -3,6 +3,9 @@ import { StyleSheet, Text, View, ScrollView, Pressable, Modal, TextInput, Image 
 import Back from '../components/button/Back';
 import { colors } from '../theme';
 import { FontAwesome5 } from '@expo/vector-icons';
+import { collection, doc, getDoc, addDoc } from 'firebase/firestore';
+import { auth, db } from '../firebase/firebase.config';
+import { onAuthStateChanged } from 'firebase/auth';
 
 export default function Confirmation({ navigation, route }) {
     const [aiIngredients, setAiIngredients] = useState(route.params?.aiIngredients);
@@ -14,6 +17,7 @@ export default function Confirmation({ navigation, route }) {
     const [selectedNumber, setSelectedNumber] = useState(null);
     const [pressedButton, setPressedButton] = useState(null);
     const [uri, setUri] = useState(route.params?.uri);
+    const [user, setUser] = useState(null);
 
     let parsedIngredients = null;
 
@@ -63,6 +67,38 @@ export default function Confirmation({ navigation, route }) {
         console.log(`Selected Number: ${number}`);
     };
 
+    useEffect(() => {
+        const stop = onAuthStateChanged(auth, (user) => {
+            if (user) {
+                setUser(user);
+            } else {
+                setUser(null);
+            }
+        });
+
+        return () => stop();
+    }, []);
+
+    const saveUri = async (uri) => {
+        try {
+            if (user) {
+                const userDocRef = doc(db, 'users', user.uid);
+                const userDocSnap = await getDoc(userDocRef);
+
+                if (userDocSnap.exists()) {
+                    const docRef = await addDoc(collection(db, 'scans'), {
+                        uri: uri,
+                        userId: user.uid
+                    });
+                    console.log('Document ID:', docRef.id);
+                }
+            }
+        } catch (error) {
+            console.error('Error adding document:', error);
+        }
+    };
+
+    saveUri(uri);
 
     return (
         <ScrollView>
