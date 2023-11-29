@@ -12,7 +12,7 @@ import TutorialSecond from '../../screens/TutorialSecond';
 import Saved from '../../screens/Saved';
 import Recipe from '../../screens/Recipe';
 import RecipeInfo from '../../screens/RecipeInfo';
-import FakeRecipeInfo from '../../screens/FakeRecipeInfo';
+import RecipeHistory from '../../screens/RecipeHistory';
 import RecipeCategory from '../../screens/RecipeCategory';
 import Confirmation from '../../screens/Confirmation';
 import SignIn from '../../screens/SignIn';
@@ -101,7 +101,7 @@ export default function MainStack() {
                     <Stack.Screen name="Confirmation" component={Confirmation} options={{ headerShown: false }} />
                     <Stack.Screen name="Recipe" component={Recipe} options={{ headerShown: false }} />
                     <Stack.Screen name="RecipeInfo" component={RecipeInfo} options={{ headerShown: false }} />
-                    <Stack.Screen name="FakeRecipeInfo" component={FakeRecipeInfo} options={{ headerShown: false }} />
+                    <Stack.Screen name="RecipeHistory" component={RecipeHistory} options={{ headerShown: false }} />
                     <Stack.Screen name="RecipeCategory" component={RecipeCategory} options={{ headerShown: false }} />
                     <Stack.Screen name="SignIn" component={SignIn} options={{ headerShown: false }} />
                 </Stack.Navigator>
