@@ -206,10 +206,11 @@ const styles = StyleSheet.create({
         backgroundColor: colors.offBlack,
         color: colors.offWhite,
         width: 85,
-        paddingLeft: 10,
         paddingTop: 3,
         paddingBottom: 3,
-        borderRadius: 5,
+        borderRadius: 8,
+        elevation: 1,
+        textAlign: 'center'
     },
     infoWrapper: {
         flexDirection: 'row',
