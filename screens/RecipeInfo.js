@@ -19,7 +19,6 @@ import Instagram from '../assets/media/Instagram';
 import Facebook from '../assets/media/Facebook';
 import Messages from '../assets/media/Messages';
 import Twitter from '../assets/media/Twitter';
-import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
 
 const screenWidth = Dimensions.get('window').width;
 const screenHeight = Dimensions.get('window').height;
@@ -27,12 +26,6 @@ const screenHeight = Dimensions.get('window').height;
 const RecipeInfo = ({ route, navigation }) => {
     const [showShareBubble, setShowShareBubble] = useState(true);
     const [overlayVisible, setOverlayVisible] = useState(false);
-    const [isFavourite, setFavourite] = useState(false);
-
-    const handleFavouritePress = () => {
-        setFavourite(!isFavourite);
-    };
-
     const { recipe } = route.params;
 
     const toggleOverlay = () => {
@@ -56,14 +49,15 @@ const RecipeInfo = ({ route, navigation }) => {
             return () => clearTimeout(timer);
         }
     }, [showShareBubble]);
-    console.log("image", recipe.image_url)
+    console.log(recipe.image_url)
 
     return (
         <View>
             <View>
                 <Image
                     style={styles.img}
-                    source={{ uri: 'https://oaidalleapiprodscus.blob.core.windows.net/private/org-drKcVpfNX5Wg2mSqYERNqJDN/user-tvurrrVDFwNeVoFQQjkFXxsn/img-vD2yN7tZCZrZxe4YatHsgTHN.png?st=2023-11-28T08%3A44%3A59Z&se=2023-11-28T10%3A44%3A59Z&sp=r&sv=2021-08-06&sr=b&rscd=inline&rsct=image/png&skoid=6aaadede-4fb3-4698-a8f6-684d7786b067&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2023-11-28T05%3A43%3A16Z&ske=2023-11-29T05%3A43%3A16Z&sks=b&skv=2021-08-06&sig=/Uk%2BuiSRPRONNfWCcVoXIzuO2L%2BXwPInhsysb1y9VV4%3D' }}
+                    source={{ uri: recipe.image_url }}
+                    onError={(error) => console.error('Error loading image:', error)}
                 />
             </View>
             <ScrollView>
@@ -80,24 +74,10 @@ const RecipeInfo = ({ route, navigation }) => {
                             <FontAwesome5 name={'share-alt'} size={25} color={colors.asparagus} solid />
                         </TouchableOpacity>
 
-                        <TouchableOpacity onPress={handleFavouritePress}>
-                            <View>
-                                <FontAwesomeIcon
-                                    name={isFavourite ? 'heart' : 'heart-o'}
-                                    style={{
-                                        fontSize: 24,
-                                        color: colors.asparagus,
-                                    }}
-                                />
-                            </View>
-                        </TouchableOpacity>
+                        <FontAwesome5 name={'heart'} size={25} color={colors.asparagus} />
                     </View>
                     <Text style={styles.name}>{recipe.name}</Text>
-                    <View style={styles.cuisineContainer}>
-                        <Text style={styles.cuisine}>{recipe.cuisine}</Text>
-                    </View>
-
-
+                    <Text style={styles.cuisine}>{recipe.cuisine}</Text>
                     <View style={styles.infoWrapper}>
                         <View style={styles.info}>
                             <FontAwesome5 name={'clock'} size={15} color={colors.offWhite} />
@@ -117,18 +97,14 @@ const RecipeInfo = ({ route, navigation }) => {
                         {recipe.description}
                     </Text>
                     <Text style={styles.heading}>Ingredients</Text>
-                    {recipe.ingredients.name.map((ingredient, index) => (
+                    {recipe?.ingredients && recipe.ingredients.map((ingredient, index) => (
                         <Text key={index} style={styles.ingredient}>
                             {`${ingredient}`}
                         </Text>
                     ))}
-                    <Image
-
-                        source={{ uri: recipe.image_url }}
-                    />
                     <Text style={styles.heading}>Instructions</Text>
                     <View style={styles.steps}>
-                        {recipe.instructions.map((instruction, index) => (
+                        {recipe?.instructions && recipe.instructions.map((instruction, index) => (
                             <Text key={index} style={styles.step}>
                                 {` ${index + 1}. ${instruction}`}
                             </Text>
@@ -185,7 +161,7 @@ const styles = StyleSheet.create({
     img: {
         position: 'absolute',
         width: 420,
-
+        height: 500
     },
     back: {
         position: 'absolute',
@@ -225,16 +201,15 @@ const styles = StyleSheet.create({
         paddingBottom: 10,
         width: "65%"
     },
-    cuisineContainer: {
-        backgroundColor: colors.offBlack,
-        paddingHorizontal: 14,
-        paddingVertical: 8,
-        borderRadius: 8,
-        alignSelf: 'flex-start',
-    },
     cuisine: {
         fontFamily: 'Manrope-Bold',
+        backgroundColor: colors.offBlack,
         color: colors.offWhite,
+        width: 85,
+        paddingLeft: 10,
+        paddingTop: 3,
+        paddingBottom: 3,
+        borderRadius: 5,
     },
     infoWrapper: {
         flexDirection: 'row',

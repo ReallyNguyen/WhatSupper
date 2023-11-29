@@ -91,7 +91,7 @@ export default function Recipe({ navigation, route }) {
             const response = await axios.post(
                 'https://lsswwzyavgt7egwvij52d2qkai0rseod.lambda-url.ca-central-1.on.aws/',
                 {
-                    question: `Create a JSON format with an array of ${selectedNumber || 2} meals using ${aiIngredients} and name that array 'meals'. Each meal should have an "id", "name", "cuisine", "description", "mins", "cals", "ingredients in an array,", "numsIngredient", and "instructions in an array". Make instructions really detail as possible.`,
+                    question: `Create a JSON format with an array of ${selectedNumber || 2} meals using ${aiIngredients} and name that array 'meals'. Each meal should have an "id", "name", "cuisine", "description", "mins", "cals", "ingredients", "numsIngredient", and "instructions in an array". Make instructions really detail as possible.`,
                     img: true,
                 }
             );
