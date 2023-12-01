@@ -6,9 +6,7 @@ export default function HorizontalRecipe({ navigation, title, imageUrl, mins, cu
     return (
         <Box
             maxWidth="$72"
-            borderColor="$borderLight200"
-            borderRadius="$lg"
-            borderWidth="$1"
+            borderRadius="$20"
             my="$4"
             overflow="hidden"
             sx={{
@@ -17,10 +15,6 @@ export default function HorizontalRecipe({ navigation, title, imageUrl, mins, cu
                 },
                 "@lg": {
                     my: "0",
-                },
-                _dark: {
-                    bg: "$backgroundDark900",
-                    borderColor: "$borderDark800",
                 },
             }}
         >

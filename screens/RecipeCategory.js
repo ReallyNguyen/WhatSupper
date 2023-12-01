@@ -2,14 +2,17 @@ import { StyleSheet, View, ScrollView, Text, Image, TouchableOpacity } from 'rea
 import VerticalRecipe from '../components/recipe/VerticalRecipe';
 import { recipe } from '../data/recipe';
 import Back from '../components/button/Back';
+import { useTheme } from '../ThemeContext'
+import { colors } from '../theme';
 
-export default function RecipeCategory({navigation}) {
-    return(
-        <View style={styles.container}>
+export default function RecipeCategory({ navigation }) {
+    const { isDarkMode, toggleTheme } = useTheme();
+    return (
+        <View style={[styles.container, isDarkMode && styles.darkContainer]}>
             <View style={styles.header}>
                 <Back navigation={navigation} destination="Home" />
             </View>
-            <Text style={styles.name}>Asian</Text>
+            <Text style={[styles.name, isDarkMode && styles.darkText]}>Asian</Text>
             <View style={styles.tabPanels}>
                 <ScrollView contentContainerStyle={styles.contentContainer}>
                     {recipe.map((item) => (
@@ -33,7 +36,7 @@ const styles = StyleSheet.create({
         left: 0,
         zIndex: 1,
         marginLeft: '7%',
-        marginTop: '1%'
+        marginTop: '7%',
     },
     img: {
         width: 100,
@@ -42,13 +45,12 @@ const styles = StyleSheet.create({
     name: {
         fontFamily: "Manrope-Bold",
         fontSize: 19,
-        marginTop: 20,
+        marginTop: 50,
     },
     container: {
         flex: 1,
         alignItems: 'center',
         justifyContent: 'flex-start',
-        marginTop: 50
     },
     contentContainer: {
         justifyContent: 'center',
@@ -58,5 +60,14 @@ const styles = StyleSheet.create({
         gap: -20,
         paddingBottom: 50,
         height: 1000,
+    },
+    darkContainer: {
+        backgroundColor: colors.offBlack
+    },
+    tabPanels: {
+        marginTop: '5%'
+    },
+    darkText: {
+        color: colors.offWhite
     }
 });

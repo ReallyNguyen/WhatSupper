@@ -19,6 +19,8 @@ import Instagram from '../assets/media/Instagram';
 import Facebook from '../assets/media/Facebook';
 import Messages from '../assets/media/Messages';
 import Twitter from '../assets/media/Twitter';
+import { useTheme } from '../ThemeContext'
+import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
 
 const screenWidth = Dimensions.get('window').width;
 const screenHeight = Dimensions.get('window').height;
@@ -27,6 +29,12 @@ const RecipeInfo = ({ route, navigation }) => {
     const [showShareBubble, setShowShareBubble] = useState(true);
     const [overlayVisible, setOverlayVisible] = useState(false);
     const { recipe } = route.params;
+    const { isDarkMode, toggleTheme } = useTheme();
+    const [isFavourite, setFavourite] = useState(false);
+
+    const handleFavouritePress = () => {
+        setFavourite(!isFavourite);
+    };
 
     const toggleOverlay = () => {
         setOverlayVisible(!overlayVisible);
@@ -65,7 +73,7 @@ const RecipeInfo = ({ route, navigation }) => {
                     <Back navigation={navigation} color="black" />
                 </View>
 
-                <View style={styles.recipe}>
+                <View style={[styles.recipe, isDarkMode && styles.darkContainer]}>
                     <Animated.View style={{ opacity: fadeAnim }}>
                         {showShareBubble && <ShareBubble style={styles.shareBubble} />}
                     </Animated.View>
@@ -74,10 +82,22 @@ const RecipeInfo = ({ route, navigation }) => {
                             <FontAwesome5 name={'share-alt'} size={25} color={colors.asparagus} solid />
                         </TouchableOpacity>
 
-                        <FontAwesome5 name={'heart'} size={25} color={colors.asparagus} />
+                        <TouchableOpacity onPress={handleFavouritePress}>
+                            <View>
+                                <FontAwesomeIcon
+                                    name={isFavourite ? 'heart' : 'heart-o'}
+                                    style={{
+                                        fontSize: 27,
+                                        color: colors.asparagus,
+                                    }}
+                                />
+                            </View>
+                        </TouchableOpacity>
+
+
                     </View>
-                    <Text style={styles.name}>{recipe.name}</Text>
-                    <Text style={styles.cuisine}>{recipe.cuisine}</Text>
+                    <Text style={[styles.name, isDarkMode && styles.darkText]}>{recipe.name}</Text>
+                    <Text style={[styles.cuisine, isDarkMode && styles.darkCuisine]}>{recipe.cuisine}</Text>
                     <View style={styles.infoWrapper}>
                         <View style={styles.info}>
                             <FontAwesome5 name={'clock'} size={15} color={colors.offWhite} />
@@ -92,20 +112,20 @@ const RecipeInfo = ({ route, navigation }) => {
                             <Text style={styles.infoText}>{recipe.cals} cal</Text>
                         </View>
                     </View>
-                    <Text style={styles.heading}>Description</Text>
-                    <Text style={styles.description}>
+                    <Text style={[styles.heading, isDarkMode && styles.darkText]}>Description</Text>
+                    <Text style={[styles.description, isDarkMode && styles.darkText]}>
                         {recipe.description}
                     </Text>
-                    <Text style={styles.heading}>Ingredients</Text>
+                    <Text style={[styles.heading, isDarkMode && styles.darkText]}>Ingredients</Text>
                     {recipe?.ingredients && recipe.ingredients.map((ingredient, index) => (
-                        <Text key={index} style={styles.ingredient}>
+                        <Text key={index} style={[styles.ingredient, isDarkMode && styles.darkText]}>
                             {`${ingredient}`}
                         </Text>
                     ))}
-                    <Text style={styles.heading}>Instructions</Text>
+                    <Text style={[styles.heading, isDarkMode && styles.darkText]}>Instructions</Text>
                     <View style={styles.steps}>
                         {recipe?.instructions && recipe.instructions.map((instruction, index) => (
-                            <Text key={index} style={styles.step}>
+                            <Text key={index} style={[styles.step, isDarkMode && styles.darkText]}>
                                 {` ${index + 1}. ${instruction}`}
                             </Text>
                         ))}
@@ -171,6 +191,9 @@ const styles = StyleSheet.create({
         marginLeft: 20,
         marginTop: 40
     },
+    darkText: {
+        color: colors.offWhite
+    },
     recipe: {
         position: 'relative',
         top: 200,
@@ -181,7 +204,9 @@ const styles = StyleSheet.create({
         borderTopRightRadius: 250,
         paddingTop: 30,
         paddingLeft: 20,
-
+    },
+    darkContainer: {
+        backgroundColor: colors.offBlack
     },
     icons: {
         flexDirection: 'row',
@@ -205,7 +230,18 @@ const styles = StyleSheet.create({
         fontFamily: 'Manrope-Bold',
         backgroundColor: colors.offBlack,
         color: colors.offWhite,
-        width: 85,
+        width: '30%',
+        paddingTop: 3,
+        paddingBottom: 3,
+        borderRadius: 8,
+        elevation: 1,
+        textAlign: 'center'
+    },
+    darkCuisine: {
+        fontFamily: 'Manrope-Bold',
+        backgroundColor: colors.offWhite,
+        color: colors.offBlack,
+        width: '30%',
         paddingTop: 3,
         paddingBottom: 3,
         borderRadius: 8,

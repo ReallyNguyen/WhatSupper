@@ -1,12 +1,18 @@
 import React, { useState } from 'react';
-import { StyleSheet, ScrollView, View, Text, Image, Dimensions, Pressable } from 'react-native';
+import { StyleSheet, ScrollView, View, Text, Image, Dimensions, Pressable, TouchableOpacity } from 'react-native';
 import { FontAwesome5 } from '@expo/vector-icons';
 import { colors } from '../theme';
 import Back from '../components/button/Back';
 const screenWidth = Dimensions.get("window").width;
+import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
 
-export default function FakeRecipeInfo({ navigation }) {
+export default function RecipeHistory({ navigation }) {
     const [activeTab, setActiveTab] = useState('Recipe');
+    const [isFavourite, setFavourite] = useState(false);
+
+    const handleFavouritePress = () => {
+        setFavourite(!isFavourite);
+    };
 
     const handleTabPress = (tab) => {
         setActiveTab(tab);
@@ -54,7 +60,17 @@ export default function FakeRecipeInfo({ navigation }) {
 
                             <View style={styles.icons}>
                                 <FontAwesome5 name={'share-alt'} size={25} color={colors.asparagus} solid />
-                                <FontAwesome5 name={'heart'} size={25} color={colors.asparagus} />
+                                <TouchableOpacity onPress={handleFavouritePress}>
+                                    <View>
+                                        <FontAwesomeIcon
+                                            name={isFavourite ? 'heart' : 'heart-o'}
+                                            style={{
+                                                fontSize: 27,
+                                                color: colors.asparagus,
+                                            }}
+                                        />
+                                    </View>
+                                </TouchableOpacity>
                             </View>
                             <Text style={styles.name}>Hot Pot</Text>
                             <Text style={styles.cuisine}>ASIAN</Text>

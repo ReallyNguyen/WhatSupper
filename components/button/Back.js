@@ -21,7 +21,7 @@ export default function Back({ navigation }) {
                     name={'angle-left'}
                     size={35}
                     color={iconColor}
-                    style={{ backgroundColor: backColor, padding: 10, borderRadius: 10 }}
+                    style={{ padding: 10, borderRadius: 10 }}
                 />
             </Pressable>
         </View>

@@ -88,7 +88,7 @@ export default function Home({ navigation }) {
             <View style={styles.tabPanels}>
                 {
                     activeTab === 'tab1' &&
-                    <ScrollView contentContainerStyle={styles.contentContainer}>
+                    <ScrollView contentContainerStyle={[styles.contentContainer]}>
                         {local.map((item) => (
                             <TouchableOpacity onPress={() => navigation.navigate('RecipeHistory')} key={item.id}>
                                 <LocalRecipe
@@ -106,7 +106,7 @@ export default function Home({ navigation }) {
                     activeTab === 'tab2' &&
                     <ScrollView contentContainerStyle={styles.contentContainer}>
                         {local.map((item) => (
-                            <TouchableOpacity onPress={() => navigation.navigate('FakeRecipeInfo')} key={item.id}>
+                            <TouchableOpacity onPress={() => navigation.navigate('RecipeHistory')} key={item.id}>
                                 <LocalRecipe
                                     style={styles.latest}
                                     img={item.img}
@@ -134,6 +134,9 @@ const styles = StyleSheet.create({
     darkContainer: {
         backgroundColor: colors.offBlack,
         color: colors.offWhite
+    },
+    darkHistory: {
+        backgroundColor: colors.davysGray
     },
     scanFlyerAdContainer: {
         alignSelf: 'center',

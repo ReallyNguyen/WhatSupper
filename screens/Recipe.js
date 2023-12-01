@@ -18,6 +18,7 @@ import { FontAwesome5 } from '@expo/vector-icons';
 import Loading from '../components/loading/Loading';
 import Refresh from '../components/button/Refresh';
 import HorizontalRecipe from '../components/recipe/HorizontalRecipe';
+import { useTheme } from '../ThemeContext'
 
 export default function Recipe({ navigation, route }) {
     const [isLoading, setIsLoading] = useState(true);
@@ -33,8 +34,7 @@ export default function Recipe({ navigation, route }) {
     const [isRefreshing, setIsRefreshing] = useState(false);
     const aiIngredientsRef = useRef(aiIngredients);
     const aiResponseRef = useRef(aiResponse);
-
-    const animation = useRef(null);
+    const { isDarkMode, toggleTheme } = useTheme();
 
     const addIngredient = () => {
         if (newIngredient.length > 0) {
@@ -87,7 +87,7 @@ export default function Recipe({ navigation, route }) {
 
     const fetchData = async () => {
         try {
-            setIsRefreshing(true);
+            setIsLoading(true);
             const response = await axios.post(
                 'https://lsswwzyavgt7egwvij52d2qkai0rseod.lambda-url.ca-central-1.on.aws/',
                 {
@@ -136,20 +136,20 @@ export default function Recipe({ navigation, route }) {
     console.log(parsedResponse)
 
     return (
-        <ScrollView >
+        <ScrollView style={isDarkMode && styles.darkContainer}>
             {isLoading ? (
                 <View style={styles.loadingContainer}>
                     <Loading />
                 </View>
             ) : (
-                <View style={styles.container}>
+                <View style={[styles.container, isDarkMode && styles.darkContainer]}>
                     <View style={styles.header}>
                         <Back navigation={navigation} />
                         <Pressable style={styles.add} onPress={() => setIsModalVisible(true)}>
                             <Text style={styles.addTxt}>Add +</Text>
                         </Pressable>
                     </View>
-                    <Text style={styles.heading}>Here are some recipes based on what you scanned 🪄</Text>
+                    <Text style={[styles.heading, isDarkMode && styles.darkText]}>Here are some recipes based on what you scanned 🪄</Text>
                     <View style={styles.ingredientsContainer}>
                         {parsedIngredients.ingredients && Array.isArray(parsedIngredients.ingredients) && parsedIngredients.ingredients.map((ingredient, i) => (
                             <View style={styles.ingredientBox} key={i}>
@@ -178,16 +178,13 @@ export default function Recipe({ navigation, route }) {
                         </View>
                     ))}
 
-                    {isRefreshing && (
-                        <View style={styles.loadingOverlay}>
-                            <Loading />
-                        </View>
-                    )}
                     <Refresh onPress={() => fetchData()} />
+
+
                 </View>
             )}
             <Modal visible={isModalVisible} animationType="slide" transparent={true}>
-                <View style={styles.modalContainer}>
+                <View style={[styles.modalContainer, isDarkMode && styles.darkContainer]}>
                     <Pressable onPress={() => setIsModalVisible(false)}>
                         <Text style={{ fontSize: 70 }}>X</Text>
                     </Pressable>
@@ -293,6 +290,13 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         marginTop: 50,
         padding: 16,
+        height: 1050
+    },
+    darkContainer: {
+        backgroundColor: colors.offBlack
+    },
+    darkText: {
+        color: colors.offWhite
     },
     heading: {
         fontSize: 20,
@@ -390,7 +394,6 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        marginTop: '50%'
     },
     modalContainer: {
         position: 'absolute',
@@ -438,6 +441,13 @@ const styles = StyleSheet.create({
         borderRadius: 100,
         padding: 15,
         margin: 25,
+    },
+    loadingOverlay: {
+        position: 'absolute',
+        alignContent: 'center',
+        justifyContent: 'center',
+        backgroundColor: 'white',
+        height: 600
     },
     back: {
         position: 'absolute',
