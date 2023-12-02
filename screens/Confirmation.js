@@ -6,6 +6,7 @@ import { FontAwesome5 } from '@expo/vector-icons';
 import { collection, doc, getDoc, addDoc } from 'firebase/firestore';
 import { auth, db } from '../firebase/firebase.config';
 import { onAuthStateChanged } from 'firebase/auth';
+import { useTheme } from '../ThemeContext'
 
 export default function Confirmation({ navigation, route }) {
     const [aiIngredients, setAiIngredients] = useState(route.params?.aiIngredients);
@@ -18,6 +19,8 @@ export default function Confirmation({ navigation, route }) {
     const [pressedButton, setPressedButton] = useState(null);
     const [uri, setUri] = useState(route.params?.uri);
     const [user, setUser] = useState(null);
+    const { isDarkMode, toggleTheme } = useTheme();
+    const [isPhotoModalVisible, setIsPhotoModalVisible] = useState(false);
 
     let parsedIngredients = null;
 
@@ -102,29 +105,33 @@ export default function Confirmation({ navigation, route }) {
     saveUri(uri);
 
     return (
-        <ScrollView>
-            <View style={styles.container}>
-                <Text style={styles.heading}>Confirm your Scan 👀</Text>
+        <ScrollView style={isDarkMode && styles.darkContainer}>
+            <View style={[styles.container, isDarkMode && styles.darkContainer]}>
+                <Text style={[styles.heading, isDarkMode && styles.darkText]}>Confirm your Scan 👀</Text>
                 <View>
                     {uri && (
                         <View style={styles.imageContainer}>
-                            <Text style={{ fontSize: 18, fontFamily: 'Manrope-SemiBold' }}>Flyer Scanned</Text>
-                            <Text style={{ width: '70%', fontSize: 14, fontFamily: 'Manrope-Medium' }}>Click on the photo to see if you scanned your flyer clearly:</Text>
-                            <TouchableOpacity>
-                                <Image source={{ uri: uri }} style={styles.image}
+                            <Text style={[{ fontSize: 18, fontFamily: 'Manrope-SemiBold' }, isDarkMode && styles.darkText]}>Flyer Scanned</Text>
+                            <Text style={[{ width: '70%', fontSize: 14, fontFamily: 'Manrope-Medium' }, isDarkMode && styles.darkText]}>Click on the photo to see if you scanned your flyer clearly:</Text>
+                            <TouchableOpacity onPress={() => setIsPhotoModalVisible(true)}>
+                                <Image
+                                    source={{ uri: uri }}
+                                    style={styles.image}
                                     h={120}
                                     w={310}
                                     resizeMode="cover"
-                                    alt="image" />
+                                    alt="image"
+                                />
                             </TouchableOpacity>
+
                         </View>
                     )}
 
                     <View style={styles.ingredientsContainer}>
                         <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between' }}>
                             <View style={{ width: '70%', marginRight: '12%' }}>
-                                <Text style={{ fontSize: 18, fontFamily: 'Manrope-SemiBold' }}>Ingredients</Text>
-                                <Text style={{ fontSize: 14, fontFamily: 'Manrope-Medium', marginBottom: '5%' }}>Check the boxes to indicate which ingredients you want:</Text>
+                                <Text style={[{ fontSize: 18, fontFamily: 'Manrope-SemiBold' }, isDarkMode && styles.darkText]}>Ingredients</Text>
+                                <Text style={[{ fontSize: 14, fontFamily: 'Manrope-Medium', marginBottom: '5%' }, isDarkMode && styles.darkText]}>Check the boxes to indicate which ingredients you want:</Text>
                             </View>
                             <Pressable style={styles.add} onPress={() => setIsModalVisible(true)}>
                                 <Text style={styles.addTxt}>Add +</Text>
@@ -147,21 +154,44 @@ export default function Confirmation({ navigation, route }) {
                 </View>
                 <View style={{ display: 'flex', flexDirection: 'row', justifyContent: 'space-between', gap: '50%', marginTop: '9%' }}>
                     <Pressable style={styles.rescanButton} onPress={() => navigation.navigate('Camera')}>
-                        <Text style={styles.rescan}>← Rescan</Text>
+                        <Text style={[styles.rescan, isDarkMode && styles.darkText]}>← Rescan</Text>
                     </Pressable>
                     <Pressable style={styles.generateButton} onPress={() => navigation.navigate('Recipe', { aiIngredients: aiIngredients, autoGen: true })}>
                         <Text style={styles.generate}>Generate →</Text>
                     </Pressable>
                 </View>
 
-                <Modal visible={isModalVisible} animationType="slide" transparent={true}>
-                    <View style={styles.modalContainer}>
+                <Modal
+                    visible={isPhotoModalVisible}
+                    transparent={true}
+                >
+                    <TouchableOpacity
+                        style={styles.overlay}
+                        activeOpacity={1}
+                        onPress={() => setIsPhotoModalVisible(false)}
+                    >
+                        <Image
+                            source={{ uri: uri }}
+                            style={styles.enlargedPhoto}
+                            resizeMode="contain"
+                        />
+                    </TouchableOpacity>
+                </Modal>
+
+
+
+                <Modal
+                    visible={isModalVisible}
+                    animationType="slide"
+                    transparent={true}
+                >
+                    <View style={[styles.modalContainer, isDarkMode && styles.darkContainer]}>
                         <Pressable onPress={() => setIsModalVisible(false)}>
-                            <Text style={{ fontSize: 60 }}>X</Text>
+                            <Text style={[{ fontSize: 60 }, isDarkMode && styles.darkText]}>X</Text>
                         </Pressable>
                         {showCustomize ? null : (
                             <View style={styles.optionContainer}>
-                                <Text style={styles.modalHeading}>What would you like to add?</Text>
+                                <Text style={[styles.modalHeading, isDarkMode && styles.darkText]}>What would you like to add?</Text>
                                 <View style={styles.options}>
                                     <View style={styles.option}>
                                         <Pressable style={styles.optionIcon} onPress={() => navigation.goBack()}>
@@ -171,7 +201,7 @@ export default function Confirmation({ navigation, route }) {
                                                 color={colors.offBlack}
                                             />
                                         </Pressable>
-                                        <Text style={styles.optionsTitle}>Scan More Flyers?</Text>
+                                        <Text style={[styles.optionsTitle, isDarkMode && styles.darkText]}>Scan More Flyers?</Text>
                                     </View>
                                     <View style={styles.option}>
                                         <Pressable style={styles.optionIcon} onPress={() => { setShowCustomize(true) }}>
@@ -181,7 +211,7 @@ export default function Confirmation({ navigation, route }) {
                                                 color={colors.offBlack}
                                             />
                                         </Pressable>
-                                        <Text style={styles.optionsTitle}>Add Ingredients</Text>
+                                        <Text style={[styles.optionsTitle, isDarkMode && styles.darkText]}>Add Ingredients</Text>
                                     </View>
                                 </View>
                             </View>
@@ -196,9 +226,9 @@ export default function Confirmation({ navigation, route }) {
                                     />
                                 </Pressable>
                                 <ScrollView style={{ overflow: 'visible', flexGrow: 0, flexShrink: 0, height: 300 }}>
-                                    <Text style={styles.modalHeading}>Personalize Recipes to Your Taste ⏲️</Text>
+                                    <Text style={[styles.modalHeading, isDarkMode && styles.darkText]}>Personalize Recipes to Your Taste ⏲️</Text>
                                     <View style={styles.addInput}>
-                                        <Text style={styles.addHeading}>Add Ingredient(s):</Text>
+                                        <Text style={[styles.addHeading, isDarkMode && styles.darkText]}>Add Ingredient(s):</Text>
                                         <TextInput
                                             style={styles.input}
                                             placeholder="Type in an ingredient.. Ex: Kimchi"
@@ -223,7 +253,7 @@ export default function Confirmation({ navigation, route }) {
                                     </View>
 
                                     <View style={styles.recipesContainer}>
-                                        <Text style={styles.recipeHeading}>How many recipes would you like?</Text>
+                                        <Text style={[styles.recipeHeading, isDarkMode && styles.darkText]}>How many recipes would you like?</Text>
                                         <View style={styles.bottomContainer}>
                                             <Pressable onPress={() => handleNumberPress(1)} style={[styles.recipeAdd, pressedButton === 1 && styles.filledButton]}>
                                                 <Text style={[styles.buttonText, pressedButton === 1 && styles.filledButtonText]}>1</Text>
@@ -260,6 +290,12 @@ const styles = StyleSheet.create({
         marginTop: 50,
         padding: 16,
 
+    },
+    darkText: {
+        color: colors.offWhite
+    },
+    darkContainer: {
+        backgroundColor: colors.offBlack
     },
     imageContainer: {
         alignItems: 'center',
@@ -501,5 +537,29 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         backgroundColor: colors.asparagus
     },
+    photoModalContainer: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: 'rgba(0, 0, 0, 0.8)',
+        height: '80%',
+    },
+    enlargedPhoto: {
+        width: '80%',
+        height: '80%',
+        borderRadius: 10,
+    },
+    closeModalButton: {
+        fontSize: 30,
+        color: 'white',
+        marginBottom: 20,
+    },
+    overlay: {
+        flex: 1,
+        backgroundColor: 'rgba(0, 0, 0, 0.8)', // Semi-transparent black overlay
+        justifyContent: 'center',
+        alignItems: 'center',
+    },
+
 
 });

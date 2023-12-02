@@ -1,16 +1,18 @@
 import { Text, View, StyleSheet, Image, TouchableOpacity } from "react-native";
 import Back from "../components/button/Back";
 import { colors } from "../theme";
+import { useTheme } from '../ThemeContext'
 
 export default function TutorialSecond({ navigation }) {
+    const { isDarkMode, toggleTheme } = useTheme();
     return (
-        <View style={styles.container}>
+        <View style={[styles.container, isDarkMode && styles.darkContainer]}>
             <View style={styles.header}>
                 <Back navigation={navigation} />
             </View>
             <View style={styles.centeredText}>
-                <Text style={{ fontFamily: "Manrope-SemiBold", fontSize: 26, textAlign: 'center' }}>and leave it to us to</Text>
-                <Text style={{ fontFamily: "Manrope-SemiBold", fontSize: 26, textAlign: 'center' }}>generate your recipes. 🧑‍🍳</Text>
+                <Text style={[{ fontFamily: "Manrope-SemiBold", fontSize: 26, textAlign: 'center' }, isDarkMode && styles.darkText]}>and leave it to us to</Text>
+                <Text style={[{ fontFamily: "Manrope-SemiBold", fontSize: 26, textAlign: 'center' }, isDarkMode && styles.darkText]}>generate your recipes. 🧑‍🍳</Text>
             </View>
             <Image
                 style={{ height: 405, width: 184, marginVertical: '5%' }}
@@ -41,7 +43,7 @@ const styles = StyleSheet.create({
         top: 0,
         left: 0,
         marginLeft: '10%',
-        marginTop: '5%'
+        marginTop: '10%'
     },
     centeredText: {
         justifyContent: 'center',
@@ -54,4 +56,10 @@ const styles = StyleSheet.create({
         backgroundColor: colors.asparagus,
         justifyContent: 'center'
     },
+    darkText: {
+        color: colors.offWhite
+    },
+    darkContainer: {
+        backgroundColor: colors.offBlack
+    }
 });

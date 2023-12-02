@@ -1,12 +1,15 @@
 import { Pressable, StyleSheet, Text, View } from 'react-native';
 import { Box, Image } from "@gluestack-ui/themed";
 import { colors } from "../../theme";
+import { useTheme } from '../../ThemeContext'
 
 export default function Bento({ navigation, destination1, destination2, destination3, cuisine, img1, img2, img3 }) {
+    const { isDarkMode, toggleTheme } = useTheme();
+
     return (
         <View>
             <View style={styles.text}>
-                <Text style={styles.category}>{cuisine}</Text>
+                <Text style={[styles.category, isDarkMode && styles.darkText]}>{cuisine}</Text>
                 <Text style={styles.see}>See all</Text>
             </View>
             <View style={styles.container}>
@@ -84,5 +87,8 @@ const styles = StyleSheet.create({
         marginLeft: 15,
         fontSize: 18,
         fontFamily: "Manrope-Bold"
+    },
+    darkText: {
+        color: colors.offWhite
     }
 });

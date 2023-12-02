@@ -3,8 +3,10 @@ import { Image, View, TouchableOpacity, StyleSheet } from 'react-native';
 import { Text, Box, VStack, Heading } from '@gluestack-ui/themed';
 import { colors } from "../../theme";
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
+import { useTheme } from '../../ThemeContext';
 
 export default function LocalRecipe({ img, name, ingredients, price }) {
+    const { isDarkMode, toggleTheme } = useTheme();
     const number = Math.random();
     let height;
 
@@ -41,7 +43,7 @@ export default function LocalRecipe({ img, name, ingredients, price }) {
                 },
             }}
         >
-            <Box style={styles.container}>
+            <Box style={[styles.container]}>
                 <Image
                     style={styles.image}
                     source={img}
@@ -65,12 +67,12 @@ export default function LocalRecipe({ img, name, ingredients, price }) {
 
 
 
-                <View style={styles.overlay}>
+                <View style={[styles.overlay, isDarkMode && styles.darkHistory]}>
                     <View style={styles.textContainer}>
-                        <Text style={styles.mealText}>{name}</Text>
-                        <Text style={styles.ingredientsText}>{ingredients}</Text>
-                        <View style={styles.priceContainer}>
-                            <Text style={styles.priceText}>
+                        <Text style={[styles.mealText, isDarkMode && styles.darkText]}>{name}</Text>
+                        <Text style={[styles.ingredientsText, isDarkMode && styles.darkText]}>{ingredients}</Text>
+                        <View style={[styles.priceContainer, isDarkMode && styles.darkText]}>
+                            <Text style={[styles.priceText]}>
                                 {price}
                             </Text>
                         </View>
@@ -132,4 +134,10 @@ const styles = StyleSheet.create({
         elevation: 5,
         fontFamily: 'Manrope-SemiBold',
     },
+    darkHistory: {
+        backgroundColor: colors.davysGray
+    },
+    darkText: {
+        color: colors.offWhite
+    }
 });

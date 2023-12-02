@@ -5,6 +5,7 @@ import { colors } from '../theme';
 import Back from '../components/button/Back';
 import Animated, { useSharedValue, useAnimatedStyle, withSpring, withTiming } from 'react-native-reanimated';
 import Tap from '../assets/tutorial';
+import { useTheme } from '../ThemeContext'
 
 export default function TutorialFirst({ navigation }) {
     const [loading, setLoading] = useState(true);
@@ -14,6 +15,7 @@ export default function TutorialFirst({ navigation }) {
     const textOpacity = useSharedValue(1); // Controls how see-through the animated element is
     const [text1, setText1] = useState('Take a picture');
     const [text2, setText2] = useState('of your flyer...');
+    const { isDarkMode, toggleTheme } = useTheme();
 
     const reanimatedStyle = useAnimatedStyle(() => {
         return {
@@ -60,11 +62,11 @@ export default function TutorialFirst({ navigation }) {
     }, []);
 
     return (
-        <View style={styles.container}>
+        <View style={[styles.container, isDarkMode && styles.darkContainer]}>
             {loading ? (
-                <View style={styles.first}>
-                    <Text style={{ fontFamily: "Manrope-SemiBold", fontSize: 26 }}>First time? That's okay,</Text>
-                    <Text style={{ fontFamily: "Manrope-SemiBold", fontSize: 26 }}>we'll show you the ropes</Text>
+                <View style={[styles.first, isDarkMode && styles.darkContainer]}>
+                    <Text style={[{ fontFamily: "Manrope-SemiBold", fontSize: 26 }, isDarkMode && styles.darkText]}>First time? That's okay,</Text>
+                    <Text style={[{ fontFamily: "Manrope-SemiBold", fontSize: 26 }, isDarkMode && styles.darkText]}>we'll show you the ropes</Text>
                 </View>
             ) : (
                 <View style={styles.second}>
@@ -73,7 +75,7 @@ export default function TutorialFirst({ navigation }) {
                             <FontAwesome5
                                 name={'angle-left'}
                                 size={35}
-                                color={colors.offBlack}
+                                color={isDarkMode ? "white" : "black"}
                             />
                         </TouchableOpacity>
                     ) : (
@@ -81,17 +83,17 @@ export default function TutorialFirst({ navigation }) {
                             <FontAwesome5
                                 name={'angle-left'}
                                 size={35}
-                                color={colors.offBlack}
+                                color={isDarkMode ? "white" : "black"}
                             />
                         </TouchableOpacity>
                     )}
-                    <Text style={{ fontFamily: "Manrope-SemiBold", fontSize: 26, marginTop: '30%' }}>
+                    <Text style={[{ fontFamily: "Manrope-SemiBold", fontSize: 26, marginTop: '30%' }, isDarkMode && styles.darkText]}>
                         {text1}
                     </Text>
-                    <Text style={{ fontFamily: "Manrope-SemiBold", fontSize: 26 }}>
+                    <Text style={[{ fontFamily: "Manrope-SemiBold", fontSize: 26 }, isDarkMode && styles.darkText]}>
                         {text2}
                     </Text>
-                    <View style={styles.centeredContainer}>
+                    <View style={[styles.centeredContainer]}>
                         <Image
                             style={{ width: 328, height: 380, position: 'relative', zIndex: -1, borderRadius: 15 }}
                             source={require('../assets/tutorial.png')}
@@ -145,6 +147,12 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center'
     },
+    darkText: {
+        color: colors.offWhite
+    },
+    darkContainer: {
+        backgroundColor: colors.offBlack
+    },
     capture: {
         backgroundColor: colors.offWhite,
         borderColor: colors.lightGrey,
@@ -155,8 +163,8 @@ const styles = StyleSheet.create({
     },
     header: {
         position: 'absolute',
-        top: 50,
-        left: 40,
+        top: 48,
+        left: 46,
         zIndex: 2,
     },
     centeredContainer: {
