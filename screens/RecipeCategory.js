@@ -16,7 +16,7 @@ export default function RecipeCategory({ navigation }) {
             <View style={styles.tabPanels}>
                 <ScrollView contentContainerStyle={styles.contentContainer}>
                     {recipe.map((item) => (
-                        <TouchableOpacity onPress={() => navigation.navigate('RecipeInfo')} key={item.id}>
+                        <TouchableOpacity onPress={() => navigation.navigate('RecipeHistory')} key={item.id}>
                             <VerticalRecipe
                                 img={item.img}
                                 name={item.name}
