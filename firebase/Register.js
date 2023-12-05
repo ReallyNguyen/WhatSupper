@@ -1,8 +1,9 @@
-import { StyleSheet, Text, View, Button, Image, TextInput } from 'react-native';
+import { StyleSheet, Text, View, Button, Image, TextInput, Pressable } from 'react-native';
 import { useState } from 'react';
 import { db, auth } from './firebase.config';
 import { createUserWithEmailAndPassword } from 'firebase/auth';
 import { setDoc, doc } from "firebase/firestore";
+import { colors } from '../theme';
 
 export default function Register({navigation}) {
     const [fn, setFN] = useState("");
@@ -32,10 +33,28 @@ export default function Register({navigation}) {
 
     return (
         <View style={styles.container}>
-            <TextInput style={styles.input} placeholder='name' onChangeText={(txt) => setFN(txt)} />
-            <TextInput style={styles.input} placeholder='email' onChangeText={(txt) => setEmail(txt)} />
-            <TextInput style={styles.input} placeholder='password' onChangeText={(txt) => setPS(txt)} />
-            <Button title='register' onPress={() => AddUser()} />
+            <View style={styles.required}>
+                <Text style={styles.label}>Full Name*</Text>
+                <Text style={styles.label}>* required fields</Text>
+            </View>
+            <TextInput style={styles.input} placeholder='Full name' onChangeText={(txt) => setFN(txt)} />
+            <Text style={styles.label}>Email*</Text>
+            <TextInput style={styles.input} placeholder='Email address' onChangeText={(txt) => setEmail(txt)} />
+            <Text style={styles.label}>Password*</Text>
+            <TextInput style={styles.input} placeholder='min 8 characters' onChangeText={(txt) => setPS(txt)} />
+            <Pressable style={styles.btn} onPress={() => AddUser()}>
+                <Text style={styles.register}>Sign Up</Text>
+            </Pressable>
+            <View style={styles.question}>
+               <Text style={styles.account}>Have an account? </Text>
+                <Pressable onPress={() => navigation.navigate('SignIn')}>
+                    <Text style={styles.login}>Sign in</Text>
+                </Pressable>
+            </View>
+            <Text style={{textAlign: 'center'}}>OR</Text>
+            <Pressable style={styles.google} onPress={() => SignIn()}>
+                <Text style={styles.continue}>Continue with Google</Text>
+            </Pressable>
         </View>
     );
 }
@@ -43,10 +62,60 @@ export default function Register({navigation}) {
 const styles = StyleSheet.create({
     container: {
         backgroundColor: '#fff',
-        marginVertical: 20
+        margin: 10,
     },
     input: {
-        width: 200,
-        padding: 10
+        width: 250,
+        paddingHorizontal: 10,
+        borderWidth: 1,
+        borderRadius: 10,
+        marginBottom: 10
+    },
+    required: {
+        flexDirection: 'row',
+        justifyContent: 'space-between'
+    },
+    label: {
+        fontFamily: 'Manrope-Regular',
+        paddingVertical: 5,
+        fontSize: 13
+    },
+    btn: {
+        backgroundColor: colors.asparagus,
+        borderRadius: 10,
+        alignItems: 'center',
+        marginHorizontal: 20,
+        marginVertical: 10
+    },
+    register: {
+        color: colors.offWhite,
+        fontFamily: 'Manrope-Bold',
+        paddingVertical: 7,
+    },
+    question: {
+        flexDirection: 'row',
+        justifyContent: 'center',
+        paddingVertical: 5
+    },
+    account: {
+        fontFamily: 'Manrope-Regular',
+        fontSize: 12
+    },
+    login: {
+        fontFamily: 'Manrope-Regular',
+        fontSize: 12,
+        color: colors.asparagus
+    },
+    google: {
+        borderWidth: 1,
+        borderColor: colors.offBlack,
+        borderRadius: 10,
+        alignItems: 'center',
+        marginHorizontal: 20,
+        marginVertical: 10
+    },
+    continue: {
+        fontFamily: 'Manrope-Regular',
+        paddingVertical: 7,
     }
 });
