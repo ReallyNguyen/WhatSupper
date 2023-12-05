@@ -2,18 +2,18 @@ import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, Image, Pressable } from 'react-native';
 import { colors } from '../theme';
 import { signOut } from "firebase/auth";
-import { doc, getDoc } from "firebase/firestore"; 
+import { doc, getDoc } from "firebase/firestore";
 import { db, auth } from '../firebase/firebase.config';
 import { useTheme } from '../ThemeContext';
 import Back from '../components/button/Back';
 
-export default function Profile({navigation}) {
+export default function Profile({ navigation }) {
     const { isDarkMode, toggleTheme } = useTheme();
     const [fn, setFN] = useState("");
 
     const getUser = async () => {
         const myself = auth;
-        if(!myself.currentUser){
+        if (!myself.currentUser) {
             return;
         }
 
@@ -70,7 +70,7 @@ const styles = StyleSheet.create({
     },
     header: {
         position: 'absolute',
-        top: 10,
+        top: 30,
         left: 30,
         zIndex: 1,
     },

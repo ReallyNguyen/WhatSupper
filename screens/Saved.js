@@ -28,7 +28,7 @@ export default function Saved({ navigation }) {
 
     const getUser = async () => {
         const myself = auth;
-        if(!myself.currentUser){
+        if (!myself.currentUser) {
             setFN("");
             return;
         }
@@ -213,7 +213,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         flexWrap: 'wrap',
         gap: 20,
-        height: 1500,
+        height: 9500,
     },
     search: {
         justifyContent: 'center',
