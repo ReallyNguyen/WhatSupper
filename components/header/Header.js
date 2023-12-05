@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, StyleSheet, Image, Pressable } from 'react-native';
-import Logo from '../../assets/logo/logo';
+import { FontAwesome5 } from '@expo/vector-icons';
 import { useTheme } from '../../ThemeContext'
 import { colors } from '../../theme';
-import { signOut } from "firebase/auth";
 import { doc, getDoc } from "firebase/firestore"; 
 import { db, auth } from '../../firebase/firebase.config';
 
@@ -14,7 +13,7 @@ export default function Header({navigation}) {
     const getUser = async () => {
         const myself = auth;
         if(!myself.currentUser){
-            alert('Not logged in')
+            setFN("");
             return;
         }
 
@@ -34,26 +33,27 @@ export default function Header({navigation}) {
         getUser()
     }, []);
 
-    const logoutUser = async () => {
-        await signOut(auth);
-        console.log("User Logged Out");
-        navigation.goBack();
+    const userNavigate = async () => {
+        const myself = auth;
+        if(!myself.currentUser){
+            navigation.navigate('SignIn')
+        } else {
+            navigation.navigate('Profile')
+        }
     }
 
     return (
-
         <View style={[styles.headerContainer, isDarkMode && styles.darkContainer]}>
             <View style={styles.textContainer}>
-                <Text style={[styles.greetingText, isDarkMode && styles.darkGreetingText]}>👋 Hello, </Text>
+                <Text style={[styles.greetingText, isDarkMode && styles.darkGreetingText]}>👋 Hello </Text>
                 <Text style={[styles.boldText, isDarkMode && styles.darkBoldText]}>{fn}</Text>
             </View>
             <View style={styles.logoContainer}>
-                <Pressable onPress={() => logoutUser()}>
-                    <Logo style={styles.logo} />
+                <Pressable onPress={() => userNavigate()}>
+                    <FontAwesome5 name="cog" size={30} color={colors.asparagus} />
                 </Pressable>
             </View>
         </View >
-
     );
 }
 

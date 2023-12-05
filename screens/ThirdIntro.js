@@ -20,7 +20,7 @@ export default function SecondIntro({ navigation }) {
                 </TouchableOpacity>
             </View>
             </View>
-            <Next navigation={navigation} destination="SignIn" />
+            <Next navigation={navigation} destination="Home" />
         </View>
     );
 }

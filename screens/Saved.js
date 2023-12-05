@@ -29,7 +29,7 @@ export default function Saved({ navigation }) {
     const getUser = async () => {
         const myself = auth;
         if(!myself.currentUser){
-            alert('Not logged in')
+            setFN("");
             return;
         }
 

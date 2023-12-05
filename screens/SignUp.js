@@ -1,22 +1,22 @@
 import { StyleSheet, Text, View } from 'react-native';
 import { colors } from '../theme';
-import Login from '../firebase/Login';
+import Register from '../firebase/Register';
 import Logo from '../assets/logo/logo';
 import Back from '../components/button/Back';
 
-export default function SignIn({ navigation }) {
+export default function SignUp({ navigation }) {
     return (
         <View style={styles.container}>
             <View style={styles.back}>
                 <Back navigation={navigation} color={colors.offBlack} />
             </View>
-            <View style={styles.login}>
+            <View style={styles.register}>
                 <View style={styles.header}>
                     <Logo />
-                    <Text style={{ fontSize: 20, fontFamily: "Manrope-Bold", padding: 10 }}>Sign In</Text>
+                    <Text style={{ fontSize: 20, fontFamily: "Manrope-Bold", padding: 10 }}>Create Your Account</Text>
                 </View>
                 <View style={styles.inputs}>
-                    <Login navigation={navigation}/>
+                    <Register navigation={navigation}/>
                 </View>
             </View>
         </View>
@@ -29,7 +29,7 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         justifyContent: 'center',
     },
-    login: {
+    register: {
         justifyContent: 'center',
         alignItems: 'center',
         backgroundColor: 'white',
