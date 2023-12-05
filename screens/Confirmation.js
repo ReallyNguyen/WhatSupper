@@ -83,26 +83,29 @@ export default function Confirmation({ navigation, route }) {
         return () => stop();
     }, []);
 
-    const saveUri = async (uri) => {
-        try {
-            if (user) {
-                const userDocRef = doc(db, 'users', user.uid);
-                const userDocSnap = await getDoc(userDocRef);
+    useEffect(() => {
+        const saveUri = async () => {
+            try {
+                if (user) {
+                    const userDocRef = doc(db, 'users', user.uid);
+                    const userDocSnap = await getDoc(userDocRef);
 
-                if (userDocSnap.exists()) {
-                    const docRef = await addDoc(collection(db, 'scans'), {
-                        uri: uri,
-                        userId: user.uid
-                    });
-                    console.log('Document ID:', docRef.id);
+                    if (userDocSnap.exists()) {
+                        const docRef = await addDoc(collection(db, 'scans'), {
+                            uri: uri,
+                            userId: user.uid
+                        });
+                        console.log('Document ID:', docRef.id);
+                    }
                 }
+            } catch (error) {
+                console.error('Error adding document:', error);
             }
-        } catch (error) {
-            console.error('Error adding document:', error);
-        }
-    };
+        };
 
-    saveUri(uri);
+        saveUri();
+
+    }, [user, uri]);
 
     return (
         <ScrollView style={isDarkMode && styles.darkContainer}>
