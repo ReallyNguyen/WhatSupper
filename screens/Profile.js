@@ -44,7 +44,7 @@ export default function Profile({ navigation }) {
             <View style={styles.header}>
                 <Back navigation={navigation} destination="Home" />
             </View>
-            <View style={styles.user}>
+            <View style={[styles.user, isDarkMode && styles.darkUser]}>
                 <Image style={styles.img} source={require('../assets/profile.png')} />
                 <Text style={[styles.name, isDarkMode && styles.darkText]}>{fn}</Text>
                 <Pressable style={styles.btn} onPress={() => logoutUser()}>
@@ -67,6 +67,9 @@ const styles = StyleSheet.create({
         backgroundColor: 'white',
         padding: 50,
         borderRadius: 20
+    },
+    darkUser: {
+        backgroundColor: colors.davysGray
     },
     header: {
         position: 'absolute',
