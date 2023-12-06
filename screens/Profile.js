@@ -29,6 +29,14 @@ export default function Profile({ navigation }) {
         }
     }
 
+    const getEmail = (email) => {
+        const account = email;
+        return account;
+    }
+
+    const user = auth.currentUser;
+    const userName = user ? getEmail(user.email) : "";
+
     useEffect(() => {
         getUser()
     }, []);
@@ -47,6 +55,7 @@ export default function Profile({ navigation }) {
             <View style={[styles.user, isDarkMode && styles.darkUser]}>
                 <Image style={styles.img} source={require('../assets/profile.png')} />
                 <Text style={[styles.name, isDarkMode && styles.darkText]}>{fn}</Text>
+                <Text style={[styles.email, isDarkMode && styles.darkText]}>{userName}</Text>
                 <Pressable style={styles.btn} onPress={() => logoutUser()}>
                     <Text style={styles.logout}>Log Out</Text>
                 </Pressable>
@@ -93,6 +102,9 @@ const styles = StyleSheet.create({
         fontSize: 19,
         marginTop: 20,
         color: colors.asparagus
+    },
+    email: {
+        fontFamily: "Manrope-Regular"
     },
     btn: {
         backgroundColor: colors.asparagus,
