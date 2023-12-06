@@ -5,6 +5,7 @@ import ScanFlyerAd from '../components/header/ScanFlyerAd';
 import CouponCard from '../components/coupon/CouponCard';
 import { coupon } from '../data/coupon';
 import { local } from '../data/local';
+import { popular } from '../data/popular';
 import ToggleMode from '../components/button/ToggleMode';
 import { useTheme } from '../ThemeContext'
 import { colors } from '../theme';
@@ -105,7 +106,7 @@ export default function Home({ navigation }) {
                 {
                     activeTab === 'tab2' &&
                     <ScrollView contentContainerStyle={styles.contentContainer}>
-                        {local.map((item) => (
+                        {popular.map((item) => (
                             <TouchableOpacity onPress={() => navigation.navigate('RecipeHistory')} key={item.id}>
                                 <LocalRecipe
                                     style={styles.latest}
