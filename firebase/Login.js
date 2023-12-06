@@ -3,10 +3,12 @@ import { useState, useEffect } from 'react';
 import { auth } from './firebase.config';
 import { signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider } from 'firebase/auth'; 
 import { colors } from '../theme';
+import { useTheme } from '../ThemeContext';
 
 export default function Login({navigation}) {
     const [em, setEmail] = useState("");
     const [ps, setPS] = useState("");
+    const { isDarkMode, toggleTheme } = useTheme();
 
     const SignIn = async () => {
         const result = await signInWithEmailAndPassword(auth, em, ps);
@@ -22,26 +24,36 @@ export default function Login({navigation}) {
     }
 
     return (
-        <View style={styles.container}>
+        <View style={[styles.container, isDarkMode && styles.darkContainer]}>
             <View style={styles.required}>
-                <Text style={styles.label}>Email*</Text>
-                <Text style={styles.label}>* required fields</Text>
+                <Text style={[styles.label, isDarkMode && styles.darkText]}>Email*</Text>
+                <Text style={[styles.label, isDarkMode && styles.darkText]}>* required fields</Text>
             </View>
-            <TextInput style={styles.input} placeholder='Email address' onChangeText={(txt) => setEmail(txt)} />
-            <Text style={styles.label}>Password*</Text>
-            <TextInput style={styles.input} placeholder='Password' onChangeText={(txt) => setPS(txt)} />
+            <TextInput 
+                style={[styles.input, isDarkMode && styles.darkBorder]} 
+                placeholder='Email address' 
+                placeholderTextColor={isDarkMode ? colors.offWhite : colors.offBlack} 
+                onChangeText={(txt) => setEmail(txt)} 
+            />
+            <Text style={[styles.label, isDarkMode && styles.darkText]}>Password*</Text>
+            <TextInput 
+                style={[styles.input, isDarkMode && styles.darkBorder]} 
+                placeholder='Password' 
+                placeholderTextColor={isDarkMode ? colors.offWhite : colors.offBlack} 
+                onChangeText={(txt) => setPS(txt)} 
+            />
             <Pressable style={styles.btn} onPress={() => SignIn()}>
                 <Text style={styles.login}>Sign In</Text>
             </Pressable>
             <View style={styles.question}>
-               <Text style={styles.account}>Don't have an account? </Text>
+               <Text style={[styles.account, isDarkMode && styles.darkText]}>Don't have an account? </Text>
                 <Pressable onPress={() => navigation.navigate('SignUp')}>
                     <Text style={styles.register}>Sign up</Text>
                 </Pressable>
             </View>
-            <Text style={{textAlign: 'center'}}>OR</Text>
-            <Pressable style={styles.google} onPress={() => GoogleLogin()}>
-                <Text style={styles.continue}>Continue with Google</Text>
+            <Text style={[styles.or, isDarkMode && styles.darkText]}>OR</Text>
+            <Pressable style={[styles.google, isDarkMode && styles.darkBorder]} onPress={() => GoogleLogin()}>
+                <Text style={[styles.continue, isDarkMode && styles.darkText]}>Continue with Google</Text>
             </Pressable>
         </View>
     );
@@ -58,7 +70,7 @@ const styles = StyleSheet.create({
         paddingVertical: 10,
         borderWidth: 1,
         borderRadius: 10,
-        marginBottom: 10
+        marginBottom: 10,
     },
     required: {
         flexDirection: 'row',
@@ -106,5 +118,19 @@ const styles = StyleSheet.create({
     continue: {
         fontFamily: 'Manrope-Regular',
         paddingVertical: 7,
+    },
+    or: {
+        textAlign: 'center'
+    },
+    darkContainer: {
+        backgroundColor: colors.davysGray,
+        color: colors.offWhite
+    },
+    darkText: {
+        color: colors.offWhite
+    },
+    darkBorder: {
+        borderColor: colors.offWhite,
+        color: colors.offWhite
     }
 });
