@@ -183,16 +183,20 @@ export default function Recipe({ navigation, route }) {
 
                 </View>
             )}
-            <Modal visible={isModalVisible} animationType="slide" transparent={true}>
+            <Modal
+                visible={isModalVisible}
+                animationType="slide"
+                transparent={true}
+            >
                 <View style={[styles.modalContainer, isDarkMode && styles.darkContainer]}>
                     <Pressable onPress={() => setIsModalVisible(false)}>
-                        <Text style={{ fontSize: 70 }}>X</Text>
+                        <View style={styles.rectangle} />
                     </Pressable>
                     {showCustomize ? null : (
                         <View style={styles.optionContainer}>
-                            <Text style={styles.modalHeading}>What would you like to add?</Text>
+                            <Text style={[styles.modalHeading, isDarkMode && styles.darkText]}>What would you like to add?</Text>
                             <View style={styles.options}>
-                                <View style={styles.option}>
+                                <View style={[styles.option, { alignItems: 'center' }]}>
                                     <Pressable style={styles.optionIcon} onPress={() => navigation.goBack()}>
                                         <FontAwesome5
                                             name={'magic'}
@@ -200,17 +204,18 @@ export default function Recipe({ navigation, route }) {
                                             color={colors.offBlack}
                                         />
                                     </Pressable>
-                                    <Text style={styles.optionsTitle}>Scan More Flyers?</Text>
+                                    <Text style={[styles.optionsTitle, isDarkMode && styles.darkText]}>Scan More Flyers?</Text>
                                 </View>
-                                <View style={styles.option}>
+                                <View style={[styles.option, { alignItems: 'center' }]}>
                                     <Pressable style={styles.optionIcon} onPress={() => { setShowCustomize(true) }}>
                                         <FontAwesome5
                                             name={'plus'}
                                             size={25}
                                             color={colors.offBlack}
+                                            style={styles.icon}
                                         />
                                     </Pressable>
-                                    <Text style={styles.optionsTitle}>Add Ingredients</Text>
+                                    <Text style={[styles.optionsTitle, isDarkMode && styles.darkText]}>Add Ingredients</Text>
                                 </View>
                             </View>
                         </View>
@@ -224,10 +229,10 @@ export default function Recipe({ navigation, route }) {
                                     color={colors.offBlack}
                                 />
                             </Pressable>
-                            <ScrollView style={{ overflow: 'visible', flexGrow: 0, flexShrink: 0, height: 400 }}>
-                                <Text style={styles.modalHeading}>Personalize Recipes to Your Taste ⏲️</Text>
+                            <ScrollView style={{ overflow: 'visible', flexGrow: 0, flexShrink: 0, height: 300 }}>
+                                <Text style={[styles.modalHeading, isDarkMode && styles.darkText]}>Personalize Recipes to Your Taste ⏲️</Text>
                                 <View style={styles.addInput}>
-                                    <Text style={styles.addHeading}>Add Ingredient(s):</Text>
+                                    <Text style={[styles.addHeading, isDarkMode && styles.darkText]}>Add Ingredient(s):</Text>
                                     <TextInput
                                         style={styles.input}
                                         placeholder="Type in an ingredient.. Ex: Kimchi"
@@ -252,7 +257,7 @@ export default function Recipe({ navigation, route }) {
                                 </View>
 
                                 <View style={styles.recipesContainer}>
-                                    <Text style={styles.recipeHeading}>How many recipes would you like?</Text>
+                                    <Text style={[styles.recipeHeading, isDarkMode && styles.darkText]}>How many recipes would you like?</Text>
                                     <View style={styles.bottomContainer}>
                                         <Pressable onPress={() => handleNumberPress(1)} style={[styles.recipeAdd, pressedButton === 1 && styles.filledButton]}>
                                             <Text style={[styles.buttonText, pressedButton === 1 && styles.filledButtonText]}>1</Text>
@@ -379,6 +384,13 @@ const styles = StyleSheet.create({
         position: 'absolute',
         top: -5,
         left: -5,
+    },
+    rectangle: {
+        marginTop: '5%',
+        width: 200,
+        height: 10,
+        backgroundColor: 'black',
+        borderRadius: 5
     },
     details: {
         flexDirection: 'row',

@@ -1,8 +1,8 @@
 export const recipe = [
     {
         "id": 0,
-        "img": require('../assets/recipes/friedrice.jpeg'),
-        "name": "Fried Rice",
+        "img": require('../assets/recipes/hotpot.jpg'),
+        "name": "Hotpot",
     },
     {
         "id": 1,
@@ -26,7 +26,7 @@ export const recipe = [
     },
     {
         "id": 5,
-        "img": require('../assets/recipes/hotpot.jpg'),
-        "name": "Hotpot",
+        "img": require('../assets/recipes/friedrice.jpeg'),
+        "name": "Fried Rice",
     },
 ]

@@ -190,13 +190,13 @@ export default function Confirmation({ navigation, route }) {
                 >
                     <View style={[styles.modalContainer, isDarkMode && styles.darkContainer]}>
                         <Pressable onPress={() => setIsModalVisible(false)}>
-                            <Text style={[{ fontSize: 60 }, isDarkMode && styles.darkText]}>X</Text>
+                            <View style={styles.rectangle} />
                         </Pressable>
                         {showCustomize ? null : (
                             <View style={styles.optionContainer}>
                                 <Text style={[styles.modalHeading, isDarkMode && styles.darkText]}>What would you like to add?</Text>
                                 <View style={styles.options}>
-                                    <View style={styles.option}>
+                                    <View style={[styles.option, { alignItems: 'center' }]}>
                                         <Pressable style={styles.optionIcon} onPress={() => navigation.goBack()}>
                                             <FontAwesome5
                                                 name={'magic'}
@@ -206,12 +206,13 @@ export default function Confirmation({ navigation, route }) {
                                         </Pressable>
                                         <Text style={[styles.optionsTitle, isDarkMode && styles.darkText]}>Scan More Flyers?</Text>
                                     </View>
-                                    <View style={styles.option}>
+                                    <View style={[styles.option, { alignItems: 'center' }]}>
                                         <Pressable style={styles.optionIcon} onPress={() => { setShowCustomize(true) }}>
                                             <FontAwesome5
                                                 name={'plus'}
                                                 size={25}
                                                 color={colors.offBlack}
+                                                style={styles.icon}
                                             />
                                         </Pressable>
                                         <Text style={[styles.optionsTitle, isDarkMode && styles.darkText]}>Add Ingredients</Text>
@@ -424,6 +425,13 @@ const styles = StyleSheet.create({
         elevation: 1,
         flex: 1
     },
+    rectangle: {
+        marginTop: '5%',
+        width: 200,
+        height: 10,
+        backgroundColor: 'black',
+        borderRadius: 5
+    },
     modalHeading: {
         fontFamily: "Manrope-Bold",
         fontSize: 25,
@@ -458,6 +466,11 @@ const styles = StyleSheet.create({
         borderRadius: 100,
         padding: 15,
         margin: 25,
+        width: 65
+    },
+    icon: {
+        margin: 0,
+        padding: 0
     },
     back: {
         position: 'absolute',
