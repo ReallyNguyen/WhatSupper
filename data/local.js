@@ -1,10 +1,10 @@
 export const local = [
     {
         "id": 0,
-        "img": require('../assets/recipes/friedrice.jpeg'),
+        "img": require('../assets/recipes/hotpot.jpg'),
         "ingredients": "ingredient",
         "price": "$10-15.00",
-        "name": "Fried Rice",
+        "name": "Hotpot",
     },
     {
         "id": 1,
@@ -36,9 +36,9 @@ export const local = [
     },
     {
         "id": 5,
-        "img": require('../assets/recipes/hotpot.jpg'),
+        "img": require('../assets/recipes/friedrice.jpeg'),
         "ingredients": "ingredient",
         "price": "$10-15.00",
-        "name": "Hotpot",
+        "name": "Fried Rice",
     },
 ]
