@@ -1,7 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { StyleSheet, View, ScrollView, Text, Image, TouchableOpacity } from 'react-native';
-import CouponCard from '../components/coupon/CouponCard';
-import { coupon } from '../data/coupon';
+import { Box } from "@gluestack-ui/themed";
 import { category } from '../data/category';
 import Bento from '../components/recipe/Bento';
 import CouponSearchBar from '../components/search/CouponSearchBar';
@@ -54,6 +53,7 @@ export default function Saved({ navigation }) {
             const querySnapshot = await getDocs(q);
             const data = querySnapshot.docs.map((doc) => doc.data());
             setScanData(data);
+
         }
     };
 
@@ -142,9 +142,16 @@ export default function Saved({ navigation }) {
                     <View style={styles.search}>
                         <RecipeSearchBar setRecipeSearch={setRecipeSearch} />
                         <ScrollView contentContainerStyle={styles.contentContainer}>
-                            {scanData.map((scan, index) => (
-                                <Image key={index} source={{ uri: scan.uri }} style={styles.scanImage} />
-                            ))}
+                        {scanData.map((scan, index) => (
+                            <View key={index}>
+                                <Box style={{ position: 'relative' }}>
+                                    <Image source={{ uri: scan.uri }} style={styles.scanImage} resizeMode="cover"/>
+                                    <View style={styles.box}>
+                                        <Text style={styles.time}>{scan.timestamp}</Text>
+                                    </View>
+                                </Box>
+                            </View>
+                        ))}                     
                         </ScrollView>
                     </View>
                 }
@@ -224,5 +231,25 @@ const styles = StyleSheet.create({
         width: 150,
         height: 220,
         borderRadius: 10,
+    },
+    box: {
+        position: 'absolute',
+        bottom: 0,
+        left: 0,
+        width: '100%',
+        height: '100%',
+        backgroundColor: 'rgba(0,0,0,0.3)',
+        justifyContent: 'center',
+        alignItems: 'center',
+        borderRadius: 15,
+    },
+    time: {
+        color: colors.offWhite,
+        fontFamily: 'Manrope-Bold',
+        textAlign: 'center',
+        borderWidth: 1,
+        borderColor: colors.offWhite,
+        borderRadius: 5,
+        padding: 5
     },
 });

@@ -93,7 +93,8 @@ export default function Confirmation({ navigation, route }) {
                     if (userDocSnap.exists()) {
                         const docRef = await addDoc(collection(db, 'scans'), {
                             uri: uri,
-                            userId: user.uid
+                            userId: user.uid,
+                            timestamp: new Date().toLocaleTimeString()
                         });
                         console.log('Document ID:', docRef.id);
                     }
