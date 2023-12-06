@@ -5,6 +5,7 @@ import { useTheme } from '../../ThemeContext'
 import { colors } from '../../theme';
 import { doc, getDoc } from "firebase/firestore"; 
 import { db, auth } from '../../firebase/firebase.config';
+import { onAuthStateChanged } from 'firebase/auth';
 
 export default function Header({navigation}) {
     const { isDarkMode, toggleTheme } = useTheme();
@@ -30,8 +31,16 @@ export default function Header({navigation}) {
     }
 
     useEffect(() => {
-        getUser()
-    }, []);
+        const stop = onAuthStateChanged(auth, (user) => {
+            if (!user) {
+                setFN("");
+            } else {
+                getUser();
+            }
+        });
+    
+        return () => stop();
+    }, [auth]);    
 
     const userNavigate = async () => {
         const myself = auth;
