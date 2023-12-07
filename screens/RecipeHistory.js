@@ -29,7 +29,7 @@ export default function RecipeHistory({ navigation }) {
                 <View style={styles.back}>
                     <Back navigation={navigation} color="black" />
                 </View>
-                <View style={styles.container}>
+                <View>
                     <View style={styles.tabContainer}>
                         <Pressable
                             onPress={() => handleTabPress('Recipe')}
@@ -58,7 +58,7 @@ export default function RecipeHistory({ navigation }) {
 
                     {
                         activeTab === 'Recipe' &&
-                        <View style={styles.recipe}>
+                        <View style={[styles.recipe, isDarkMode && styles.darkContainer]}>
 
                             <View style={styles.icons}>
                                 <FontAwesome5 name={'share-alt'} size={25} color={colors.asparagus} solid />
@@ -74,7 +74,7 @@ export default function RecipeHistory({ navigation }) {
                                     </View>
                                 </TouchableOpacity>
                             </View>
-                            <Text style={styles.name}>Hot Pot</Text>
+                            <Text style={[styles.name, isDarkMode && styles.darkText]}>Hot Pot</Text>
                             <Text style={styles.cuisine}>ASIAN</Text>
                             <View style={styles.infoWrapper}>
                                 <View style={styles.info}>
@@ -90,34 +90,34 @@ export default function RecipeHistory({ navigation }) {
                                     <Text style={styles.infoText}>560 cal</Text>
                                 </View>
                             </View>
-                            <Text style={styles.heading}>Description</Text>
-                            <Text style={styles.description}>
+                            <Text style={[styles.heading, isDarkMode && styles.darkText]}>Description</Text>
+                            <Text style={[styles.description, isDarkMode && styles.darkText]}>
                                 A thorough how-to guide to Chinese hot pot covering all aspects of
                                 preparing this iconic meal at home. It will help you to throw a
                                 stress-free hot pot party.
                             </Text>
-                            <Text style={styles.heading}>Ingredients</Text>
-                            <Text style={styles.ingredient}>Spicy Hot Pot Base</Text>
-                            <Text style={styles.ingredient}>Fresh Wheat Noodles</Text>
-                            <Text style={styles.ingredient}>Lotus Root</Text>
-                            <Text style={styles.ingredient}>Nappa Cabbage</Text>
-                            <Text style={styles.ingredient}>Tofu</Text>
-                            <Text style={styles.ingredient}>King Oyster Mushrooms</Text>
-                            <Text style={styles.heading}>Instructions</Text>
+                            <Text style={[styles.heading, isDarkMode && styles.darkText]}>Ingredients</Text>
+                            <Text style={[styles.ingredient, isDarkMode && styles.darkText]}>Spicy Hot Pot Base</Text>
+                            <Text style={[styles.ingredient, isDarkMode && styles.darkText]}>Fresh Wheat Noodles</Text>
+                            <Text style={[styles.ingredient, isDarkMode && styles.darkText]}>Lotus Root</Text>
+                            <Text style={[styles.ingredient, isDarkMode && styles.darkText]}>Nappa Cabbage</Text>
+                            <Text style={[styles.ingredient, isDarkMode && styles.darkText]}>Tofu</Text>
+                            <Text style={[styles.ingredient, isDarkMode && styles.darkText]}>King Oyster Mushrooms</Text>
+                            <Text style={[styles.heading, isDarkMode && styles.darkText]}>Instructions</Text>
                             <View style={styles.steps}>
-                                <Text style={styles.step}>
+                                <Text style={[styles.step, isDarkMode && styles.darkText]}>
                                     1.Place the heat source and the pot/wok in the middle of the table.
                                     Pour in the broth. Place various food items around the pot.
                                 </Text>
-                                <Text style={styles.step}>
+                                <Text style={[styles.step, isDarkMode && styles.darkText]}>
                                     2. Have the dipping sauces mixed and distributed in individual bowls.
                                     Keep some extra in case you need an adjustment or top-up during the meal.
                                 </Text>
-                                <Text style={styles.step}>
+                                <Text style={[styles.step, isDarkMode && styles.darkText]}>
                                     3. Turn on the heat. Once the broth comes to a boil, you may start putting
                                     food items into the broth to cook. Fish out the cooked items and enjoy with the dipping sauce.
                                 </Text>
-                                <Text style={styles.step}>
+                                <Text style={[styles.step, isDarkMode && styles.darkText]}>
                                     4. The water in the broth evaporates as you eat. Top up with hot water when needed.
                                 </Text>
                             </View>
@@ -125,15 +125,15 @@ export default function RecipeHistory({ navigation }) {
                     }
                     {
                         activeTab === 'Flier' &&
-                        <View style={styles.flier}>
+                        <View style={[styles.flier, isDarkMode && styles.darkContainer]}>
                             <Image style={styles.flierImg} source={require('../assets/flier.png')} />
-                            <Text style={styles.itemScannedText}>Items Scanned:</Text>
-                            <Text style={styles.scannedIngredients}>100 g Spicy Hot Pot Base</Text>
-                            <Text style={styles.scannedIngredients}>20 g Ramen Noodles</Text>
-                            <Text style={styles.scannedIngredients}>1/4 cup Lettuce</Text>
-                            <Text style={styles.scannedIngredients}>20 g Spicy Hot Pot Base</Text>
-                            <Text style={styles.scannedIngredients}>40 g Beef</Text>
-                            <Text style={styles.scannedIngredients}>10 g Tofu</Text>
+                            <Text style={[styles.itemScannedText, isDarkMode && styles.darkText]}>Items Scanned:</Text>
+                            <Text style={[styles.scannedIngredients, isDarkMode && styles.darkText]}>100 g Spicy Hot Pot Base</Text>
+                            <Text style={[styles.scannedIngredients, isDarkMode && styles.darkText]}>20 g Ramen Noodles</Text>
+                            <Text style={[styles.scannedIngredients, isDarkMode && styles.darkText]}>1/4 cup Lettuce</Text>
+                            <Text style={[styles.scannedIngredients, isDarkMode && styles.darkText]}>20 g Spicy Hot Pot Base</Text>
+                            <Text style={[styles.scannedIngredients, isDarkMode && styles.darkText]}>40 g Beef</Text>
+                            <Text style={[styles.scannedIngredients, isDarkMode && styles.darkText]}>10 g Tofu</Text>
                         </View>
                     }
                 </View>
@@ -283,5 +283,12 @@ const styles = StyleSheet.create({
     },
     step: {
         fontFamily: 'Manrope-Regular',
-    }
+    },
+    darkContainer: {
+        backgroundColor: colors.offBlack,
+        color: colors.offWhite
+    },
+    darkText: {
+        color: colors.offWhite
+    },
 });
