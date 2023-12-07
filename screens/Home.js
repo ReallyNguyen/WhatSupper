@@ -2,8 +2,6 @@ import React, { useState, useRef } from 'react';
 import { StyleSheet, Text, View, ScrollView, TouchableOpacity, Animated, Dimensions } from 'react-native';
 import Header from '../components/header/Header';
 import ScanFlyerAd from '../components/header/ScanFlyerAd';
-import CouponCard from '../components/coupon/CouponCard';
-import { coupon } from '../data/coupon';
 import { local } from '../data/local';
 import { popular } from '../data/popular';
 import ToggleMode from '../components/button/ToggleMode';
@@ -41,7 +39,7 @@ export default function Home({ navigation }) {
                 <ScanFlyerAd />
             </TouchableOpacity>
             <View style={{ display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between', marginHorizontal: '10%' }}>
-                <View style={styles.tabList}>
+                <View style={[styles.tabList, isDarkMode && styles.darkTabList]}>
                     <Animated.View style={[
                         styles.tabBackground,
                         {
@@ -64,7 +62,7 @@ export default function Home({ navigation }) {
                         activeOpacity={0.1}
                     >
                         <Text style={[
-                            styles.tabTitle,
+                            styles.tabTitle, isDarkMode && styles.darkTabTitle,
                             activeTab === 'tab1' && styles.activeTabText,
                             activeTab === 'tab1' && styles.boldText,
                         ]}>Local</Text>
@@ -78,7 +76,7 @@ export default function Home({ navigation }) {
                         activeOpacity={0.1}
                     >
                         <Text style={[
-                            styles.tabTitle,
+                            styles.tabTitle, isDarkMode && styles.darkTabTitle,
                             activeTab === 'tab2' && styles.activeTabText,
                             activeTab === 'tab2' && styles.boldText,
                         ]}>Popular</Text>
@@ -147,7 +145,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         width: 182,
         height: 35,
-        backgroundColor: '#F1EFEF',
+        backgroundColor: colors.offWhite,
         borderRadius: 15,
         marginBottom: 10,
         shadowOffset: { width: 0, height: 2 },
@@ -156,6 +154,9 @@ const styles = StyleSheet.create({
         elevation: 5,
         justifyContent: 'flex-start',
         marginRight: '14%'
+    },
+    darkTabList: {
+        backgroundColor: colors.davysGray,
     },
     tab: {
         flex: 1,
@@ -166,8 +167,11 @@ const styles = StyleSheet.create({
         fontSize: 12,
         paddingVertical: 5
     },
+    darkTabTitle: {
+        color: colors.offWhite
+    },
     activeTabText: {
-        color: '#F1EFEF'
+        color: colors.offWhite
     },
     boldText: {
         fontWeight: 'bold'

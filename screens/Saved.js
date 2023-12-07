@@ -140,18 +140,17 @@ export default function Saved({ navigation }) {
                 {
                     activeTab === 'tab2' &&
                     <View style={styles.search}>
-                        <RecipeSearchBar setRecipeSearch={setRecipeSearch} />
                         <ScrollView contentContainerStyle={styles.contentContainer}>
-                        {scanData.map((scan, index) => (
-                            <View key={index}>
-                                <Box style={{ position: 'relative' }}>
-                                    <Image source={{ uri: scan.uri }} style={styles.scanImage} resizeMode="cover"/>
-                                    <View style={styles.box}>
-                                        <Text style={styles.time}>{scan.timestamp}</Text>
-                                    </View>
-                                </Box>
-                            </View>
-                        ))}                     
+                            {scanData.map((scan, index) => (
+                                <View key={index}>
+                                    <Box style={{ position: 'relative' }}>
+                                        <Image source={{ uri: scan.uri }} style={styles.scanImage} resizeMode="cover" />
+                                        <View style={styles.box}>
+                                            <Text style={styles.time}>{scan.timestamp}</Text>
+                                        </View>
+                                    </Box>
+                                </View>
+                            ))}
                         </ScrollView>
                     </View>
                 }
@@ -220,7 +219,7 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         flexWrap: 'wrap',
         gap: 20,
-        height: 9500,
+        height: 1100,
     },
     search: {
         justifyContent: 'center',
