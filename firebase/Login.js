@@ -1,11 +1,11 @@
 import { StyleSheet, Text, View, Button, Image, TextInput, Pressable } from 'react-native';
 import { useState, useEffect } from 'react';
 import { auth } from './firebase.config';
-import { signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider } from 'firebase/auth'; 
+import { signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider } from 'firebase/auth';
 import { colors } from '../theme';
 import { useTheme } from '../ThemeContext';
 
-export default function Login({navigation}) {
+export default function Login({ navigation }) {
     const [em, setEmail] = useState("");
     const [ps, setPS] = useState("");
     const { isDarkMode, toggleTheme } = useTheme();
@@ -19,7 +19,7 @@ export default function Login({navigation}) {
         const provider = new GoogleAuthProvider();
         const authorization = auth;
         const result = await signInWithPopup(authorization, provider);
-        
+
         console.log(result);
     }
 
@@ -29,24 +29,24 @@ export default function Login({navigation}) {
                 <Text style={[styles.label, isDarkMode && styles.darkText]}>Email*</Text>
                 <Text style={[styles.label, isDarkMode && styles.darkText]}>* required fields</Text>
             </View>
-            <TextInput 
-                style={[styles.input, isDarkMode && styles.darkBorder]} 
-                placeholder='Email address' 
-                placeholderTextColor={isDarkMode ? colors.offWhite : colors.offBlack} 
-                onChangeText={(txt) => setEmail(txt)} 
+            <TextInput
+                style={[styles.input, isDarkMode && styles.darkBorder]}
+                placeholder='Email address'
+                placeholderTextColor={isDarkMode ? colors.offWhite : colors.offBlack}
+                onChangeText={(txt) => setEmail(txt)}
             />
             <Text style={[styles.label, isDarkMode && styles.darkText]}>Password*</Text>
-            <TextInput 
-                style={[styles.input, isDarkMode && styles.darkBorder]} 
-                placeholder='Password' 
-                placeholderTextColor={isDarkMode ? colors.offWhite : colors.offBlack} 
-                onChangeText={(txt) => setPS(txt)} 
+            <TextInput
+                style={[styles.input, isDarkMode && styles.darkBorder]}
+                placeholder='Password'
+                placeholderTextColor={isDarkMode ? colors.offWhite : colors.offBlack}
+                onChangeText={(txt) => setPS(txt)}
             />
             <Pressable style={styles.btn} onPress={() => SignIn()}>
                 <Text style={styles.login}>Sign In</Text>
             </Pressable>
             <View style={styles.question}>
-               <Text style={[styles.account, isDarkMode && styles.darkText]}>Don't have an account? </Text>
+                <Text style={[styles.account, isDarkMode && styles.darkText]}>Don't have an account? </Text>
                 <Pressable onPress={() => navigation.navigate('SignUp')}>
                     <Text style={styles.register}>Sign up</Text>
                 </Pressable>

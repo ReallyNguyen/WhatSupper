@@ -5,10 +5,12 @@ import { colors } from '../theme';
 import Back from '../components/button/Back';
 const screenWidth = Dimensions.get("window").width;
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
+import { useTheme } from '../ThemeContext'
 
 export default function RecipeHistory({ navigation }) {
     const [activeTab, setActiveTab] = useState('Recipe');
     const [isFavourite, setFavourite] = useState(false);
+    const { isDarkMode, toggleTheme } = useTheme();
 
     const handleFavouritePress = () => {
         setFavourite(!isFavourite);
@@ -33,7 +35,7 @@ export default function RecipeHistory({ navigation }) {
                             onPress={() => handleTabPress('Recipe')}
                             style={[
                                 styles.tabs,
-                                activeTab === 'Recipe' ? styles.activeTab : styles.inactiveTab,
+                                activeTab === 'Recipe' ? (isDarkMode ? styles.darkActiveTab : styles.activeTab) : styles.inactiveTab,
                             ]}
                         >
                             <Text style={activeTab === 'Recipe' ? styles.activeTabText : styles.tabText}>
@@ -45,7 +47,7 @@ export default function RecipeHistory({ navigation }) {
                             onPress={() => handleTabPress('Flier')}
                             style={[
                                 styles.tabs,
-                                activeTab === 'Flier' ? styles.activeTab : styles.inactiveTab,
+                                activeTab === 'Flier' ? (isDarkMode ? styles.darkActiveTab : styles.activeTab) : styles.inactiveTab,
                             ]}
                         >
                             <Text style={activeTab === 'Flier' ? styles.activeTabText : styles.tabText}>
@@ -151,6 +153,9 @@ const styles = StyleSheet.create({
         alignItems: 'center',
         width: screenWidth / 2,
     },
+    darkTabs: {
+        backgroundColor: colors.offBlack
+    },
     tabText: {
         textAlign: 'center',
         fontFamily: 'Manrope-Bold',
@@ -158,6 +163,9 @@ const styles = StyleSheet.create({
     },
     activeTab: {
         backgroundColor: colors.offWhite,
+    },
+    darkActiveTab: {
+        backgroundColor: colors.offBlack,
     },
     activeTabText: {
         color: colors.asparagus,
@@ -214,6 +222,7 @@ const styles = StyleSheet.create({
     icons: {
         flexDirection: 'row',
         gap: 15,
+        marginTop: 10
     },
     name: {
         fontFamily: 'Manrope-Bold',

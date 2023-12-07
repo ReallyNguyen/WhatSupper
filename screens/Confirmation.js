@@ -191,7 +191,7 @@ export default function Confirmation({ navigation, route }) {
                 >
                     <View style={[styles.modalContainer, isDarkMode && styles.darkContainer]}>
                         <Pressable onPress={() => setIsModalVisible(false)}>
-                            <View style={styles.rectangle} />
+                            <View style={[styles.rectangle, isDarkMode && styles.darkRectangle]} />
                         </Pressable>
                         {showCustomize ? null : (
                             <View style={styles.optionContainer}>
@@ -430,8 +430,11 @@ const styles = StyleSheet.create({
         marginTop: '5%',
         width: 200,
         height: 10,
-        backgroundColor: 'black',
+        backgroundColor: colors.offBlack,
         borderRadius: 5
+    },
+    darkRectangle: {
+        backgroundColor: colors.offWhite,
     },
     modalHeading: {
         fontFamily: "Manrope-Bold",
