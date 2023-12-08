@@ -6,8 +6,8 @@ import { colors } from '../theme';
 import { useTheme } from '../ThemeContext';
 
 export default function Login({ navigation }) {
-    const [em, setEmail] = useState("");
-    const [ps, setPS] = useState("");
+    const [em, setEmail] = useState("Jordan@gmail.com");
+    const [ps, setPS] = useState("Jordan12");
     const { isDarkMode, toggleTheme } = useTheme();
 
     const SignIn = async () => {
@@ -31,14 +31,14 @@ export default function Login({ navigation }) {
             </View>
             <TextInput
                 style={[styles.input, isDarkMode && styles.darkBorder]}
-                placeholder='Email address'
+                placeholder='Jordan@gmail.com'
                 placeholderTextColor={isDarkMode ? colors.offWhite : colors.offBlack}
                 onChangeText={(txt) => setEmail(txt)}
             />
             <Text style={[styles.label, isDarkMode && styles.darkText]}>Password*</Text>
             <TextInput
                 style={[styles.input, isDarkMode && styles.darkBorder]}
-                placeholder='Password'
+                placeholder='Jordan12'
                 placeholderTextColor={isDarkMode ? colors.offWhite : colors.offBlack}
                 onChangeText={(txt) => setPS(txt)}
             />
