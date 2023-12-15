@@ -10,7 +10,7 @@
   <a href="#key-features">Key Features</a> •
   <a href="#library-and-module-installations">Library and Module Installations</a> •
   <a href="#how-to-use">How To Use</a> •
-  <a href="#related">Related</a> •
+  <a href="#related">Related</a>
 </p>
 
 # Description
