@@ -1,61 +1,177 @@
-## run app
+<h1 align="center">
+<img src="/assets/logo/WhatSupperLogo.svg" alt="WhatSupper" width="700">
+</h1>
 
-npx expo start
+<h4 align="center">Unlock Savings on Every Plate</h4>
+
+<p align="center">
+  <a href="#description">Description</a> •
+  <a href="#members">Members</a> •
+  <a href="#key-features">Key Features</a> •
+  <a href="#library-and-module-installations">Library and Module Installations</a> •
+  <a href="#how-to-use">How To Use</a> •
+  <a href="#related">Related</a> •
+</p>
+
+# Description
+
+WhatSupper is an app that gets AI-generated recipes from flyers, plan meals effortlessly, and save money and time. Discover and share budget-friendly recipes to make life easier on your schedule and wallet.
+
+# Members
+
+[<img src="/assets/pfp/eric.svg" alt="Eric" width="170"/>](www.linkedin.com/in/eric-hs-qian) [<img src="/assets/pfp/jordan.svg" alt="Jordan" width="170"/>](https://www.linkedin.com/in/jordannguyenn) [<img src="/assets/pfp/mariela.png" alt="Mariela" width="170"/>](https://www.linkedin.com/in/marielapedrano) [<img src="/assets/pfp/rose.svg" alt="Rose" width="170"/>](https://www.linkedin.com/in/maryrose-nguyen/)
+
+[<img src="/assets/pfp/thamasha.svg" alt="Thamasha" width="170"/>](www.linkedin.com/in/t-amara) [<img src="/assets/pfp/khalil.svg" alt="Khalil" width="170"/>](//www.linkedin.com/inronan-khalil-olaes/) [<img src="/assets/pfp/carolina.svg" alt="Carolina" width="170"/>](https://www.linkedin.com/in/carolinalxu/)
+
+# Key Features
+
+- AI–powered recipe generation from flyers by taking a picture
+- Like and save recipe
+- Customize recipe after taking a picture
+  - Add ingredients
+  - Delete ingredients
+  - How many recipes you wanna do
+- Dark/Light mode
+- See scan history
+
+# Library and Module Installations.
 
 ## Theme: Colors
 
-> import { colors } from './theme';
-> example - backgroundColor: colors.olivine;
+- Library: colors
+- Import: import { colors } from './theme';
+- Example Usage: backgroundColor: colors.olivine;
 
 ## Installations
 
 ### Camera
 
-- **npx expo install expo-camera**
+- Library: expo-camera
+- Installation:
+
+```bash
+npx expo install expo-camera
+```
 
 ### Crop
 
-- **npx expo install expo-permissions**
-- **npx expo install expo-image-picker**
-- **npx expo install expo-file-system**
-- **npx expo install expo-image-manipulator**
-- **npm install expo-image-crop**
+- Libraries:
+
+  - expo-permissions
+  - expo-image-picker
+  - expo-file-system
+  - expo-image-manipulator
+  - expo-image-crop
+
+- Installations:
+
+  ```bash
+    npx expo install expo-permissions
+
+    npx expo install expo-image-picker
+
+    npx expo install expo-file-system
+
+    npx expo install expo-image-manipulator
+
+    npm install expo-image-crop
+  ```
 
 ### Gluestack
 
-- **npm i @gluestack-ui/themed @gluestack-style/react react-native-svg@13.4.0**
-- **npm i @gluestack-ui/config@latest**
-- **npx gluestack-ui-scripts eject-theme**
+- Libraries:
+
+  - @gluestack-ui/themed
+  - @gluestack-style/react
+  - react-native-svg@13.4.0
+  - @gluestack-ui/config
+
+- Installations:
+
+  ```bash
+  npm i @gluestack-ui/themed @gluestack-style/react react-native-svg@13.4.0
+
+  npm i @gluestack-ui/config@latest
+
+  npx gluestack-ui-scripts eject-theme
+  ```
 
 ### Fonts
 
-- **npx expo install expo-font**
-- **npx expo install expo-font @expo-google-fonts/manrope**
-- **npx expo install expo-splash-screen**
+- Libraries:
+  - expo-font
+  - @expo-google-fonts/manrope
+- Installations:
+
+  ```bash
+  npx expo install expo-font
+
+  npx expo install expo-font @expo-google-fonts/manrope
+
+  npx expo install expo-splash-screen
+  ```
 
 ### Animation
 
-- **npx expo install react-native-reanimated**
+- Library:
+  - react-native-reanimated
+- Installation:
+
+  ```bash
+  npx expo install react-native-reanimated
+  ```
 
 ### Theme
 
-- **npx expo config --type introspect**
+- Installation:
 
-### select list
+  ```bash
+  npx expo config --type introspect
+  ```
 
-- **npm install react-native-dropdown-select-list**
+### Select List
+
+- Library: react-native-dropdown-select-list
+- Installation:
+
+  ```bash
+  npm install react-native-dropdown-select-list
+  ```
 
 ### Firebase
-- npm install firebase
-- npm i @react-native-async-storage/async-storage
 
-### Safe Areas
+- Libraries:
 
-[Installing dependencies into an Expo managed project](https://reactnavigation.org/docs/5.x/getting-started/)
-npm install @react-native-masked-view/masked-view @react-navigation/stack react-native-gesture-handler react-native-safe-area-context react-native-screens
+  - firebase
+  - @react-native-async-storage/async-storage
 
-[Installing dependencies into a bare React Native project](https://reactnavigation.org/docs/getting-started/)
-npx expo install react-native-screens react-native-safe-area-context
+- Installations:
 
-[Stack Navigator](https://reactnavigation.org/docs/native-stack-navigator/)
-npm install @react-navigation/native-stack
+  ```bash
+  npm install firebase
+
+  npm i @react-native-async-storage/async-storage
+  ```
+
+## How To Use
+
+From your command line:
+
+```bash
+# Clone this repository
+git clone https://github.com/ReallyNguyen/WhatSupper.git
+
+# Install dependencies
+npm install
+
+# Go into the repository
+cd WhatSupper
+
+# Run the app on expo
+npx expo start
+```
+
+## Related
+
+- [whatsupper-blog](https://whatsupper-blog.vercel.app/) - WhatSupper Blog
+- [whatsupper-supplement](https://whatsupper-supplement.vercel.app/) - WhatSupper Supplement
