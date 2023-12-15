@@ -161,11 +161,11 @@ From your command line:
 # Clone this repository
 git clone https://github.com/ReallyNguyen/WhatSupper.git
 
-# Install dependencies
-npm install
-
 # Go into the repository
 cd WhatSupper
+
+# Install dependencies
+npm install
 
 # Run the app on expo
 npx expo start
