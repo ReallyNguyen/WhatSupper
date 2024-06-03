@@ -15,7 +15,7 @@
 
 # Description
 
-WhatSupper is an app that gets AI-generated recipes from flyers, plan meals effortlessly, and save money and time. Discover and share budget-friendly recipes to make life easier on your schedule and wallet.
+WhatSupper is an app that gets AI-generated recipes from flyers, plan meals effortlessly, and save money and time. Discover and share budget-friendly recipes to make life easier on your schedule and wallet. Currently not working due to no funds for openai.
 
 # Members
 
